@@ -6,8 +6,9 @@ Este projeto contém a lógica central do domínio, seguindo as regras de negóc
 
 ```
 Domain/
-|-- Entities/         # Classes principais do domínio
 |-- Aggregates/       # Agregados e agregados-raiz
+|-- Base/             # Classes base de domain (ex.: Entity, AggragateRoot, ValueObject, etc)
+|-- Entities/         # Classes principais do domínio
 |-- ValueObjects/     # Objetos de valor do domínio
 |-- Interfaces/       # Interfaces do domínio (ex.: repositórios)
 |-- Events/           # Eventos de domínio
