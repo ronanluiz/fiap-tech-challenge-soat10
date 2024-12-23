@@ -1,0 +1,6 @@
+@Soat10.TechChallenge.API_HostAddress = http://localhost:5128
+
+GET {{Soat10.TechChallenge.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
