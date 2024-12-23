@@ -23,12 +23,12 @@ Este projeto contém casos de uso (Application Services) e a interação entre o
 
 ```
 Application/
-|-- UseCases/           # Casos de uso (uma parta por caso de uso) com suas respectivas interface, classe de implementação e classe que representes o comando
+|-- UseCases/           # Casos de uso (uma pasta por caso de uso) com suas respectivas interface, classe de implementação e classe que representes o comando
 |   |-- <UseCaseFolder>/       
 |       |-- <UseCaseInterface>    
 |       |-- <UseCaseClass>   
 |       |-- <UseCaseCommand>   
-|-- Mappers/            # Mapeamento entre DTOs e entidades
+|-- Mappers/            # Mapeamento entre Commands e Entities
 |-- Exceptions/         # Exceções específicas da aplicação
 
 ```

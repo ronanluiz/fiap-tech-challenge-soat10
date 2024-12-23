@@ -1,13 +1,22 @@
 ﻿using Soat10.TechChallenge.Domain.Aggregates.CostumerAggregate;
 using Soat10.TechChallenge.Domain.Interfaces;
+using Soat10.TechChallenge.Infrastructure.Persistence.Context;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        int ICustomerRepository.Add(Customer customer)
+        private readonly ApplicationDbContext _context;
+
+        public CustomerRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+        public async Task<int> Add(Customer customer)
+        {
+            await _context.Customers.AddAsync(customer);
+            return await _context.SaveChangesAsync();
         }
     }
 }
