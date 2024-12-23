@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Soat10.TechChallenge.Domain.Aggregates.CostumerAggregate;
-using System.Transactions;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Context
 {

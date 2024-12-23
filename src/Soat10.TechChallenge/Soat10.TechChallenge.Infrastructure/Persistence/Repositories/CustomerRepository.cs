@@ -8,10 +8,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-        public CustomerRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public CustomerRepository(ApplicationDbContext context) => _context = context;
 
         public async Task<int> Add(Customer customer)
         {

@@ -4,6 +4,6 @@ namespace Soat10.TechChallenge.Domain.Interfaces
 {
     public interface ICustomerRepository
     {
-        int Add(Customer customer);
+        Task<int> Add(Customer customer);
     }
 }
