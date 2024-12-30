@@ -9,12 +9,16 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<Payment> Payments { get; set; }
 
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseNpgsql("<connection string>");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configurações específicas
+            // Configurações das entidades (ver detalhes abaixo)
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

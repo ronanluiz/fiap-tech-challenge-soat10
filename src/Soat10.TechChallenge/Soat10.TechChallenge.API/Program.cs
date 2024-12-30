@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 ApplicationBootstrapper.Register(builder.Services);
-InfrastructureBootstrapper.Register(builder.Services);
+InfrastructureBootstrapper.Register(builder.Services, builder.Configuration);
 
 
 var app = builder.Build();

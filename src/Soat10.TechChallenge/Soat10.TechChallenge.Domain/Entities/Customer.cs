@@ -7,11 +7,13 @@ namespace Soat10.TechChallenge.Domain.Entities
     {
         protected Customer() : base(default) { }
 
-        public Customer(int id, Email email) : base(id)
+        public Customer(int id, string name) : base(id)
         {
-            Email = email;
+            Name = name;
         }
 
-        public Email Email { get; }
+        public string Name { get; private set; }
+        public Email Email { get; private set; }
+        public Cpf Cpf { get; private set; }
     }
 }

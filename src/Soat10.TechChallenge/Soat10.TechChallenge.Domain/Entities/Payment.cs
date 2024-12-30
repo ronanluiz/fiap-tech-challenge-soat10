@@ -10,6 +10,7 @@ namespace Soat10.TechChallenge.Domain.Entities
             Amount = amount;
         }
 
+        public Order Order { get; set; }
         public int OrderId { get; private set; }
         public decimal Amount { get; private set; }
     }

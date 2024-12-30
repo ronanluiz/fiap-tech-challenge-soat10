@@ -20,6 +20,7 @@ namespace Soat10.TechChallenge.Domain.Entities
 
         public OrderStatus Status { get; private set; }
         public Customer Customer { get; private set; }
+        public int CustomerId { get; private set; }
         public List<OrderItem> Items { get; private set; }
         public decimal Amount { get; private set; }
 
