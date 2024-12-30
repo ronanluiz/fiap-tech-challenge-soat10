@@ -6,10 +6,10 @@ services:
     restart: always
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_USER: seu_usuario
-      POSTGRES_PASSWORD: sua_senha
-      POSTGRES_DB: nome_do_seu_banco
+    environment:      
+      POSTGRES_DB: techchallenge
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Postgres@2024
     volumes:
     - ./database/01-criacao_banco_dados.sql:/docker-entrypoint-initdb.d/01-criacao_banco_dados.sql
     - ./database/02-insert_dados_iniciais.sql:/docker-entrypoint-initdb.d/02-insert_dados_iniciais.sql

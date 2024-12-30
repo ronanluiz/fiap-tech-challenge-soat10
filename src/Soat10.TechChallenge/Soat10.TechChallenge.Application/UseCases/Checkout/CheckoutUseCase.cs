@@ -11,12 +11,13 @@ namespace Soat10.TechChallenge.Application.UseCases.Checkout
 {
     public class CheckoutUseCase(IPaymentService paymentService,
         IOrderRepository orderRepository,
-        IPaymentRepository paymentRepository) : ICheckoutUseCase
+        IPaymentRepository paymentRepository,
+        IValidator<CheckoutRequest> validator) : ICheckoutUseCase
     {
         private readonly IPaymentService _paymentService = paymentService;
         private readonly IOrderRepository _orderRepository = orderRepository;
         private readonly IPaymentRepository _paymentRepository = paymentRepository;
-        private readonly IValidator<CheckoutRequest> _validator;
+        private readonly IValidator<CheckoutRequest> _validator = validator;
 
         public async Task ExecuteOrderCheckoutAsync(CheckoutRequest checkoutRequest)
         {
@@ -29,7 +30,7 @@ namespace Soat10.TechChallenge.Application.UseCases.Checkout
 
             PaymentResponseDto paymentResponse = await _paymentService.ProcessPaymentAsync(checkoutRequest.OrderNumber, checkoutRequest.PaymentQrCode);
             if (paymentResponse.IsSuccess)
-            {
+            {   
                 Order order = await _orderRepository.GetByIdAsync(checkoutRequest.OrderNumber);
                 order.ChangeStatus(OrderStatus.Paid);
                 await _orderRepository.UpdateAsync(order);

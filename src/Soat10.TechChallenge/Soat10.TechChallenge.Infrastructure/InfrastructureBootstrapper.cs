@@ -15,8 +15,8 @@ namespace Soat10.TechChallenge.Infrastructure
         {
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IPaymentRepository, PaymentRepository>();
             services.AddTransient<IPaymentService, MercadoPagoPaymentService>();
-
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {

@@ -9,8 +9,9 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
         public void Configure(EntityTypeBuilder<Payment> builder)
         {
             builder.ToTable("payment");
-            builder.HasKey(p => p.Id).HasName("payment_id");
-            builder.Property(p => p.Id).HasColumnName("payment_id").HasMaxLength(255).IsRequired(); // Configura a coluna payment_id
+            builder.HasKey(p => p.Id);
+            builder.Property(o => o.Id).HasColumnName("payment_id");
+            builder.Property(p => p.OrderId).HasColumnName("order_id");
             builder.Property(p => p.Amount).HasColumnName("amount").HasColumnType("decimal(10, 2)").IsRequired();
 
             builder.HasOne(p => p.Order)

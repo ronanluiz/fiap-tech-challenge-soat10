@@ -9,7 +9,8 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.ToTable("product");
-            builder.HasKey(p => p.Id).HasName("product_id");
+            builder.HasKey(p => p.Id);
+            builder.Property(o => o.Id).HasColumnName("product_id");
             builder.Property(p => p.Category).HasColumnName("category").IsRequired().HasMaxLength(255);
             builder.Property(p => p.Description).HasColumnName("description").IsRequired();
         }
