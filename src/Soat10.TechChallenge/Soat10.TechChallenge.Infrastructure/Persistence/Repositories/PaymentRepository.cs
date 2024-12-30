@@ -4,15 +4,15 @@ using Soat10.TechChallenge.Infrastructure.Persistence.Context;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 {
-    public class CustomerRepository : ICustomerRepository
+    internal class PaymentRepository : IPaymentRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public CustomerRepository(ApplicationDbContext context) => _context = context;
+        public PaymentRepository(ApplicationDbContext context) => _context = context;
 
-        public async Task<int> Add(Customer customer)
+        public async Task<int> AddAsync(Payment payment)
         {
-            await _context.Customers.AddAsync(customer);
+            await _context.Payments.AddAsync(payment);
             return await _context.SaveChangesAsync();
         }
     }

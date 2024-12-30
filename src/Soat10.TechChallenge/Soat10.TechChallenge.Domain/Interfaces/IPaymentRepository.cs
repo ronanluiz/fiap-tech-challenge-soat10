@@ -2,8 +2,8 @@
 
 namespace Soat10.TechChallenge.Domain.Interfaces
 {
-    public interface ICustomerRepository
+    public interface IPaymentRepository
     {
-        Task<int> Add(Customer customer);
+        Task<int> AddAsync(Payment payment);
     }
 }

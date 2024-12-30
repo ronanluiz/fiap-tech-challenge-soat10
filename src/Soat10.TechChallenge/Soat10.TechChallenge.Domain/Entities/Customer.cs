@@ -1,9 +1,9 @@
-﻿using Soat10.TechChallenge.Domain.Base;
+using Soat10.TechChallenge.Domain.Base;
 using Soat10.TechChallenge.Domain.ValueObjects;
 
-namespace Soat10.TechChallenge.Domain.Aggregates.CostumerAggregate
+namespace Soat10.TechChallenge.Domain.Entities
 {
-    public class Customer : AggregateRoot<int>
+    public class Customer : Entity<int>
     {
         protected Customer() : base(default) { }
 

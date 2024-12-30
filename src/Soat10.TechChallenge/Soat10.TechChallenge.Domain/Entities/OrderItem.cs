@@ -1,0 +1,23 @@
+using Soat10.TechChallenge.Domain.Base;
+using Soat10.TechChallenge.Domain.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Soat10.TechChallenge.Domain.Entities
+{
+    public class OrderItem : Entity<int>
+    {
+        public OrderItem(int id) : base(default)
+        {
+
+        }
+
+        public Product Product { get; private set; }
+        public int Quantity { get; private set; }
+        public decimal Price { get; private set; }
+        public string Note { get; private set; }
+
+    }
+}

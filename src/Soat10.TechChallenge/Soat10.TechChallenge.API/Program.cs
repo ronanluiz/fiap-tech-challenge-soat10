@@ -1,3 +1,4 @@
+using Soat10.TechChallenge.API.Middlewares;
 using Soat10.TechChallenge.Application;
 using Soat10.TechChallenge.Infrastructure;
 
@@ -21,4 +22,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+await app.RunAsync();
