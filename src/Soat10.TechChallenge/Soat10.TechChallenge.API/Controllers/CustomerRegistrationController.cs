@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Soat10.TechChallenge.API.Controllers
 {
-    [Route("api/ustomerRegistration")]
+    [Route("api/CustomerRegistration")]
     [ApiController]
     public class CustomerRegistrationController : ControllerBase
     {

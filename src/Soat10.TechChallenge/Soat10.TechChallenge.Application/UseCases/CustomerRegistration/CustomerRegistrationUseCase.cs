@@ -29,7 +29,19 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerRegistration
             customer.SetEmail(new Email(customerRegistrationRequest.Email));
             customer.SetCpf(new Cpf(customerRegistrationRequest.Cpf));
 
-            await _customerRepository.Add(customer);
+            try
+            {
+                await _customerRepository.Add(customer);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                throw;
+            }
         }
     }
 }
