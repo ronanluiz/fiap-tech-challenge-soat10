@@ -1,8 +1,6 @@
 ﻿using Soat10.TechChallenge.Domain.Entities;
 using Soat10.TechChallenge.Domain.Interfaces;
 using Soat10.TechChallenge.Domain.ValueObjects;
-using System;
-using System.Threading.Tasks;
 
 namespace Soat10.TechChallenge.Application.UseCases.CustomerRegistration
 {
