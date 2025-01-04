@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}        # Usando a vari�vel do .env
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # Usando a vari�vel do .env
+      POSTGRES_DB: ${POSTGRES_DB}            # Usando a vari�vel do .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Volume para persist�ncia de dados
+    ports:
+      - "5432:5432"  # Expondo a porta do PostgreSQL
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge
