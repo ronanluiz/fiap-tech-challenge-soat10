@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS customer (
     customer_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    cpf VARCHAR(11) NOT NULL
+    email VARCHAR(255) NULL,
+    cpf VARCHAR(11) NULL
 );
 
 CREATE TABLE IF NOT EXISTS product (
