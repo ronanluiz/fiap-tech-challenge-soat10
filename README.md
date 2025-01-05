@@ -1,10 +1,25 @@
 ## Descrição
 
-Uma breve descrição sobre o que é o projeto, sua finalidade e o problema que ele resolve.
+O projeto visa desenvolver um sistema de autoatendimento para uma lanchonete em expansão que está enfrentando desafios no controle de pedidos. O sistema gerenciará todo o fluxo, desde o pedido inicial até a entrega, incluindo:
+
+- Autoatendimento com identificação opcional do cliente
+- Gestão de pedidos e pagamentos
+- Acompanhamento em tempo real do status do pedido
+- Gerenciamento administrativo de produtos, clientes e pedidos
 
 ## Objetivos
 
--**Objetivo 1**: Descrever um dos principais objetivos do projeto.
+- **Desenvolvimento da Solução**: Criar uma aplicação completa de autoatendimento que inclui:
+  - Sistema de pedidos com categorias definidas (Lanche, Acompanhamento, Bebida, Sobremesa)
+  - Integração com sistema de pagamento
+  - Painel de acompanhamento de pedidos
+  - Interface administrativa para gestão
+- **Entregas Técnicas**:
+  - Documentação completa usando DDD e Event Storming
+  - Desenvolvimento de APIs RESTful
+  - Implementação usando arquitetura hexagonal
+  - Ambiente containerizado com Docker
+  - Banco de dados para gestão de pedidos
 
 ## Organização do projeto
 
