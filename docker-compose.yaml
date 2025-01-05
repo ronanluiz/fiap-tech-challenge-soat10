@@ -10,6 +10,7 @@ services:
       POSTGRES_DB: ${DbConnection__Database}
       POSTGRES_USER: ${DbConnection__User}
       POSTGRES_PASSWORD: ${DbConnection__Password}
+      TZ: America/Sao_Paulo
     volumes:
     - ./database/01-criacao_banco_dados.sql:/docker-entrypoint-initdb.d/01-criacao_banco_dados.sql
     - ./database/02-insert_dados_iniciais.sql:/docker-entrypoint-initdb.d/02-insert_dados_iniciais.sql

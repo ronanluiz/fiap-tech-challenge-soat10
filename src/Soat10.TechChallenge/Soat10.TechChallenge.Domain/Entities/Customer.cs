@@ -9,6 +9,11 @@ namespace Soat10.TechChallenge.Domain.Entities
         public Email Email { get; private set; }
         public Cpf Cpf { get; private set; }
 
+        public Customer(string name)
+        {
+            Name = name;
+        }
+
         public Customer(int id, string name)
         {
             Id = id;

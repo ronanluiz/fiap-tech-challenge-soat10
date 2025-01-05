@@ -21,7 +21,6 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerRegistration
             }
 
             var customer = new Customer(
-                customerRegistrationRequest.CustomerId,
                 customerRegistrationRequest.Name);
 
             customer.SetEmail(new Email(customerRegistrationRequest.Email));
