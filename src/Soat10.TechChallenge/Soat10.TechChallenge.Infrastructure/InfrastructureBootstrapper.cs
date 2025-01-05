@@ -18,11 +18,26 @@ namespace Soat10.TechChallenge.Infrastructure
             services.AddTransient<IPaymentRepository, PaymentRepository>();
             services.AddTransient<IPaymentService, MercadoPagoPaymentService>();
 
+            ConfigureDatabase(services, configuration);
+        }
+
+        private static void ConfigureDatabase(IServiceCollection services, IConfiguration configuration)
+        {
+            string host = configuration["DbConnection:Host"];
+            string database = configuration["DbConnection:Database"];
+            string user = configuration["DbConnection:User"];
+            string password = configuration["DbConnection:Password"];
+
+            var connectionString = $"Host={host};Port=5432;Pooling=true;Database={database};User Id={user};Password={password};";
+
             services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                var connectionString = configuration.GetConnectionString("TechChallengeDb");
-                options.UseNpgsql(connectionString);
-            });
+                options.UseNpgsql(connectionString,
+                npgsqlOptions => {
+                    npgsqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 3,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorCodesToAdd: null);
+                }));
         }
     }
 }

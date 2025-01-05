@@ -13,13 +13,13 @@ namespace Soat10.TechChallenge.API.Controllers
         {
             _checkoutUseCase = checkoutUseCase;
         }
-        
+
         [HttpPost]
         public async Task<ActionResult> Checkout([FromBody] CheckoutRequest checkoutRequest)
         {
             await _checkoutUseCase.ExecuteOrderCheckoutAsync(checkoutRequest);
 
             return Ok(checkoutRequest);
-        }        
+        }
     }
 }
