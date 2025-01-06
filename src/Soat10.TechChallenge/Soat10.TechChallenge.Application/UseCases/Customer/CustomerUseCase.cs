@@ -2,29 +2,29 @@
 using Soat10.TechChallenge.Domain.Interfaces;
 using Soat10.TechChallenge.Domain.ValueObjects;
 
-namespace Soat10.TechChallenge.Application.UseCases.CustomerRegistration
+namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
 {
-    public class CustomerRegistrationUseCase : ICustomerRegistrationUseCase
+    public class CustomerUseCase : ICustomerUseCase
     {
         private readonly ICustomerRepository _customerRepository;
 
-        public CustomerRegistrationUseCase(ICustomerRepository customerRepository)
+        public CustomerUseCase(ICustomerRepository customerRepository)
         {
             _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
         }
 
-        public async Task ExecuteCustomerRegistrationAsync(CustomerRegistrationRequest customerRegistrationRequest)
+        public async Task ExecuteCustomerRegistrationAsync(CustomerRequest customerRequest)
         {
-            if (customerRegistrationRequest == null)
+            if (customerRequest == null)
             {
-                throw new ArgumentNullException(nameof(customerRegistrationRequest));
+                throw new ArgumentNullException(nameof(customerRequest));
             }
 
-            var customer = new Customer(
-                customerRegistrationRequest.Name);
+            Customer customer = new Customer(
+                customerRequest.Name);
 
-            customer.SetEmail(new Email(customerRegistrationRequest.Email));
-            customer.SetCpf(new Cpf(customerRegistrationRequest.Cpf));
+            customer.SetEmail(new Email(customerRequest.Email));
+            customer.SetCpf(new Cpf(customerRequest.Cpf));
 
             try
             {

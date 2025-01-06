@@ -1,34 +1,30 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Soat10.TechChallenge.Application.UseCases.CustomerRegistration;
-using Soat10.TechChallenge.Domain.Interfaces;
-using System;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using Soat10.TechChallenge.Application.UseCases.CustomerUseCases;
 
 namespace Soat10.TechChallenge.API.Controllers
 {
-    [Route("api/CustomerRegistration")]
+    [Route("api/customers")]
     [ApiController]
-    public class CustomerRegistrationController : ControllerBase
+    public class CustomerController : ControllerBase
     {
-        private readonly ICustomerRegistrationUseCase _customerRegistrationUseCase;
+        private readonly ICustomerUseCase _customerRegistrationUseCase;
 
-        public CustomerRegistrationController(ICustomerRegistrationUseCase customerRegistrationUseCase)
+        public CustomerController(ICustomerUseCase customerRegistrationUseCase)
         {
             _customerRegistrationUseCase = customerRegistrationUseCase ?? throw new ArgumentNullException(nameof(customerRegistrationUseCase));
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterCustomer([FromBody] CustomerRegistrationRequest customerRegistrationRequest)
+        public async Task<IActionResult> RegisterCustomer([FromBody] CustomerRequest customerRequest)
         {
-            if (customerRegistrationRequest == null)
+            if (customerRequest == null)
             {
                 return BadRequest("Invalid customer registration request.");
             }
 
             try
             {
-                await _customerRegistrationUseCase.ExecuteCustomerRegistrationAsync(customerRegistrationRequest);
+                await _customerRegistrationUseCase.ExecuteCustomerRegistrationAsync(customerRequest);
                 return Ok("Customer registered successfully.");
             }
             catch (Exception ex)

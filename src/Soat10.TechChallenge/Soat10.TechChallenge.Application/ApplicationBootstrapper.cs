@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Soat10.TechChallenge.Application.UseCases.Checkout;
-using Soat10.TechChallenge.Application.UseCases.CustomerRegistration;
+using Soat10.TechChallenge.Application.UseCases.CustomerUseCases;
 using Soat10.TechChallenge.Application.Validators;
 using Soat10.TechChallenge.Domain.Validators;
 
@@ -15,7 +15,7 @@ namespace Soat10.TechChallenge.Application
             services.AddValidatorsFromAssemblyContaining<CheckoutRequestValidator>();
             services.AddValidatorsFromAssemblyContaining<OrderValidator>();
 
-            services.AddTransient<ICustomerRegistrationUseCase, CustomerRegistrationUseCase>();
+            services.AddTransient<ICustomerUseCase, CustomerUseCase>();
         }
     }
 }
