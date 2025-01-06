@@ -2,6 +2,6 @@
 {
     public interface ICustomerUseCase
     {
-        Task ExecuteCustomerRegistrationAsync(CustomerRequest customerRequest);
+        Task ExecuteCustomerRegistrationAsync(CustomerRegistrationRequest customerRequest);
     }
 }

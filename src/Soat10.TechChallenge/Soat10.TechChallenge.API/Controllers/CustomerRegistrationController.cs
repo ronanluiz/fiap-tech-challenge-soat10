@@ -15,16 +15,16 @@ namespace Soat10.TechChallenge.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterCustomer([FromBody] CustomerRequest customerRequest)
+        public async Task<IActionResult> RegisterCustomer([FromBody] CustomerRegistrationRequest customerRegistrationRequest)
         {
-            if (customerRequest == null)
+            if (customerRegistrationRequest == null)
             {
                 return BadRequest("Invalid customer registration request.");
             }
 
             try
             {
-                await _customerRegistrationUseCase.ExecuteCustomerRegistrationAsync(customerRequest);
+                await _customerRegistrationUseCase.ExecuteCustomerRegistrationAsync(customerRegistrationRequest);
                 return Ok("Customer registered successfully.");
             }
             catch (Exception ex)

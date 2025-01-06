@@ -1,6 +1,6 @@
 ﻿namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
 {
-    public class CustomerRequest
+    public class CustomerRegistrationRequest
     {
         public string Name { get; set; }
         public string Email { get; set; }

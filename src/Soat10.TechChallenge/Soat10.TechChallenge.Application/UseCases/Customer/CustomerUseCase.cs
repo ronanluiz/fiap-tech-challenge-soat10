@@ -13,7 +13,7 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
             _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
         }
 
-        public async Task ExecuteCustomerRegistrationAsync(CustomerRequest customerRequest)
+        public async Task ExecuteCustomerRegistrationAsync(CustomerRegistrationRequest customerRequest)
         {
             if (customerRequest == null)
             {
