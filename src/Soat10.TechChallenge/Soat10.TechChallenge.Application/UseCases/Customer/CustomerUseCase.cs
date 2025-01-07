@@ -1,4 +1,7 @@
-﻿using Soat10.TechChallenge.Domain.Entities;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Soat10.TechChallenge.Application.Exceptions;
+using Soat10.TechChallenge.Domain.Entities;
 using Soat10.TechChallenge.Domain.Interfaces;
 using Soat10.TechChallenge.Domain.ValueObjects;
 
@@ -7,22 +10,23 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
     public class CustomerUseCase : ICustomerUseCase
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IValidator<CustomerRegistrationRequest> _validator;
 
-        public CustomerUseCase(ICustomerRepository customerRepository)
+        public CustomerUseCase(ICustomerRepository customerRepository, IValidator<CustomerRegistrationRequest> validator)
         {
             _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
+            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
 
         public async Task ExecuteCustomerRegistrationAsync(CustomerRegistrationRequest customerRequest)
         {
-            if (customerRequest == null)
+            ValidationResult result = _validator.Validate(customerRequest);
+            if (!result.IsValid)
             {
-                throw new ArgumentNullException(nameof(customerRequest));
+                throw new FluentValidation.ValidationException((IEnumerable<ValidationFailure>)result.Errors.Select(e => e.ErrorMessage));
             }
 
-            Customer customer = new Customer(
-                customerRequest.Name);
-
+            Customer customer = new Customer(customerRequest.Name);
             customer.SetEmail(new Email(customerRequest.Email));
             customer.SetCpf(new Cpf(customerRequest.Cpf));
 
@@ -32,13 +36,14 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
-                if (ex.InnerException != null)
+                if (ex.InnerException?.Message.Contains("unique constraint") ?? ex.Message.Contains("UNIQUE constraint failed"))
                 {
-                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                    throw new NotAllowedException($"Customer with CPF {customerRequest.Cpf} already exists.");
                 }
-                throw;
+
+                throw new ApplicationException("An error occurred while registering the customer.", ex);
             }
+
         }
     }
 }
