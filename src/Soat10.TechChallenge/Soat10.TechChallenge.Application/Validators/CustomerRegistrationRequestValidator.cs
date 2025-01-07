@@ -17,7 +17,7 @@ namespace Soat10.TechChallenge.Application.Validators
 
             RuleFor(x => x.Cpf)
                 .NotEmpty().WithMessage("CPF is required.")
-                .Length(11).WithMessage("CPF must be 11 characters.")
+                .Length(11).WithMessage("CPF must be 11 numeric characters.")
                 .Matches(@"^\d+$").WithMessage("CPF must contain only numbers.");
         }
     }

@@ -23,7 +23,7 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
             ValidationResult result = _validator.Validate(customerRequest);
             if (!result.IsValid)
             {
-                throw new FluentValidation.ValidationException((IEnumerable<ValidationFailure>)result.Errors.Select(e => e.ErrorMessage));
+                throw new Exceptions.ValidationException(result.Errors.Select(e => e.ErrorMessage));
             }
 
             Customer customer = new Customer(customerRequest.Name);
