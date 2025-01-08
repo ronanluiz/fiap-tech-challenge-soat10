@@ -1,4 +1,5 @@
 ﻿using Soat10.TechChallenge.Domain.Base;
+using Soat10.TechChallenge.Domain.Exceptions;
 
 namespace Soat10.TechChallenge.Domain.ValueObjects
 {
@@ -64,6 +65,26 @@ namespace Soat10.TechChallenge.Domain.ValueObjects
                 return false;
 
             return true;
+        }
+
+        public void Validate()
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(Number))
+            {
+                errors.Add("É preciso preencher o campo 'CPF'.");
+            }
+
+            if (Number?.Length != 11 || !long.TryParse(Number, out _))
+            {
+                errors.Add("CPF deve conter exatos 11 caracteres numéricos.");
+            }
+
+            if (errors.Any())
+            {
+                throw new DomainValidationException(errors);
+            }
         }
     }
 }

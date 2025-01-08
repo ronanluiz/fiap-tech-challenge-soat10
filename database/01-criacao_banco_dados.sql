@@ -1,8 +1,10 @@
 CREATE TABLE IF NOT EXISTS customer (
     customer_id SERIAL PRIMARY KEY,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NULL,
-    cpf VARCHAR(11) NULL
+    email VARCHAR(255) NOT NULL,
+    cpf VARCHAR(11) UNIQUE,
+    status VARCHAR(50) DEFAULT 'active'
 );
 
 CREATE TABLE IF NOT EXISTS product (
