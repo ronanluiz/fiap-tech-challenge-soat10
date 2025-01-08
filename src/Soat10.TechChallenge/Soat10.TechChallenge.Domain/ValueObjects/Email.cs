@@ -30,12 +30,12 @@ namespace Soat10.TechChallenge.Domain.ValueObjects
 
             if (string.IsNullOrWhiteSpace(Address))
             {
-                errors.Add("Email is required.");
+                errors.Add("É preciso preencher o campo 'Email'.");
             }
 
             if (!Address.Contains("@") || !Address.Contains("."))
             {
-                errors.Add("Invalid email format.");
+                errors.Add("Email informado em um formato incorreto. Deve ser: 'nome@email.com'.");
             }
 
             if (errors.Any())

@@ -42,12 +42,12 @@ namespace Soat10.TechChallenge.Domain.Entities
 
             if (string.IsNullOrWhiteSpace(Name))
             {
-                errors.Add("Name is required.");
+                errors.Add("É preciso preencher o campo 'Nome'.");
             }
 
             if (Name?.Length > 255)
             {
-                errors.Add("Name must not exceed 255 characters.");
+                errors.Add("O campo 'Nome' deve ter até 255 caracteres.");
             }
 
             try
@@ -62,8 +62,6 @@ namespace Soat10.TechChallenge.Domain.Entities
 
             if (errors.Any())
             {
-                // Log os erros para depuração
-                Console.WriteLine($"Validation errors: {string.Join(", ", errors)}");
                 throw new DomainValidationException(errors);
             }
         }

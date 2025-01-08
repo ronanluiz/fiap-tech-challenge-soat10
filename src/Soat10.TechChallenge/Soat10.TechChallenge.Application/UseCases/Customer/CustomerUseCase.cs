@@ -38,10 +38,10 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
             {
                 if (ex.InnerException?.Message.Contains("unique constraint") ?? ex.Message.Contains("UNIQUE constraint failed"))
                 {
-                    throw new NotAllowedException($"Customer with CPF {customerRequest.Cpf} already exists.");
+                    throw new NotAllowedException($"Cliente com o CPF {customerRequest.Cpf} já está cadastrado.");
                 }
 
-                throw new ApplicationException("An error occurred while registering the customer.", ex);
+                throw new ApplicationException("Ocorreu um erro durante o cadastro do cliente.", ex);
             }
 
         }
