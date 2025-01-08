@@ -23,5 +23,25 @@ namespace Soat10.TechChallenge.Domain.ValueObjects
             if (!Regex.IsMatch(address, pattern))
                 throw new InvalidEmailException();
         }
+
+        public void Validate()
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(Address))
+            {
+                errors.Add("Email is required.");
+            }
+
+            if (!Address.Contains("@") || !Address.Contains("."))
+            {
+                errors.Add("Invalid email format.");
+            }
+
+            if (errors.Any())
+            {
+                throw new DomainValidationException(errors);
+            }
+        }
     }
 }
