@@ -3,17 +3,18 @@
 O projeto visa desenvolver um sistema de autoatendimento para uma lanchonete em expansão que está enfrentando desafios no controle de pedidos. O sistema gerenciará todo o fluxo, desde o pedido inicial até a entrega, incluindo:
 
 - Autoatendimento com identificação opcional do cliente
-- Gestão de pedidos e pagamentos
+- Gestão de pedidos
 - Acompanhamento em tempo real do status do pedido
 - Gerenciamento administrativo de produtos, clientes e pedidos
+- Gestão de pagamentos(Implementação posterior a versão 1.0.0)
 
 ## Objetivos
 
 - **Desenvolvimento da Solução**: Criar uma aplicação completa de autoatendimento que inclui:
   - Sistema de pedidos com categorias definidas (Lanche, Acompanhamento, Bebida, Sobremesa)
-  - Integração com sistema de pagamento
   - Painel de acompanhamento de pedidos
-  - Interface administrativa para gestão
+  - Interface administrativa para gestão(Implementação posterior a versão 1.0.0)
+  - Integração com sistema de pagamento(Implementação posterior a versão 1.0.0)
 - **Entregas Técnicas**:
   - Documentação completa usando DDD e Event Storming
   - Desenvolvimento de APIs RESTful
