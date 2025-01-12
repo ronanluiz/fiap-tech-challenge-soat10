@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Soat10.TechChallenge.Application.DTOs;
 using Soat10.TechChallenge.Application.Exceptions;
 using Soat10.TechChallenge.Domain.Entities;
 using Soat10.TechChallenge.Domain.Interfaces;
@@ -44,6 +45,31 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
                 throw new ApplicationException("Ocorreu um erro durante o cadastro do cliente.", ex);
             }
 
+        }
+
+        public async Task<CustomerResponseDto?> ExecuteCustomerSearchByCpfAsync(string cpf)
+        {
+            if (string.IsNullOrWhiteSpace(cpf))
+            {
+                throw new FluentValidation.ValidationException("CPF deve ser informado.");
+            }
+
+            var customer = await _customerRepository.GetByCpf(cpf);
+
+            if (customer == null)
+            {
+                return null;
+            }
+
+            return new CustomerResponseDto
+            {
+                Id = customer.Id,
+                CreatedAt = customer.CreatedAt,
+                Name = customer.Name,
+                Email = customer.Email.Address,
+                Cpf = customer.Cpf.Number,
+                Status = customer.Status
+            };
         }
     }
 }
