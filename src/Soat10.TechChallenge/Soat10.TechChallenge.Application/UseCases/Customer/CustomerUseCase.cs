@@ -11,17 +11,21 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
     public class CustomerUseCase : ICustomerUseCase
     {
         private readonly ICustomerRepository _customerRepository;
-        private readonly IValidator<CustomerRegistrationRequest> _validator;
+        private readonly IValidator<CustomerRegistrationRequest> _registrationValidator;
+        private readonly IValidator<CustomerSearchRequest> _searchValidator;
 
-        public CustomerUseCase(ICustomerRepository customerRepository, IValidator<CustomerRegistrationRequest> validator)
+        public CustomerUseCase(ICustomerRepository customerRepository,
+                               IValidator<CustomerSearchRequest> searchValidator,
+                               IValidator<CustomerRegistrationRequest> registrationValidator)
         {
             _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
-            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
+            _searchValidator = searchValidator ?? throw new ArgumentNullException(nameof(searchValidator));
+            _registrationValidator = registrationValidator ?? throw new ArgumentNullException(nameof(registrationValidator));
         }
 
         public async Task ExecuteCustomerRegistrationAsync(CustomerRegistrationRequest customerRequest)
         {
-            ValidationResult result = _validator.Validate(customerRequest);
+            ValidationResult result = _registrationValidator.Validate(customerRequest);
             if (!result.IsValid)
             {
                 throw new Exceptions.ValidationException(result.Errors.Select(e => e.ErrorMessage));
@@ -44,14 +48,14 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
 
                 throw new ApplicationException("Ocorreu um erro durante o cadastro do cliente.", ex);
             }
-
         }
 
         public async Task<CustomerResponseDto?> ExecuteCustomerSearchByCpfAsync(string cpf)
         {
-            if (string.IsNullOrWhiteSpace(cpf))
+            var validationResult = _searchValidator.Validate(new CustomerSearchRequest { Cpf = cpf });
+            if (!validationResult.IsValid)
             {
-                throw new FluentValidation.ValidationException("CPF deve ser informado.");
+                throw new FluentValidation.ValidationException(validationResult.Errors);
             }
 
             var customer = await _customerRepository.GetByCpf(cpf);

@@ -14,9 +14,9 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
             builder.Property(o => o.Id).HasColumnName("customer_id");
 
             builder.Property(c => c.CreatedAt)
-                   .HasColumnName("created_at")
-                   .HasColumnType("timestamp")
-                   .IsRequired();
+               .HasColumnName("created_at")
+               .HasColumnType("timestamptz")
+               .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             builder.Property(c => c.Name)
                    .HasColumnName("name")
@@ -34,9 +34,9 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
                     .HasMaxLength(11);
 
             builder.Property(c => c.Status)
-                   .HasColumnName("status")
-                   .IsRequired()
-                   .HasMaxLength(30);
+               .HasColumnName("status")
+               .HasDefaultValue("active")
+               .HasMaxLength(30);
 
 
         }

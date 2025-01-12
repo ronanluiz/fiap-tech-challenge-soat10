@@ -9,8 +9,8 @@ namespace Soat10.TechChallenge.Domain.Entities
         public string Name { get; private set; }
         public Email Email { get; private set; }
         public Cpf Cpf { get; private set; }
-        public DateTime CreatedAt { get; set; }
-        public string Status { get; set; }
+        public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
+        public string Status { get; private set; } = "active";
 
         public Customer(string name)
         {
