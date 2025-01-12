@@ -21,7 +21,7 @@ namespace Soat10.TechChallenge.API.Controllers
             return Ok("Customer registered successfully.");
         }
 
-        [HttpGet("cpf/{cpf}")]
+        [HttpGet("{cpf}")]
         public async Task<IActionResult> GetCustomerByCpf(string cpf)
         {
             if (string.IsNullOrWhiteSpace(cpf))
