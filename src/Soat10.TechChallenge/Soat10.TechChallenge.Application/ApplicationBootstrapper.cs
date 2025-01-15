@@ -4,6 +4,7 @@ using Soat10.TechChallenge.Application.ProductApplication.UseCases;
 using Soat10.TechChallenge.Application.ProductApplication.UseCases.InterfacesUseCases;
 using Soat10.TechChallenge.Application.ProductApplication.Validations;
 using Soat10.TechChallenge.Application.UseCases.Checkout;
+using Soat10.TechChallenge.Application.UseCases.CustomerUseCases;
 using Soat10.TechChallenge.Application.Validators;
 using Soat10.TechChallenge.Domain.Validators;
 
@@ -16,6 +17,8 @@ namespace Soat10.TechChallenge.Application
             services.AddTransient<ICheckoutUseCase, CheckoutUseCase>();
             services.AddValidatorsFromAssemblyContaining<CheckoutRequestValidator>();
             services.AddValidatorsFromAssemblyContaining<OrderValidator>();
+
+            services.AddTransient<ICustomerUseCase, CustomerUseCase>();
 
             #region Denpendency Injection Products use cases. 
             services.AddTransient<ICreateProductAsync, CreateProductAsync>();
