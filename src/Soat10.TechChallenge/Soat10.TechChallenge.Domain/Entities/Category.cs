@@ -4,8 +4,13 @@ namespace Soat10.TechChallenge.Domain.Entities
 {
     public class Category : Entity<Guid>
     {
-        public Category() : base(Guid.NewGuid()) 
-        { 
+        public Category() : base(Guid.NewGuid())
+        {
+
+        }
+        public Category(string category) : base(Guid.NewGuid())
+        {
+
         }
     }
 }

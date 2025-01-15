@@ -4,7 +4,7 @@ namespace Soat10.TechChallenge.Domain.Entities
 {
     public class Payment : Entity<string>
     {
-        public Payment(string id, int orderId, decimal amount): base(id)
+        public Payment(string id, int orderId, decimal amount) : base(id)
         {
             OrderId = orderId;
             Amount = amount;

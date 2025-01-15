@@ -27,7 +27,7 @@ namespace Soat10.TechChallenge.API.Middlewares
             {
                 await HandleExceptionAsync(context, ex);
             }
-        }        
+        }
 
         private Task HandleCustomValidationExceptionAsync(HttpContext context, ValidationException ex)
         {

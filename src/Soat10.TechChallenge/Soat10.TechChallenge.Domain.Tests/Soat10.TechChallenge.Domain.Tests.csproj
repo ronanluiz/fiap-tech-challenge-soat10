@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Soat10.TechChallenge.Domain\Soat10.TechChallenge.Domain.csproj" />
+    <ProjectReference Include="..\Soat10.TechChallenge.Infrastructure\Soat10.TechChallenge.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
