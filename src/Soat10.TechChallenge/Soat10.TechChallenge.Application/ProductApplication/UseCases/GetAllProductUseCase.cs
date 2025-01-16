@@ -5,7 +5,7 @@ using Soat10.TechChallenge.Domain.Interfaces;
 
 namespace Soat10.TechChallenge.Application.ProductApplication.UseCases
 {
-    public class GetAllProductAsync(IProductRepository productRepository) : IGetAllProductAsync
+    public class GetAllProductUseCase(IProductRepository productRepository) : IGetAllProductUseCase
     {
         private readonly IProductRepository _productRepository = productRepository;
 

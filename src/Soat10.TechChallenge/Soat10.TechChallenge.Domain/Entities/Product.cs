@@ -43,10 +43,8 @@ namespace Soat10.TechChallenge.Domain.Entities
             Status = quantityInStock > 0 ? ProductStatusEnum.InStock : ProductStatusEnum.OutOfStock;
             Description = description;
             IsAvailable = isAvailable;
-            if (quantityInStock == 0)
-            {
-                MarkAsUnavailable();
-            }
+            MarkAsUnavailable(quantityInStock);
+
         }
 
         public Product(string name, CategoryEnum productCategory, double price)
@@ -65,11 +63,14 @@ namespace Soat10.TechChallenge.Domain.Entities
             Status = status;
         }
 
-        public void MarkAsUnavailable()
+        public void MarkAsUnavailable(int quantityInStock = 0)
         {
-            if (!IsAvailable)
-                throw new InvalidOperationException("The product is already unavailable.");
-            IsAvailable = false;
+            if (quantityInStock == 0)
+            {
+                if (!IsAvailable)
+                    throw new InvalidOperationException("The product is already unavailable.");
+                IsAvailable = false;
+            }
         }
 
         public void MarkAsAvailable()

@@ -5,28 +5,28 @@ using Soat10.TechChallenge.Domain.Enums;
 
 namespace Soat10.TechChallenge.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/products")]
     [ApiController]
     public class ProductController(
-        ICreateProductAsync createProduct,
-        IGetAllProductAsync getAllProduct,
-        IGetByIdProductsAsync getByIdProducts,
-        IGetByCategoryProductsAsync getByCategoryProducts,
-        IUpdateProductAsync updateProduct,
-        IMakeUnavailableAsync makeUnavailableAsync,
-         IMakeAvailableAsync makeAvailableAsync,
-          IGetAvailableProductsAsync getAvailableProductsAsync
+        ICreateProductUseCase createProduct,
+        IGetAllProductUseCase getAllProduct,
+        IGetByIdProductsUseCase getByIdProducts,
+        IGetByCategoryProductsUseCase getByCategoryProducts,
+        IUpdateProductUseCase updateProduct,
+        IMakeUnavailableUseCase makeUnavailableAsync,
+         IMakeAvailableUseCase makeAvailableAsync,
+          IGetAvailableProductsUseCase getAvailableProductsAsync
         ) : ControllerBase
     {
-        private readonly ICreateProductAsync _createProduct = createProduct;
-        private readonly IGetAllProductAsync _getAllProduct = getAllProduct;
-        private readonly IGetByIdProductsAsync _getByIdProducts = getByIdProducts;
-        private readonly IGetByCategoryProductsAsync _getByCategoryProducts = getByCategoryProducts;
-        private readonly IUpdateProductAsync _updateProduct = updateProduct;
+        private readonly ICreateProductUseCase _createProduct = createProduct;
+        private readonly IGetAllProductUseCase _getAllProduct = getAllProduct;
+        private readonly IGetByIdProductsUseCase _getByIdProducts = getByIdProducts;
+        private readonly IGetByCategoryProductsUseCase _getByCategoryProducts = getByCategoryProducts;
+        private readonly IUpdateProductUseCase _updateProduct = updateProduct;
 
-        private readonly IMakeUnavailableAsync _makeUnavailableAsync = makeUnavailableAsync;
-        private readonly IMakeAvailableAsync _makeAvailableAsync = makeAvailableAsync;
-        private readonly IGetAvailableProductsAsync _getAvailableProductsAsync = getAvailableProductsAsync;
+        private readonly IMakeUnavailableUseCase _makeUnavailableAsync = makeUnavailableAsync;
+        private readonly IMakeAvailableUseCase _makeAvailableAsync = makeAvailableAsync;
+        private readonly IGetAvailableProductsUseCase _getAvailableProductsAsync = getAvailableProductsAsync;
 
 
         [HttpPost("Create")]
@@ -41,21 +41,20 @@ namespace Soat10.TechChallenge.API.Controllers
             return Ok(await _getAllProduct.ExecuteAsync());
         }
 
-        [HttpGet("IGetAvailableProductsAsync")]
+        [HttpGet("Availables")]
         public async Task<IActionResult> IGetAvailableProducts()
         {
             return Ok(await _getAvailableProductsAsync.ExecuteAsync());
         }
 
-
-        [HttpGet("GetByCategory/{category}")]
+        [HttpGet("category/{category}")]
         public async Task<IActionResult> GetByCategory(CategoryEnum category)
         {
             return Ok(await _getByCategoryProducts.ExecuteAsync(category));
         }
 
-        [HttpGet("GetById/{productId}")]
-        public async Task<IActionResult> GetById(Guid productId)
+        [HttpGet]
+        public async Task<IActionResult> GetById([FromQuery] Guid productId)
         {
             return Ok(await _getByIdProducts.ExecuteAsync(productId));
         }
@@ -66,23 +65,16 @@ namespace Soat10.TechChallenge.API.Controllers
             return Ok(await _updateProduct.ExecuteAsync(productId, productRequest));
         }
 
-        [HttpDelete("MakeUnavailableAsync/{ProductId}")]
+        [HttpDelete("{ProductId}")]
         public async Task<IActionResult> MakeUnavailable(Guid ProductId)
         {
             return Ok(await _makeUnavailableAsync.ExecuteAsync(ProductId));
         }
 
-        [HttpPatch("MakeAvailableAsync/{ProductId}")]
+        [HttpPatch("{productId}/make-available")]
         public async Task<IActionResult> MakeAvailable(Guid ProductId)
         {
             return Ok(await _makeAvailableAsync.ExecuteAsync(ProductId));
-        }
-
-
-        [HttpGet("Healthcheck")]
-        public string HealthCheck()
-        {
-            return "OK";
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using Soat10.TechChallenge.Application.ProductApplication.Responses;
+using Soat10.TechChallenge.Domain.Enums;
 
 namespace Soat10.TechChallenge.Application.ProductApplication.UseCases.InterfacesUseCases
 {
-    public interface IMakeAvailableAsync
+    public interface IGetByCategoryProductsUseCase
     {
-        public Task<CreateProductResponse> ExecuteAsync(Guid productId);
+        Task<IEnumerable<GetAllProductResponse>> ExecuteAsync(CategoryEnum category);
     }
 }

@@ -1,20 +1,19 @@
 ﻿using Soat10.TechChallenge.Application.ProductApplication.ExtensionsProducts;
 using Soat10.TechChallenge.Application.ProductApplication.Responses;
 using Soat10.TechChallenge.Application.ProductApplication.UseCases.InterfacesUseCases;
-using Soat10.TechChallenge.Domain.Enums;
 using Soat10.TechChallenge.Domain.Interfaces;
 
 namespace Soat10.TechChallenge.Application.ProductApplication.UseCases
 {
-    public class GetByCategoryProductsAsync(IProductRepository productRepository) : IGetByCategoryProductsAsync
+    public class GetByIdProductsUseCase(IProductRepository productRepository) : IGetByIdProductsUseCase
     {
         private readonly IProductRepository _productRepository = productRepository;
 
-        public async Task<IEnumerable<GetAllProductResponse>> ExecuteAsync(CategoryEnum category)
+        public async Task<CreateProductResponse> ExecuteAsync(Guid productId)
         {
-            var product = await _productRepository.GetByCategoryAsync(category);
+            var product = await _productRepository.GetByIdAsync(productId);
             return product is null ?
-                throw new ArgumentNullException(nameof(category)) : product.ProductToGetAllProductResponse();
+                throw new ArgumentNullException(nameof(productId)) : product.ProductToCreateProductResponse();
         }
     }
 }

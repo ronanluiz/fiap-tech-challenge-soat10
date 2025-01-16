@@ -2,7 +2,7 @@
 
 namespace Soat10.TechChallenge.Application.ProductApplication.UseCases.InterfacesUseCases
 {
-    public interface IMakeUnavailableAsync
+    public interface IGetByIdProductsUseCase
     {
         public Task<CreateProductResponse> ExecuteAsync(Guid productId);
     }

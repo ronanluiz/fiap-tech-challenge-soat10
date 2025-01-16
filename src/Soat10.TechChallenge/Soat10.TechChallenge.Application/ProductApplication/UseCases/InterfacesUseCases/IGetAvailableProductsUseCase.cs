@@ -2,8 +2,8 @@
 
 namespace Soat10.TechChallenge.Application.ProductApplication.UseCases.InterfacesUseCases
 {
-    public interface IGetByIdProductsAsync
+    public interface IGetAvailableProductsUseCase
     {
-        public Task<CreateProductResponse> ExecuteAsync(Guid productId);
+        Task<IEnumerable<GetAllProductResponse>> ExecuteAsync();
     }
 }

@@ -6,10 +6,10 @@ using Soat10.TechChallenge.Domain.Interfaces;
 
 namespace Soat10.TechChallenge.Application.ProductApplication.UseCases
 {
-    public class UpdateProductAsync(IProductRepository productRepository, IGetByIdProductsAsync getByIdProducts) : IUpdateProductAsync
+    public class UpdateProductUseCase(IProductRepository productRepository, IGetByIdProductsUseCase getByIdProducts) : IUpdateProductUseCase
     {
         private readonly IProductRepository _productRepository = productRepository;
-        private readonly IGetByIdProductsAsync _getByIdProducts = getByIdProducts;
+        private readonly IGetByIdProductsUseCase _getByIdProducts = getByIdProducts;
 
         public async Task<CreateProductResponse> ExecuteAsync(Guid productId, CreateProductRequest productRequest)
         {

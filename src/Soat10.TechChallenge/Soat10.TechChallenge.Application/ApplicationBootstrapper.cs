@@ -21,15 +21,14 @@ namespace Soat10.TechChallenge.Application
             services.AddTransient<ICustomerUseCase, CustomerUseCase>();
 
             #region Denpendency Injection Products use cases. 
-            services.AddTransient<ICreateProductAsync, CreateProductAsync>();
-            services.AddTransient<IGetAllProductAsync, GetAllProductAsync>();
-            services.AddTransient<IGetByCategoryProductsAsync, GetByCategoryProductsAsync>();
-            services.AddTransient<IGetByIdProductsAsync, GetByIdProductsAsync>();
-            services.AddTransient<IUpdateProductAsync, UpdateProductAsync>();
-            services.AddTransient<IMakeUnavailableAsync, MakeUnavailableAsync>();
-            services.AddTransient<IMakeAvailableAsync, MakeAvailableAsync>();
-            services.AddTransient<IGetAvailableProductsAsync, GetAvailableProductsAsync>();
-            services.AddValidatorsFromAssemblyContaining<CreateProductRequestValidator>();
+            services.AddTransient<ICreateProductUseCase, CreateProductUseCase>();
+            services.AddTransient<IGetAllProductUseCase, GetAllProductUseCase>();
+            services.AddTransient<IGetByCategoryProductsUseCase, GetByCategoryProductsUseCase>();
+            services.AddTransient<IGetByIdProductsUseCase, GetByIdProductsUseCase>();
+            services.AddTransient<IUpdateProductUseCase, UpdateProductUseCase>();
+            services.AddTransient<IMakeUnavailableUseCase, MakeUnavailableUseCase>();
+            services.AddTransient<IMakeAvailableUseCase, MakeAvailableUseCase>();
+            services.AddTransient<IGetAvailableProductsUseCase, GetAvailableProductsUseCase>();
             #endregion
 
         }

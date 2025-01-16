@@ -3,8 +3,9 @@ using Soat10.TechChallenge.Application.ProductApplication.Responses;
 
 namespace Soat10.TechChallenge.Application.ProductApplication.UseCases.InterfacesUseCases
 {
-    public interface IUpdateProductAsync
+    public interface ICreateProductUseCase
     {
-        public Task<CreateProductResponse> ExecuteAsync(Guid productId, CreateProductRequest productRequest);
+        public Task<CreateProductResponse> ExecuteAsync(CreateProductRequest productRequest);
+
     }
 }

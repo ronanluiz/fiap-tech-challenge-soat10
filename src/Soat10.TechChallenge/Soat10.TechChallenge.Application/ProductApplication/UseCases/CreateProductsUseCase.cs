@@ -7,7 +7,7 @@ using Soat10.TechChallenge.Domain.Interfaces;
 
 namespace Soat10.TechChallenge.Application.ProductApplication.UseCases
 {
-    public class CreateProductAsync(IProductRepository productRepository) : ICreateProductAsync
+    public class CreateProductUseCase(IProductRepository productRepository) : ICreateProductUseCase
     {
         private readonly IProductRepository _productRepository = productRepository;
 
