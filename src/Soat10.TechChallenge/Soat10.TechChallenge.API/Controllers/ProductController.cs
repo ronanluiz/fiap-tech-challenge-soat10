@@ -47,8 +47,8 @@ namespace Soat10.TechChallenge.API.Controllers
             return Ok(await _getAvailableProductsAsync.ExecuteAsync());
         }
 
-        [HttpGet("category/{category}")]
-        public async Task<IActionResult> GetByCategory(CategoryEnum category)
+        [HttpGet("by-category")]
+        public async Task<IActionResult> GetByCategory([FromQuery] CategoryEnum category)
         {
             return Ok(await _getByCategoryProducts.ExecuteAsync(category));
         }
