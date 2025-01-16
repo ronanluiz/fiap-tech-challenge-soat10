@@ -1,6 +1,21 @@
 version: '3.9'
 
 services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DbConnection__Host=db
+      - DbConnection__Database=${DbConnection__Database}
+      - DbConnection__User=${DbConnection__User}
+      - DbConnection__Password=${DbConnection__Password}
+
   db:
     image: postgres:17.2
     restart: always
@@ -10,10 +25,10 @@ services:
       POSTGRES_DB: ${DbConnection__Database}
       POSTGRES_USER: ${DbConnection__User}
       POSTGRES_PASSWORD: ${DbConnection__Password}
-      TZ: America/Sao_Paulo
     volumes:
-    - ./database/01-criacao_banco_dados.sql:/docker-entrypoint-initdb.d/01-criacao_banco_dados.sql
-    - ./database/02-insert_dados_iniciais.sql:/docker-entrypoint-initdb.d/02-insert_dados_iniciais.sql
-    - pgdata:/var/lib/postgresql/data
+      - ./database/01-criacao_banco_dados.sql:/docker-entrypoint-initdb.d/01-criacao_banco_dados.sql
+      - ./database/02-insert_dados_iniciais.sql:/docker-entrypoint-initdb.d/02-insert_dados_iniciais.sql
+      - pgdata:/var/lib/postgresql/data
+
 volumes:
   pgdata:
