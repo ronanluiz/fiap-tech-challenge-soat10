@@ -9,7 +9,7 @@ namespace Soat10.TechChallenge.Application.ProductApplication.UseCases
     {
         private readonly IProductRepository _productRepository = productRepository;
 
-        public async Task<CreateProductResponse> ExecuteAsync(Guid productId)
+        public async Task<ProductResponse> ExecuteAsync(Guid productId)
         {
             var product = await _productRepository.GetByIdAsync(productId);
             return product is null ?

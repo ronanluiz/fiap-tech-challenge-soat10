@@ -10,7 +10,7 @@ namespace Soat10.TechChallenge.Application.ProductApplication.UseCases
         private readonly IProductRepository _productRepository = productRepository;
         private readonly IGetByIdProductsUseCase _getByIdProducts = getByIdProducts;
 
-        public async Task<CreateProductResponse> ExecuteAsync(Guid productId)
+        public async Task<ProductResponse> ExecuteAsync(Guid productId)
         {
             var product = await _getByIdProducts.ExecuteAsync(productId);
             if (product.QuantityInStock == 0) throw new ArgumentException("Quantidade de produto no estoque insuficiente para tornar produto disponivel");

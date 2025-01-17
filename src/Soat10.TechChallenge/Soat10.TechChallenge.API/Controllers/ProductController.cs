@@ -23,58 +23,58 @@ namespace Soat10.TechChallenge.API.Controllers
         private readonly IGetByIdProductsUseCase _getByIdProducts = getByIdProducts;
         private readonly IGetByCategoryProductsUseCase _getByCategoryProducts = getByCategoryProducts;
         private readonly IUpdateProductUseCase _updateProduct = updateProduct;
-
         private readonly IMakeUnavailableUseCase _makeUnavailableAsync = makeUnavailableAsync;
         private readonly IMakeAvailableUseCase _makeAvailableAsync = makeAvailableAsync;
         private readonly IGetAvailableProductsUseCase _getAvailableProductsAsync = getAvailableProductsAsync;
 
 
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] CreateProductRequest productRequest)
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] ProductRequest productRequest)
         {
             return Ok(await _createProduct.ExecuteAsync(productRequest));
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet]
+        public async Task<IActionResult> GetProducts(CategoryEnum? category)
         {
-            return Ok(await _getAllProduct.ExecuteAsync());
+            if (category.HasValue)
+            {
+                return Ok(await _getByCategoryProducts.ExecuteAsync(category.Value));
+            }
+            else
+            {
+                return Ok(await _getAllProduct.ExecuteAsync());
+            }
         }
 
-        [HttpGet("Availables")]
+        [HttpGet("availables")]
         public async Task<IActionResult> IGetAvailableProducts()
         {
             return Ok(await _getAvailableProductsAsync.ExecuteAsync());
         }
 
-        [HttpGet("by-category")]
-        public async Task<IActionResult> GetByCategory([FromQuery] CategoryEnum category)
-        {
-            return Ok(await _getByCategoryProducts.ExecuteAsync(category));
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetById([FromQuery] Guid productId)
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetById(Guid productId)
         {
             return Ok(await _getByIdProducts.ExecuteAsync(productId));
         }
 
-        [HttpPut("Update/{productId}")]
-        public async Task<IActionResult> Update(Guid productId, [FromBody] CreateProductRequest productRequest)
+        [HttpPut("{productId}")]
+        public async Task<IActionResult> Update(Guid productId, [FromBody] ProductRequest productRequest)
         {
             return Ok(await _updateProduct.ExecuteAsync(productId, productRequest));
         }
 
-        [HttpDelete("{ProductId}")]
-        public async Task<IActionResult> MakeUnavailable(Guid ProductId)
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> MakeUnavailable(Guid productId)
         {
-            return Ok(await _makeUnavailableAsync.ExecuteAsync(ProductId));
+            return Ok(await _makeUnavailableAsync.ExecuteAsync(productId));
         }
 
         [HttpPatch("{productId}/make-available")]
-        public async Task<IActionResult> MakeAvailable(Guid ProductId)
+        public async Task<IActionResult> MakeAvailable(Guid productId)
         {
-            return Ok(await _makeAvailableAsync.ExecuteAsync(ProductId));
+            return Ok(await _makeAvailableAsync.ExecuteAsync(productId));
         }
     }
 }

@@ -10,11 +10,11 @@ namespace Soat10.TechChallenge.Application.ProductApplication.UseCases
     {
         private readonly IProductRepository _productRepository = productRepository;
 
-        public async Task<IEnumerable<GetAllProductResponse>> ExecuteAsync(CategoryEnum category)
+        public async Task<IEnumerable<ProductResponse>> ExecuteAsync(CategoryEnum category)
         {
             var product = await _productRepository.GetByCategoryAsync(category);
             return product is null ?
-                throw new ArgumentNullException(nameof(category)) : product.ProductToGetAllProductResponse();
+                throw new ArgumentNullException(nameof(category)) : product.ProductToProductResponse();
         }
     }
 }

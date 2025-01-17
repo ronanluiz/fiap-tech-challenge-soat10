@@ -5,7 +5,7 @@ namespace Soat10.TechChallenge.Application.ProductApplication.UseCases.Interface
 {
     public interface ICreateProductUseCase
     {
-        public Task<CreateProductResponse> ExecuteAsync(CreateProductRequest productRequest);
+        public Task<ProductResponse> ExecuteAsync(ProductRequest productRequest);
 
     }
 }

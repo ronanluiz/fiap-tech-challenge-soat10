@@ -4,6 +4,6 @@ namespace Soat10.TechChallenge.Application.ProductApplication.UseCases.Interface
 {
     public interface IGetAllProductUseCase
     {
-        Task<IEnumerable<GetAllProductResponse>> ExecuteAsync();
+        Task<IEnumerable<ProductResponse>> ExecuteAsync();
     }
 }

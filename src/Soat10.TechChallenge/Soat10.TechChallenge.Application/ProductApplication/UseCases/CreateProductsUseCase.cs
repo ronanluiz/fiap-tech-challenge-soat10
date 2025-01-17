@@ -11,7 +11,7 @@ namespace Soat10.TechChallenge.Application.ProductApplication.UseCases
     {
         private readonly IProductRepository _productRepository = productRepository;
 
-        public async Task<CreateProductResponse> ExecuteAsync(CreateProductRequest productRequest)
+        public async Task<ProductResponse> ExecuteAsync(ProductRequest productRequest)
         {
             var product = productRequest.CreateProductRequestToProduct();
             var productCreated = await _productRepository.AddAsync(product);

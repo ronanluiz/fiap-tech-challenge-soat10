@@ -6,9 +6,9 @@ namespace Soat10.TechChallenge.Application.ProductApplication.ExtensionsProducts
 {
     public static class ProductExtensions
     {
-        public static CreateProductResponse ProductToCreateProductResponse(this Product product)
+        public static ProductResponse ProductToCreateProductResponse(this Product product)
         {
-            return new CreateProductResponse
+            return new ProductResponse
             {
                 Id = product.Id,
                 Name = product.Name,
@@ -37,7 +37,7 @@ namespace Soat10.TechChallenge.Application.ProductApplication.ExtensionsProducts
                 );
         }
 
-        public static Product UpdateProductAttributesToCreateProductResponse(this CreateProductResponse product, CreateProductRequest productRequest)
+        public static Product UpdateProductAttributesToCreateProductResponse(this ProductResponse product, ProductRequest productRequest)
         {
             return new Product(
                 product.Id,
@@ -51,7 +51,7 @@ namespace Soat10.TechChallenge.Application.ProductApplication.ExtensionsProducts
                 );
         }
 
-        public static Product UpdateProductAttributesToCreateProductResponse(this CreateProductResponse product)
+        public static Product UpdateProductAttributesToCreateProductResponse(this ProductResponse product)
         {
             return new Product(
                 product.Id,
@@ -66,14 +66,14 @@ namespace Soat10.TechChallenge.Application.ProductApplication.ExtensionsProducts
                 );
         }
 
-        public static IEnumerable<GetAllProductResponse> ProductToGetAllProductResponse(this IEnumerable<Product> products)
+        public static IEnumerable<ProductResponse> ProductToProductResponse(this IEnumerable<Product> products)
         {
-            var productResponse = new List<GetAllProductResponse>();
+            var productResponse = new List<ProductResponse>();
 
             foreach (var product in products)
             {
                 productResponse.Add(
-                    new GetAllProductResponse
+                    new ProductResponse
                     {
                         Id = product.Id,
                         Name = product.Name,
@@ -90,7 +90,7 @@ namespace Soat10.TechChallenge.Application.ProductApplication.ExtensionsProducts
             return productResponse;
         }
 
-        public static Product CreateProductRequestToProduct(this CreateProductRequest productRequest)
+        public static Product CreateProductRequestToProduct(this ProductRequest productRequest)
         {
             return new Product(productRequest.Name ?? "", productRequest.ProductCategory, productRequest.Price);
         }

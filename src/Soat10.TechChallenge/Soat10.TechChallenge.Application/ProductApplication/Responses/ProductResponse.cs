@@ -2,7 +2,7 @@
 
 namespace Soat10.TechChallenge.Application.ProductApplication.Responses
 {
-    public class CreateProductResponse
+    public class ProductResponse
     {
         public Guid Id { get; set; }
         public string? Name { get; set; }

@@ -19,7 +19,7 @@ namespace Soat10.TechChallenge.Domain.Entities
         [Range(0.01, double.MaxValue)]
         public double Price { get; private set; }
 
-        public ProductStatusEnum Status { get; private set; }
+        public ProductStatusEnum Status { get; private set; } = ProductStatusEnum.OutOfStock;
 
         [Range(0, 50)]
         public TimeSpan TimeToPrepare { get; private set; } = TimeSpan.FromMinutes(10);
@@ -28,7 +28,7 @@ namespace Soat10.TechChallenge.Domain.Entities
 
         public bool IsAvailable { get; private set; } = true;
 
-        public int QuantityInStock { get; private set; }
+        public int QuantityInStock { get; private set; } = 0;
 
         [JsonConstructor]
         public Product(Guid id, string name, CategoryEnum productCategory, double price, TimeSpan timeToPrepare, string? note, int quantityInStock = 0, string? description = "", bool isAvailable = false)
@@ -67,16 +67,12 @@ namespace Soat10.TechChallenge.Domain.Entities
         {
             if (quantityInStock == 0)
             {
-                if (!IsAvailable)
-                    throw new InvalidOperationException("The product is already unavailable.");
                 IsAvailable = false;
             }
         }
 
         public void MarkAsAvailable()
         {
-            if (IsAvailable)
-                throw new InvalidOperationException("The product is already available.");
             IsAvailable = true;
         }
 

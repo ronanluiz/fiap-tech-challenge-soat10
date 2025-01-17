@@ -9,10 +9,10 @@ namespace Soat10.TechChallenge.Application.ProductApplication.UseCases
     {
         private readonly IProductRepository _productRepository = productRepository;
 
-        public async Task<IEnumerable<GetAllProductResponse>> ExecuteAsync()
+        public async Task<IEnumerable<ProductResponse>> ExecuteAsync()
         {
             var products = await _productRepository.GetAvailableProductsAsync();
-            return products.ProductToGetAllProductResponse();
+            return products.ProductToProductResponse();
         }
     }
 }
