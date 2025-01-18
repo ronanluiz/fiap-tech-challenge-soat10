@@ -5,7 +5,7 @@ namespace Soat10.TechChallenge.Application.Validators
 {
     public class CheckoutRequestValidator : AbstractValidator<CheckoutRequest>
     {
-        public CheckoutRequestValidator() 
+        public CheckoutRequestValidator()
         {
             RuleFor(x => x.OrderNumber)
                 .GreaterThan(0).WithMessage("Número do pedido inválido");

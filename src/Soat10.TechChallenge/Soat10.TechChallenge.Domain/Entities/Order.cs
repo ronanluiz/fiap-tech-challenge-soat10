@@ -31,7 +31,7 @@ namespace Soat10.TechChallenge.Domain.Entities
             Items.Add(item);
         }
 
-        public void ChangeStatus(OrderStatus orderStatus) 
+        public void ChangeStatus(OrderStatus orderStatus)
         {
             Status = orderStatus;
         }

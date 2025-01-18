@@ -4,7 +4,7 @@
     {
         public TId Id { get; protected set; }
 
-        protected Entity() 
+        protected Entity()
         {
             Id = default!;
         }

@@ -1,5 +1,9 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Soat10.TechChallenge.API.Middlewares;
 using Soat10.TechChallenge.Application;
+using Soat10.TechChallenge.Application.ProductApplication.Validations;
 using Soat10.TechChallenge.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,10 +25,19 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnCh
                    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
                    .AddEnvironmentVariables();
 
-// Add services to the container.
-builder.Services.AddControllers();
+
+builder.Services.AddControllers(); // Mantém os controladores registrados
+builder.Services.AddFluentValidationAutoValidation(); // Adiciona validação automática com FluentValidation
+builder.Services.AddFluentValidationClientsideAdapters(); // (opcional) Adiciona validação no cliente
+
+
+// Registra todos os validadores encontrados no assembly do projeto Application
+builder.Services.AddValidatorsFromAssemblyContaining<CreateProductRequestValidator>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddFluentValidationRulesToSwagger(); // Integração com Swagger
+
 ApplicationBootstrapper.Register(builder.Services);
 InfrastructureBootstrapper.Register(builder.Services, builder.Configuration);
 
