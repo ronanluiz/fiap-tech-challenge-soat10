@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Hamburguer",
+    "Description": "Tr\u00EAs hamburgueres, alface, queijo, molho espacial, cebola, pickles e p\u00E3o com gergelin",
+    "ProductCategory": "Lanche",
+    "Price": 10,
+    "Status": 1,
+    "TimeToPrepare": "00:10:00",
+    "Note": null,
+    "IsAvailable": false,
+    "QuantityInStock": 10,
+    "CreatedAt": "2025-01-15T13:25:37.6893259Z",
+    "UpdatedAt": "2025-01-15T13:25:37.689327Z",
+    "UserUpdated": "Usuario n\u00E3o identificado",
+    "Id": "4d4f6635-33b6-43eb-ad3c-d9c7b94ccd5f"
+  }
+]

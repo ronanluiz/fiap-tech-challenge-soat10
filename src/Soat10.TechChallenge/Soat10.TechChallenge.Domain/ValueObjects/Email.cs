@@ -1,6 +1,5 @@
 ﻿using Soat10.TechChallenge.Domain.Base;
 using Soat10.TechChallenge.Domain.Exceptions;
-using System.Net;
 using System.Text.RegularExpressions;
 
 namespace Soat10.TechChallenge.Domain.ValueObjects

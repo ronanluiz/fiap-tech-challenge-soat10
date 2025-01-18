@@ -20,7 +20,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 
         public async Task UpdateAsync(Order order)
         {
-             _context.Orders.Update(order);
+            _context.Orders.Update(order);
             await _context.SaveChangesAsync();
         }
     }

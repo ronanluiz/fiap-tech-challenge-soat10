@@ -17,6 +17,10 @@ namespace Soat10.TechChallenge.Infrastructure
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
             services.AddTransient<IPaymentService, MercadoPagoPaymentService>();
+            //services.AddTransient<IProductRepository, ProductRepository>();
+
+            //Para realização de testes rápido em product
+            services.AddTransient<IProductRepository>(provider => new ProductRepositoryTemp("products.json"));
 
             ConfigureDatabase(services, configuration);
         }
@@ -32,7 +36,8 @@ namespace Soat10.TechChallenge.Infrastructure
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString,
-                npgsqlOptions => {
+                npgsqlOptions =>
+                {
                     npgsqlOptions.EnableRetryOnFailure(
                         maxRetryCount: 3,
                         maxRetryDelay: TimeSpan.FromSeconds(30),
