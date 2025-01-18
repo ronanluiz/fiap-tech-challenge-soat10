@@ -16,4 +16,9 @@
     <ProjectReference Include="..\Soat10.TechChallenge.Domain\Soat10.TechChallenge.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ProductApplication\DTOs\" />
+    <Folder Include="ProductApplication\Exceptions\" />
+  </ItemGroup>
+
 </Project>

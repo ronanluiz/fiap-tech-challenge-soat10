@@ -12,7 +12,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
             builder.ToTable("customer");
             builder.HasKey(c => c.Id);
             builder.Property(o => o.Id).HasColumnName("customer_id");
-            builder.Property(c => c.Name).HasColumnName("name").IsRequired().HasMaxLength(255);            
+            builder.Property(c => c.Name).HasColumnName("name").IsRequired().HasMaxLength(255);
 
             builder.OwnsOne(x => x.Cpf)
                     .Property(x => x.Number)
