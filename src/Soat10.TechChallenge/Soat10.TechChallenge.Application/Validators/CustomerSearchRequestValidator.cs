@@ -3,7 +3,7 @@ using Soat10.TechChallenge.Application.UseCases.CustomerUseCases;
 
 namespace Soat10.TechChallenge.Application.Validators
 {
-    public class CustomerSearchRequestValidator : AbstractValidator<CustomerSearchRequest>
+    public class CustomerSearchRequestValidator : AbstractValidator<IdentifyResponse>
     {
         public CustomerSearchRequestValidator()
         {

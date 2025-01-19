@@ -17,7 +17,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<Customer?> GetByCpf(string cpf)
+        public async Task<Customer?> Get(string cpf)
         {
             if (string.IsNullOrWhiteSpace(cpf))
             {

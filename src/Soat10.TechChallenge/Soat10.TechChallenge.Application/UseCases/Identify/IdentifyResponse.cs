@@ -1,6 +1,6 @@
-﻿namespace Soat10.TechChallenge.Application.DTOs
+﻿namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
 {
-    public class CustomerResponseDto
+    public class IdentifyResponse
     {
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -8,5 +8,6 @@
         public string Email { get; set; }
         public string Cpf { get; set; }
         public string Status { get; set; }
+
     }
 }

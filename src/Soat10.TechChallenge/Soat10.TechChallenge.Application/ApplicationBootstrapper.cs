@@ -17,8 +17,8 @@ namespace Soat10.TechChallenge.Application
             services.AddTransient<ICheckoutUseCase, CheckoutUseCase>();
             services.AddValidatorsFromAssemblyContaining<CheckoutRequestValidator>();
             services.AddValidatorsFromAssemblyContaining<OrderValidator>();
-
             services.AddTransient<ICustomerUseCase, CustomerUseCase>();
+            services.AddTransient<IIdentifyUseCase, IdentifyUseCase>();
 
             #region Denpendency Injection Products use cases. 
             services.AddTransient<ICreateProductUseCase, CreateProductUseCase>();
