@@ -2,6 +2,6 @@
 {
     public interface IIdentifyUseCase
     {
-        Task<IdentifyResponse?> ExecuteCustomerSearchByCpfAsync(string cpf);
+        Task<IdentifyResponse?> ExecuteSearchAsync(string cpf);
     }
 }

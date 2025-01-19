@@ -23,7 +23,7 @@ namespace Soat10.TechChallenge.API.Controllers
                 return BadRequest(new { Message = "O CPF deve ser informado." });
             }
 
-            var customer = await _identifyUseCase.ExecuteCustomerSearchByCpfAsync(cpf);
+            var customer = await _identifyUseCase.ExecuteSearchAsync(cpf);
 
             if (customer == null)
             {

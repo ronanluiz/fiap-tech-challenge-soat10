@@ -20,7 +20,7 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
             _searchValidator = searchValidator ?? throw new ArgumentNullException(nameof(searchValidator));
         }
 
-        public async Task<IdentifyResponse?> ExecuteCustomerSearchByCpfAsync(string cpf)
+        public async Task<IdentifyResponse?> ExecuteSearchAsync(string cpf)
         {
             var validationResult = _searchValidator.Validate(new IdentifyResponse { Cpf = cpf });
             if (!validationResult.IsValid)
