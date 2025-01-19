@@ -1,10 +1,5 @@
 ﻿using FluentValidation;
-using FluentValidation.Results;
-using Soat10.TechChallenge.Application.DTOs;
-using Soat10.TechChallenge.Application.Exceptions;
-using Soat10.TechChallenge.Domain.Entities;
 using Soat10.TechChallenge.Domain.Interfaces;
-using Soat10.TechChallenge.Domain.ValueObjects;
 
 namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
 {
