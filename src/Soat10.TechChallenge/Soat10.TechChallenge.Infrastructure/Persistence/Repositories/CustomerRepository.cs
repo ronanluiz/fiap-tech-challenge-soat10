@@ -1,4 +1,5 @@
-﻿using Soat10.TechChallenge.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Soat10.TechChallenge.Domain.Entities;
 using Soat10.TechChallenge.Domain.Interfaces;
 using Soat10.TechChallenge.Infrastructure.Persistence.Context;
 
@@ -15,5 +16,17 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             await _context.Customers.AddAsync(customer);
             return await _context.SaveChangesAsync();
         }
+
+        public async Task<Customer?> Get(string cpf)
+        {
+            if (string.IsNullOrWhiteSpace(cpf))
+            {
+                throw new ArgumentException("É preciso informar o CPF do cliente.", nameof(cpf));
+            }
+
+            return await _context.Customers
+                .FirstOrDefaultAsync(c => c.Cpf.Number == cpf);
+        }
+
     }
 }

@@ -15,7 +15,7 @@ namespace Soat10.TechChallenge.Domain.ValueObjects
         // Para o EF
         protected Cpf() { }
 
-        public bool Validar()
+        public bool CheckIsValid()
         {
             if (Number.Length > 11)
                 return false;

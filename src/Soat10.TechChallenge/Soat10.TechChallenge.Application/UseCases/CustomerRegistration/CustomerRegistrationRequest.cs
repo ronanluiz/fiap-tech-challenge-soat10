@@ -1,4 +1,4 @@
-﻿namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
+﻿namespace Soat10.TechChallenge.Application.UseCases.CustomerRegistration
 {
     public class CustomerRegistrationRequest
     {

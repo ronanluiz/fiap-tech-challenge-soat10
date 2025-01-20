@@ -2,10 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Soat10.TechChallenge.Application.ProductApplication.UseCases;
 using Soat10.TechChallenge.Application.ProductApplication.UseCases.InterfacesUseCases;
-using Soat10.TechChallenge.Application.ProductApplication.Validations;
 using Soat10.TechChallenge.Application.UseCases.Checkout;
-using Soat10.TechChallenge.Application.UseCases.CustomerUseCases;
-using Soat10.TechChallenge.Application.Validators;
+using Soat10.TechChallenge.Application.UseCases.CustomerRegistration;
+using Soat10.TechChallenge.Application.UseCases.Identify;
 using Soat10.TechChallenge.Domain.Validators;
 
 namespace Soat10.TechChallenge.Application
@@ -14,11 +13,10 @@ namespace Soat10.TechChallenge.Application
     {
         public static void Register(IServiceCollection services)
         {
-            services.AddTransient<ICheckoutUseCase, CheckoutUseCase>();
             services.AddValidatorsFromAssemblyContaining<CheckoutRequestValidator>();
-            services.AddValidatorsFromAssemblyContaining<OrderValidator>();
-
-            services.AddTransient<ICustomerUseCase, CustomerUseCase>();
+            services.AddTransient<ICheckoutUseCase, CheckoutUseCase>();
+            services.AddTransient<ICustomerRegistrationUseCase, CustomerRegistrationUseCase>();
+            services.AddTransient<IIdentifyUseCase, IdentifyUseCase>();
 
             #region Denpendency Injection Products use cases. 
             services.AddTransient<ICreateProductUseCase, CreateProductUseCase>();
