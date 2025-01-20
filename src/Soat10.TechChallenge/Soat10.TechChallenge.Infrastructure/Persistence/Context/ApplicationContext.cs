@@ -8,6 +8,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Context
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

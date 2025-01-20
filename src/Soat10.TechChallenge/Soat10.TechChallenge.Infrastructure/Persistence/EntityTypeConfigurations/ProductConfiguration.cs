@@ -11,7 +11,9 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
             builder.ToTable("product");
 
             builder.HasKey(p => p.Id);
-            builder.Property(p => p.Id).HasColumnName("product_id");
+            builder.Property(p => p.Id)
+                   .HasColumnName("product_id")
+                   .IsRequired();
 
             builder.Property(p => p.Name)
                    .HasColumnName("name")
@@ -25,7 +27,8 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
 
             builder.Property(p => p.ProductCategory)
                    .HasColumnName("category")
-                   .IsRequired();
+                   .IsRequired()
+                   .HasConversion<int>(); // Salva o enum como inteiro
 
             builder.Property(p => p.Price)
                    .HasColumnName("price")
@@ -34,11 +37,16 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
 
             builder.Property(p => p.Status)
                    .HasColumnName("status")
-                   .IsRequired();
+                   .IsRequired()
+                   .HasConversion<int>(); // Salva o enum como inteiro
 
             builder.Property(p => p.TimeToPrepare)
                    .HasColumnName("time_to_prepare")
-                   .IsRequired();
+                   .IsRequired()
+                   .HasConversion(
+                       v => v.TotalMinutes, // Converte TimeSpan para minutos
+                       v => TimeSpan.FromMinutes(v) // Converte minutos de volta para TimeSpan
+                   );
 
             builder.Property(p => p.Note)
                    .HasColumnName("note")
@@ -49,8 +57,8 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
                    .IsRequired();
 
             builder.Property(p => p.CreatedAt)
-                 .HasColumnName("created_at")
-                 .IsRequired();
+                   .HasColumnName("created_at")
+                   .IsRequired();
 
             builder.Property(p => p.UpdatedAt)
                    .HasColumnName("updated_at")
@@ -59,6 +67,10 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
             builder.Property(p => p.UserUpdated)
                    .HasColumnName("user_updated")
                    .HasMaxLength(100);
+
+            builder.Property(p => p.QuantityInStock)
+                   .HasColumnName("quantity_in_stock")
+                   .IsRequired(); // Remove HasMaxLength, pois é um int
         }
     }
 }

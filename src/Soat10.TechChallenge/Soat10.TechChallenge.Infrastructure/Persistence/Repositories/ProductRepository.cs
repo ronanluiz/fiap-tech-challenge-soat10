@@ -1,11 +1,15 @@
-﻿using Soat10.TechChallenge.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Soat10.TechChallenge.Domain.Entities;
 using Soat10.TechChallenge.Domain.Enums;
 using Soat10.TechChallenge.Domain.Interfaces;
+using Soat10.TechChallenge.Infrastructure.Persistence.Context;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository (ApplicationDbContext DbContext) : IProductRepository
     {
+        private readonly ApplicationDbContext _context = DbContext;
+
         public Task<int> AddAsync(Product product)
         {
             throw new NotImplementedException();
@@ -16,9 +20,9 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Product>> GetAllAsync()
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Products.ToListAsync();
         }
 
         public Task<IEnumerable<Product>> GetAvailableProductsAsync()
@@ -26,14 +30,14 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Product>> GetByCategoryAsync(CategoryEnum category)
+        public async Task<IEnumerable<Product>> GetByCategoryAsync(CategoryEnum category)
         {
-            throw new NotImplementedException();
+            return await _context.Products.Where(product => product.ProductCategory == category).ToListAsync();
         }
 
-        public Task<Product?> GetByIdAsync(Guid id)
+        public async Task<Product?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Products.FirstOrDefaultAsync(product => product.Id == id);
         }
 
         public Task<IEnumerable<Product>> GetByStatusAsync(ProductStatusEnum status)
