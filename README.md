@@ -30,7 +30,6 @@ Este projeto contém a lógica central do domínio, seguindo as regras de negóc
 
 ```
 Domain/
-|-- Aggregates/       # Agregados e agregados-raiz
 |-- Base/             # Classes base de domain (ex.: Entity, AggragateRoot, ValueObject, etc)
 |-- Entities/         # Classes principais do domínio
 |-- ValueObjects/     # Objetos de valor do domínio
@@ -47,13 +46,16 @@ Este projeto contém casos de uso (Application Services) e a interação entre o
 
 ```
 Application/
-|-- UseCases/           # Casos de uso (uma pasta por caso de uso) com suas respectivas interface, classe de implementação e classe que representes o comando
+|-- DTOs/                     # Classes utilizadas nas interfaces de aplicação
+|-- Interfaces/               # Interfaces de aplicação (ex.: serviços externos)
+|-- UseCases/                 # Casos de uso (uma pasta por caso de uso) com suas respectivas interface, classe de implementação e classe que representes o comando
 |   |-- <UseCaseFolder>/   
 |       |-- <UseCaseInterface>  
 |       |-- <UseCaseClass>   
-|       |-- <UseCaseCommand>   
-|-- Mappers/            # Mapeamento entre Commands e Entities
-|-- Exceptions/         # Exceções específicas da aplicação
+|       |-- <UseCaseRequest>
+|       |-- <UseCaseResponse>
+|-- Exceptions/               # Exceções específicas da aplicação
+|-- ApplicationBootstrapper  # Classe responsável pelo mapeamento e configuração para injeção das dependências
 
 ```
 
@@ -64,12 +66,10 @@ Este projeto lida com a implementação de interfaces externas (adapters) e deta
 ```
 Infrastructure/
 |-- Persistence/
-|   |-- Context/         # DbContext (Entity Framework ou outro ORM)
-|   |-- Repositories/    # Implementações de repositórios
-|-- ExternalServices/    # Comunicação com APIs externas
-|-- Logging/             # Configurações de logging
-|-- Configurations/      # Mapeamentos e configurações
-
+|   |-- Context/                # DbContext (Entity Framework ou outro ORM)
+|   |-- Repositories/           # Implementações de repositórios
+|-- ExternalServices/           # Comunicação com APIs externas
+|-- InfrastructureBootstrapper  # Classe responsável pelo mapeamento e configuração para injeção das dependências
 ```
 
 ### API
@@ -78,11 +78,8 @@ O projeto da API expõe os endpoints e configurações específicas para comunic
 
 ```
 API/
-|-- Controllers/        # Controladores da API
-|-- Filters/            # Filtros globais (ex.: validação e erros)
-|-- Middlewares/        # Middlewares customizados
-|-- Configurations/     # Configurações da API (CORS, Swagger, etc.)
-|-- DependencyInjection/ # Registro de serviços e injeções
+|-- Controllers/        # Controladores da API que expôem os endpoints
+|-- Middlewares/        # Middlewares customizados que interceptam as requisições dos endpoints
 
 ```
 
