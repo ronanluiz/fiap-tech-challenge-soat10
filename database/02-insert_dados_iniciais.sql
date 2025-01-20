@@ -11,7 +11,7 @@ INSERT INTO product (
     created_at, updated_at, user_updated
 ) VALUES
 (
-dockeru compose uo    '1',
+    '1',
     'X-Burguer com Queijo e Bacon',
     'Três hamburgueres, alface, queijo, molho espacial, cebola, pickles e pão com gergelin',
     0, -- Lanche (assumindo que "Lanche" seja representado como 0 no enum)
