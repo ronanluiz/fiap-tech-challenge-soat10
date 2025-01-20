@@ -32,7 +32,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             await File.WriteAllTextAsync(_filePath, json);
         }
 
-        public async Task<Product?> GetByIdAsync(Guid id)
+        public async Task<Product?> GetByIdAsync(int id)
         {
             var products = await LoadFromFileAsync();
             return products.FirstOrDefault(p => p.Id == id);

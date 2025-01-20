@@ -31,7 +31,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Product?> GetByIdAsync(Guid id)
+        public Task<Product?> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }

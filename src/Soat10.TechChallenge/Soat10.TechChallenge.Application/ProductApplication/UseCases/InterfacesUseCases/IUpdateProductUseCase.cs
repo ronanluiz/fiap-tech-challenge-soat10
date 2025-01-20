@@ -5,6 +5,6 @@ namespace Soat10.TechChallenge.Application.ProductApplication.UseCases.Interface
 {
     public interface IUpdateProductUseCase
     {
-        public Task<ProductResponse> ExecuteAsync(Guid productId, ProductRequest productRequest);
+        public Task<ProductResponse> ExecuteAsync(int productId, ProductRequest productRequest);
     }
 }

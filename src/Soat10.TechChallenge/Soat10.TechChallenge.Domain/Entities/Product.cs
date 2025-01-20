@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Soat10.TechChallenge.Domain.Entities
 {
-    public class Product : AuditableEntity<Guid>
+    public class Product : AuditableEntity<int>
     {
         [Required, MaxLength(50)]
         public string? Name { get; private set; }
@@ -31,7 +31,7 @@ namespace Soat10.TechChallenge.Domain.Entities
         public int QuantityInStock { get; private set; } = 0;
 
         [JsonConstructor]
-        public Product(Guid id, string name, CategoryEnum productCategory, double price, TimeSpan timeToPrepare, string? note, int quantityInStock = 0, string? description = "", bool isAvailable = false)
+        public Product(int id, string name, CategoryEnum productCategory, double price, TimeSpan timeToPrepare, string? note, int quantityInStock = 0, string? description = "", bool isAvailable = false)
         {
             Id = id;
             SetName(name);
@@ -49,7 +49,6 @@ namespace Soat10.TechChallenge.Domain.Entities
 
         public Product(string name, CategoryEnum productCategory, double price)
         {
-            Id = Guid.NewGuid();
             SetName(name);
             ProductCategory = productCategory;
             SetPrice(price);

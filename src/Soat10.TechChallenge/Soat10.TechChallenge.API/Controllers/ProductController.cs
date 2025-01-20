@@ -54,25 +54,25 @@ namespace Soat10.TechChallenge.API.Controllers
         }
 
         [HttpGet("{productId}")]
-        public async Task<IActionResult> GetById(Guid productId)
+        public async Task<IActionResult> GetById(int productId)
         {
             return Ok(await _getByIdProducts.ExecuteAsync(productId));
         }
 
         [HttpPut("{productId}")]
-        public async Task<IActionResult> Update(Guid productId, [FromBody] ProductRequest productRequest)
+        public async Task<IActionResult> Update(int productId, [FromBody] ProductRequest productRequest)
         {
             return Ok(await _updateProduct.ExecuteAsync(productId, productRequest));
         }
 
         [HttpDelete("{productId}")]
-        public async Task<IActionResult> MakeUnavailable(Guid productId)
+        public async Task<IActionResult> MakeUnavailable(int productId)
         {
             return Ok(await _makeUnavailableAsync.ExecuteAsync(productId));
         }
 
         [HttpPatch("{productId}/make-available")]
-        public async Task<IActionResult> MakeAvailable(Guid productId)
+        public async Task<IActionResult> MakeAvailable(int productId)
         {
             return Ok(await _makeAvailableAsync.ExecuteAsync(productId));
         }
