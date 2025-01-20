@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Soat10.TechChallenge.Application.UseCases.CustomerUseCases;
+using Soat10.TechChallenge.Application.UseCases.CustomerRegistration;
 
 namespace Soat10.TechChallenge.API.Controllers
 {
@@ -7,9 +7,9 @@ namespace Soat10.TechChallenge.API.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerUseCase _customerRegistrationUseCase;
+        private readonly ICustomerRegistrationUseCase _customerRegistrationUseCase;
 
-        public CustomerController(ICustomerUseCase customerRegistrationUseCase)
+        public CustomerController(ICustomerRegistrationUseCase customerRegistrationUseCase)
         {
             _customerRegistrationUseCase = customerRegistrationUseCase ?? throw new ArgumentNullException(nameof(customerRegistrationUseCase));
         }

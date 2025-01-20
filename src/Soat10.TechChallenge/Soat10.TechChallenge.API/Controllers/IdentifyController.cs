@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Soat10.TechChallenge.Application.UseCases.CustomerUseCases;
+using Soat10.TechChallenge.Application.UseCases.Identify;
 
 namespace Soat10.TechChallenge.API.Controllers
 {
-
     [Route("api/identify")]
     [ApiController]
     public class IdentifyController : Controller
@@ -15,7 +14,7 @@ namespace Soat10.TechChallenge.API.Controllers
             _identifyUseCase = identifyUseCase ?? throw new ArgumentNullException(nameof(identifyUseCase));
         }
 
-        [HttpGet("customer/{cpf}")]
+        [HttpGet("{cpf}")]
         public async Task<IActionResult> GetCustomerByCpf(string cpf)
         {
             if (string.IsNullOrWhiteSpace(cpf))

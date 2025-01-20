@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using Soat10.TechChallenge.Application.UseCases.Checkout;
 
-namespace Soat10.TechChallenge.Application.Validators
+namespace Soat10.TechChallenge.Application.UseCases.Checkout
 {
     public class CheckoutRequestValidator : AbstractValidator<CheckoutRequest>
     {

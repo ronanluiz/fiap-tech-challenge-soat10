@@ -1,26 +1,26 @@
 ﻿using FluentValidation;
 using Soat10.TechChallenge.Domain.Interfaces;
 
-namespace Soat10.TechChallenge.Application.UseCases.CustomerUseCases
+namespace Soat10.TechChallenge.Application.UseCases.Identify
 {
     public class IdentifyUseCase : IIdentifyUseCase
     {
         private readonly ICustomerRepository _customerRepository;
-        private readonly IValidator<IdentifyResponse> _searchValidator;
+        private readonly IValidator<IdentifyRequest> _identifyRequestValidator;
 
         public IdentifyUseCase(ICustomerRepository customerRepository,
-                               IValidator<IdentifyResponse> searchValidator)
+                               IValidator<IdentifyRequest> identifyRequestValidator)
         {
             _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
-            _searchValidator = searchValidator ?? throw new ArgumentNullException(nameof(searchValidator));
+            _identifyRequestValidator = identifyRequestValidator ?? throw new ArgumentNullException(nameof(identifyRequestValidator));
         }
 
         public async Task<IdentifyResponse?> ExecuteSearchAsync(string cpf)
         {
-            var validationResult = _searchValidator.Validate(new IdentifyResponse { Cpf = cpf });
+            var validationResult = _identifyRequestValidator.Validate(new IdentifyRequest { Cpf = cpf });
             if (!validationResult.IsValid)
             {
-                throw new FluentValidation.ValidationException(validationResult.Errors);
+                throw new Exceptions.ValidationException(validationResult.Errors.Select(e => e.ErrorMessage));
             }
 
             var customer = await _customerRepository.Get(cpf);
