@@ -120,6 +120,16 @@ Siga os passos abaixo para rodar o projeto na sua máquina:
 1 - Execute do docker compose para orquestrar o inicio da aplicação com o banco de dados à partir ddo diretório raiz da aplicação
 
 ```bash
-docker-compose up
+docker-compose up --build
 ```
 
+2 - Após validar que a aplicação subiu sem erros, acessar a seguinte url no browser para listagem do swagger de todos os endpoints disponíveis:
+
+[http://localhost:8080/swagger](http://localhost:8080/swagger)
+
+### Outros comandos
+- Para cenários onde for necessário eliminar as instências dos conteiners da aplicação incluindo o processo de reiniciar o banco de dados ou limpar os dados iniciais carregados executar o seguinte comando:
+
+```bash
+docker-compose down --volumes
+```
