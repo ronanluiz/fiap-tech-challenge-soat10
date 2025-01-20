@@ -1,39 +1,45 @@
-﻿using Soat10.TechChallenge.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Soat10.TechChallenge.Domain.Entities;
 using Soat10.TechChallenge.Domain.Enums;
 using Soat10.TechChallenge.Domain.Interfaces;
+using Soat10.TechChallenge.Infrastructure.Persistence.Context;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository (ApplicationDbContext DbContext) : IProductRepository
     {
-        public Task<int> AddAsync(Product product)
+        private readonly ApplicationDbContext _context = DbContext;
+
+        public async Task<int> AddAsync(Product product)
         {
-            throw new NotImplementedException();
+            await _context.Products.AddAsync(product);
+            return await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(Product product)
+        public async Task DeleteAsync(Product product)
         {
-            throw new NotImplementedException();
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Product>> GetAllAsync()
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Products.ToListAsync();
         }
 
-        public Task<IEnumerable<Product>> GetAvailableProductsAsync()
+        public async Task<IEnumerable<Product>> GetAvailableProductsAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Products.Where(product => product.IsAvailable).ToListAsync();
         }
 
-        public Task<IEnumerable<Product>> GetByCategoryAsync(CategoryEnum category)
+        public async Task<IEnumerable<Product>> GetByCategoryAsync(CategoryEnum category)
         {
-            throw new NotImplementedException();
+            return await _context.Products.Where(product => product.ProductCategory == category).ToListAsync();
         }
 
-        public Task<Product?> GetByIdAsync(int id)
+        public async Task<Product?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Products.FirstOrDefaultAsync(product => product.Id == id);
         }
 
         public Task<IEnumerable<Product>> GetByStatusAsync(ProductStatusEnum status)
@@ -41,9 +47,10 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Product product)
+        public async  Task UpdateAsync(Product product)
         {
-            throw new NotImplementedException();
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
         }
     }
 }

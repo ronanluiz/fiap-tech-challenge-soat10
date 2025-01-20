@@ -9,9 +9,18 @@ CREATE TABLE IF NOT EXISTS customer (
 
 CREATE TABLE IF NOT EXISTS product (
     product_id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    category VARCHAR(255) NOT NULL,
-    description TEXT
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(200) NOT NULL,
+    category INT NOT NULL, 
+    price NUMERIC(10, 2) NOT NULL,
+    status INT NOT NULL, 
+    time_to_prepare NUMERIC(5, 2) NOT NULL, -- Tempo em minutos como decimal
+    note VARCHAR(255), -- Nota é opcional
+    is_available BOOLEAN NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    user_updated VARCHAR(100),
+    quantity_in_stock INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "order" (

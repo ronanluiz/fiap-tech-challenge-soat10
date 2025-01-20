@@ -2,8 +2,8 @@
 {
     public abstract class AuditableEntity<TId> : Entity<TId> where TId : notnull
     {
-        public DateTime CreatedAt { get; private set; }
-        public DateTime UpdatedAt { get; private set; }
+        public DateTime? CreatedAt { get; private set; }
+        public DateTime? UpdatedAt { get; private set; }
         public string? UserUpdated { get; private set; }
 
         protected AuditableEntity() : base()
