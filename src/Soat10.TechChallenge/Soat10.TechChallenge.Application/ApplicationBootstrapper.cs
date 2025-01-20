@@ -6,6 +6,7 @@ using Soat10.TechChallenge.Application.UseCases.Checkout;
 using Soat10.TechChallenge.Application.UseCases.CustomerRegistration;
 using Soat10.TechChallenge.Application.UseCases.Identify;
 using Soat10.TechChallenge.Domain.Validators;
+using Soat10.TechChallenge.Application.UseCases.GetOrders;
 
 namespace Soat10.TechChallenge.Application
 {
@@ -29,6 +30,8 @@ namespace Soat10.TechChallenge.Application
             services.AddTransient<IGetAvailableProductsUseCase, GetAvailableProductsUseCase>();
             #endregion
 
+
+            services.AddTransient<IGetOrdersUseCase, GetOrdersUseCase>();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Soat10.TechChallenge.Domain.Entities
 {
     public class Order : Entity<int>
     {
-        protected Order() : base(default) { }
+        public Order() : base(default) { }
 
         public Order(int id, Customer customer, List<OrderItem> orderItems) : base(id)
         {
@@ -18,10 +18,19 @@ namespace Soat10.TechChallenge.Domain.Entities
             Validate();
         }
 
+        public Order(OrderStatus status, Customer customer, int customerId, List<OrderItem> items, decimal amount)
+        {
+            Status = status;
+            Customer = customer;
+            CustomerId = customerId;
+            Items = items;
+            Amount = amount;
+        }
+
         public OrderStatus Status { get; private set; }
-        public Customer Customer { get; private set; }
+        public virtual Customer Customer { get; private set; }
         public int CustomerId { get; private set; }
-        public List<OrderItem> Items { get; private set; }
+        public virtual ICollection<OrderItem> Items { get; private set; } = [];
         public decimal Amount { get; private set; }
 
         private static readonly OrderValidator Validator = new();

@@ -23,7 +23,7 @@ INSERT INTO "order" (customer_id, amount) VALUES
 ((SELECT customer_id FROM customer WHERE name = 'Maria Oliveira'), 49.90);
 
 -- Para inserir em order_item, precisamos dos IDs dos produtos e pedidos
-INSERT INTO order_item (order_id, product_id, quantity, price) VALUES
+INSERT INTO order_item (order_id, product_id, quantity, price, note) VALUES
 (
     (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'João da Silva')),
     (SELECT product_id FROM product WHERE title = 'X-Burguer com Queijo e Bacon'),
