@@ -10,14 +10,16 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
     {
         private readonly ApplicationDbContext _context = DbContext;
 
-        public Task<int> AddAsync(Product product)
+        public async Task<int> AddAsync(Product product)
         {
-            throw new NotImplementedException();
+            await _context.Products.AddAsync(product);
+            return await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(Product product)
+        public async Task DeleteAsync(Product product)
         {
-            throw new NotImplementedException();
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync()
@@ -25,9 +27,9 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return await _context.Products.ToListAsync();
         }
 
-        public Task<IEnumerable<Product>> GetAvailableProductsAsync()
+        public async Task<IEnumerable<Product>> GetAvailableProductsAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Products.Where(product => product.IsAvailable).ToListAsync();
         }
 
         public async Task<IEnumerable<Product>> GetByCategoryAsync(CategoryEnum category)
@@ -35,7 +37,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return await _context.Products.Where(product => product.ProductCategory == category).ToListAsync();
         }
 
-        public async Task<Product?> GetByIdAsync(Guid id)
+        public async Task<Product?> GetByIdAsync(int id)
         {
             return await _context.Products.FirstOrDefaultAsync(product => product.Id == id);
         }
@@ -45,9 +47,10 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Product product)
+        public async  Task UpdateAsync(Product product)
         {
-            throw new NotImplementedException();
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
         }
     }
 }

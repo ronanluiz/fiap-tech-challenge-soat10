@@ -11,7 +11,7 @@ INSERT INTO product (
     created_at, updated_at, user_updated
 ) VALUES
 (
-    '4d4f6635-33b6-43eb-ad3c-d9c7b94ccd5f',
+dockeru compose uo    '1',
     'X-Burguer com Queijo e Bacon',
     'Três hamburgueres, alface, queijo, molho espacial, cebola, pickles e pão com gergelin',
     0, -- Lanche (assumindo que "Lanche" seja representado como 0 no enum)
@@ -23,10 +23,10 @@ INSERT INTO product (
     10,
     '2025-01-15T13:25:37.6893259Z',
     '2025-01-15T13:25:37.689327Z',
-    'Usuario não identificado'
+    'João da Silva'
 ),
 (
-    '5e5f6736-44c7-54fc-bc4d-e1d8a94dde6g',
+    '2',
     'Batata Frita Crocante',
     'Porção de batatas fritas crocantes, ideal para acompanhar qualquer lanche',
     1, -- Acompanhamento (assumindo que "Acompanhamento" seja representado como 1 no enum)
@@ -38,10 +38,10 @@ INSERT INTO product (
     20,
     '2025-01-15T14:00:00Z',
     '2025-01-15T14:00:00Z',
-    'Usuario não identificado'
+    'João da Silva'
 ),
 (
-    '6f6g7847-55d8-65gd-cd5e-f2f9b05eef7h',
+    '3',
     'Refrigerante Cola 350ml',
     'Lata de refrigerante sabor cola, gelado e refrescante',
     2, -- Bebida (assumindo que "Bebida" seja representado como 2 no enum)
@@ -53,10 +53,10 @@ INSERT INTO product (
     50,
     '2025-01-15T14:15:00Z',
     '2025-01-15T14:15:00Z',
-    'Usuario não identificado'
+    'João da Silva'
 ),
 (
-    '7g7h8958-66e9-76hf-de6f-g3g0c16ffg8i',
+    '4',
     'Mousse de Maracujá Cremoso',
     'Sobremesa cremosa feita com maracujá fresco, ideal para adoçar o dia',
     3, -- Sobremesa (assumindo que "Sobremesa" seja representado como 3 no enum)
@@ -68,7 +68,7 @@ INSERT INTO product (
     15,
     '2025-01-15T14:30:00Z',
     '2025-01-15T14:30:00Z',
-    'Usuario não identificado'
+    'Maria Oliveira'
 );
 
 -- Para inserir em "order", precisamos primeiro obter os IDs dos clientes inseridos
@@ -81,13 +81,13 @@ INSERT INTO "order" (customer_id, amount) VALUES
 INSERT INTO order_item (order_id, product_id, quantity, price) VALUES
 (
     (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'João da Silva')),
-    (SELECT product_id FROM product WHERE title = 'X-Burguer com Queijo e Bacon'),
+    (SELECT product_id FROM product WHERE name = 'X-Burguer com Queijo e Bacon'),
     1,
     1999.99
 ),
 (
     (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Maria Oliveira')),
-    (SELECT product_id FROM product WHERE title = 'Batata Frita Crocante'),
+    (SELECT product_id FROM product WHERE name = 'Batata Frita Crocante'),
     2,
     24.95
 );

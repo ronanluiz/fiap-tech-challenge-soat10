@@ -51,7 +51,7 @@ namespace Soat10.TechChallenge.Domain.Tests.Entities.Tests
             var category = CategoryEnum.Bebida;
             var price = 15.99;
 
-            Assert.Throws<ArgumentException>(() => new Product(Guid.NewGuid(), name, category, price, TimeSpan.FromMinutes(60), "Note", 0));
+            Assert.Throws<ArgumentException>(() => new Product(1, name, category, price, TimeSpan.FromMinutes(60), "Note", 0));
         }
 
         [Fact]
@@ -123,7 +123,7 @@ namespace Soat10.TechChallenge.Domain.Tests.Entities.Tests
 
             Assert.Equal(ProductStatusEnum.OutOfStock, product.Status);
 
-            var productWithStock = new Product(Guid.NewGuid(), "Pizza", CategoryEnum.Lanche, 20.0, TimeSpan.FromMinutes(10), null, 5);
+            var productWithStock = new Product(1, "Pizza", CategoryEnum.Lanche, 20.0, TimeSpan.FromMinutes(10), null, 5);
 
             Assert.Equal(ProductStatusEnum.InStock, productWithStock.Status);
         }
@@ -131,7 +131,7 @@ namespace Soat10.TechChallenge.Domain.Tests.Entities.Tests
         [Fact]
         public void Product_JsonConstructor_ShouldSetPropertiesCorrectly()
         {
-            var id = Guid.NewGuid();
+            var id = 1;
             var name = "Pizza";
             var category = CategoryEnum.Lanche;
             var price = 25.99;
@@ -156,7 +156,7 @@ namespace Soat10.TechChallenge.Domain.Tests.Entities.Tests
         private Product CreateValidProduct()
         {
             return new Product(
-                Guid.NewGuid(),
+                1,
                 "Burger",
                 CategoryEnum.Bebida,
                 15.99,
