@@ -31,7 +31,7 @@ namespace Soat10.TechChallenge.Application.UseCases.Checkout
             PaymentResponseDto paymentResponse = await _paymentService.ProcessPaymentAsync(checkoutRequest.OrderNumber, checkoutRequest.PaymentQrCode);
             if (paymentResponse.IsSuccess)
             {
-                Order order = await _orderRepository.GetByIdAsync(checkoutRequest.OrderNumber);
+                Domain.Entities.Order order = await _orderRepository.GetByIdAsync(checkoutRequest.OrderNumber);
                 order.ChangeStatus(OrderStatus.Paid);
                 await _orderRepository.UpdateAsync(order);
 

@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS order_item (
     product_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
-    note VARCHAR(255),
+    note VARCHAR(255) NULL,
     FOREIGN KEY (order_id) REFERENCES "order"(order_id) ON DELETE RESTRICT,
     FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE RESTRICT
 );

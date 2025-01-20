@@ -35,6 +35,8 @@ namespace Soat10.TechChallenge.Infrastructure
             var connectionString = $"Host={host};Port=5432;Pooling=true;Database={database};User Id={user};Password={password};";
 
             services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseLazyLoadingProxies();
                 options.UseNpgsql(connectionString,
                 npgsqlOptions =>
                 {
@@ -42,7 +44,8 @@ namespace Soat10.TechChallenge.Infrastructure
                         maxRetryCount: 3,
                         maxRetryDelay: TimeSpan.FromSeconds(30),
                         errorCodesToAdd: null);
-                }));
+                });
+            });
         }
     }
 }

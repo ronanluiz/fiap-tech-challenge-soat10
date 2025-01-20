@@ -55,6 +55,11 @@ namespace Soat10.TechChallenge.Domain.Entities
             MarkAsUnavailable();
         }
 
+        public Product(string? name)
+        {
+            Name = name;
+        }
+
         public void UpdateStatus(ProductStatusEnum status)
         {
             if (status == Status)
