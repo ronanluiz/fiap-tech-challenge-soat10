@@ -5,6 +5,7 @@ using Soat10.TechChallenge.API.Middlewares;
 using Soat10.TechChallenge.Application;
 using Soat10.TechChallenge.Application.ProductApplication.Validations;
 using Soat10.TechChallenge.Infrastructure;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +36,20 @@ builder.Services.AddFluentValidationClientsideAdapters(); // (opcional) Adiciona
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductRequestValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen( config =>
+{
+    config.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Soat 10 Tech Challenge - Api Fast Food", 
+        Version = "v1",
+        Description = "Api Fast Food é um sistema de autoatendimento de fast food projetado para gerenciar clientes, produtos e pedidos, além de facilitar o processo de checkout e acompanhamento dos pedidos"
+    });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";  
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    config.IncludeXmlComments(xmlPath);
+});
+
 builder.Services.AddFluentValidationRulesToSwagger(); // Integração com Swagger
 
 ApplicationBootstrapper.Register(builder.Services);

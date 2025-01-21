@@ -14,6 +14,11 @@ namespace Soat10.TechChallenge.API.Controllers
             _identifyUseCase = identifyUseCase ?? throw new ArgumentNullException(nameof(identifyUseCase));
         }
 
+        /// <summary>
+        /// Possibilita que os clientes se identificassem utilizando o CPF, permitindo ao estabelecimento rastrear cadastro e seus dados para campanhas promocionais.
+        /// </summary>
+        /// <param name="cpf"></param>
+        /// <returns></returns>
         [HttpGet("{cpf}")]
         public async Task<IActionResult> GetCustomerByCpf(string cpf)
         {

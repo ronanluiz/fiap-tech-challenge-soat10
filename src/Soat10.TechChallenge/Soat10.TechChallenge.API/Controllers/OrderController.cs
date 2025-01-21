@@ -11,7 +11,10 @@ public class OrderController : ControllerBase
     {
         _getOrdersUseCase = getOrdersUseCase;
     }
-
+    /// <summary>
+    /// Permite que o estabelecimento liste todos os pedidos, com informações sobre o status atual de cada pedido.
+    /// </summary>
+    /// <returns pedidos="ordersAsync"></returns>
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {

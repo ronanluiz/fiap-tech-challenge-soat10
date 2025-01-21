@@ -13,7 +13,11 @@ namespace Soat10.TechChallenge.API.Controllers
         {
             _customerRegistrationUseCase = customerRegistrationUseCase ?? throw new ArgumentNullException(nameof(customerRegistrationUseCase));
         }
-
+        /// <summary>
+        ///  Permite o cadastro de novos clientes no sistema.
+        /// </summary>
+        /// <param name="customerRegistrationRequest"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> RegisterCustomer([FromBody] CustomerRegistrationRequest customerRegistrationRequest)
         {
