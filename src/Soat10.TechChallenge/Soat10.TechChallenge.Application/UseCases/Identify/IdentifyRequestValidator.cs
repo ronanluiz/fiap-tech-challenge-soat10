@@ -8,12 +8,9 @@ namespace Soat10.TechChallenge.Application.UseCases.Identify
         {
             RuleFor(x => x.Cpf)
                 .NotEmpty().WithMessage("É preciso preencher o campo 'CPF'.")
-                .Must(Validate).WithMessage("CPF está inválido");
-        }
+                .Length(11).WithMessage("CPF deve conter exatos 11 caracteres.")
+                .Matches(@"^\d+$").WithMessage("CPF deve conter apenas números.");
 
-        private static bool Validate(string cpf)
-        {
-            return new Domain.ValueObjects.Cpf(cpf).CheckIsValid();
         }
     }
 }
