@@ -67,7 +67,7 @@ namespace Soat10.TechChallenge.Domain.ValueObjects
             return true;
         }
 
-        public void Validate()
+        public bool Validate()
         {
             var errors = new List<string>();
 
@@ -85,6 +85,8 @@ namespace Soat10.TechChallenge.Domain.ValueObjects
             {
                 throw new DomainValidationException(errors);
             }
+
+            return true;
         }
     }
 }
