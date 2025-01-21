@@ -8,7 +8,8 @@ namespace Soat10.TechChallenge.Application.UseCases.GetOrders
         {
             return new GetOrdersResponse
             {
-                CustumerId = order.CustomerId.ToString(),
+                OrderId = order.Id,
+                CustumerId = order.CustomerId,
                 CustomerName = order.Customer.Name,
                 Status = order.Status.ToString(),
                 Amount = order.Amount,
@@ -25,19 +26,7 @@ namespace Soat10.TechChallenge.Application.UseCases.GetOrders
 
             foreach (var order in orders)
             {
-                orderResponse.Add(
-                    new GetOrdersResponse
-                    {
-                        OrderId = order.Id.ToString(),
-                        CustumerId = order.CustomerId.ToString(),
-                        CustomerName = order.Customer.Name,
-                        Status = order.Status.ToString(),
-                        Amount = order.Amount,
-                        Items = string.Join(", ", order.Items.Select(item =>
-                            string.IsNullOrWhiteSpace(item.Note)
-                                ? $"{item.Product.Name} x{item.Quantity}"
-                                : $"{item.Product.Name} x{item.Quantity} ({item.Note})"))
-                    });
+                orderResponse.Add(order.OrderToOrderResponse());
             }
 
             return orderResponse;
