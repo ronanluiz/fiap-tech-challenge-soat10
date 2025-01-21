@@ -6,12 +6,11 @@ INSERT INTO customer (name, email, cpf) VALUES
 
 -- Inserção de dados na tabela product
 INSERT INTO product (
-    product_id, name, description, category, price, status, 
+    name, description, category, price, status, 
     time_to_prepare, note, is_available, quantity_in_stock, 
     created_at, updated_at, user_updated
 ) VALUES
 (
-    '1',
     'X-Burguer com Queijo e Bacon',
     'Três hamburgueres, alface, queijo, molho espacial, cebola, pickles e pão com gergelin',
     0, -- Lanche (assumindo que "Lanche" seja representado como 0 no enum)
@@ -26,7 +25,6 @@ INSERT INTO product (
     'João da Silva'
 ),
 (
-    '2',
     'Batata Frita Crocante',
     'Porção de batatas fritas crocantes, ideal para acompanhar qualquer lanche',
     1, -- Acompanhamento (assumindo que "Acompanhamento" seja representado como 1 no enum)
@@ -41,7 +39,6 @@ INSERT INTO product (
     'João da Silva'
 ),
 (
-    '3',
     'Refrigerante Cola 350ml',
     'Lata de refrigerante sabor cola, gelado e refrescante',
     2, -- Bebida (assumindo que "Bebida" seja representado como 2 no enum)
@@ -56,7 +53,6 @@ INSERT INTO product (
     'João da Silva'
 ),
 (
-    '4',
     'Mousse de Maracujá Cremoso',
     'Sobremesa cremosa feita com maracujá fresco, ideal para adoçar o dia',
     3, -- Sobremesa (assumindo que "Sobremesa" seja representado como 3 no enum)
