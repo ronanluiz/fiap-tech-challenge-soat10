@@ -47,9 +47,10 @@ namespace Soat10.TechChallenge.Domain.Entities
 
         }
 
-        public Product(string name, CategoryEnum productCategory, double price)
+        public Product(string name, string description, CategoryEnum productCategory, double price)
         {
             SetName(name);
+            Description = description;
             ProductCategory = productCategory;
             SetPrice(price);
             MarkAsUnavailable();

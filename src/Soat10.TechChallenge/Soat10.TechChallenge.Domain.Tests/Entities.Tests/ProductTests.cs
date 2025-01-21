@@ -14,7 +14,7 @@ namespace Soat10.TechChallenge.Domain.Tests.Entities.Tests
             var timeToPrepare = TimeSpan.FromMinutes(15);
             var note = "Extra cheese";
 
-            var product = new Product(name, category, price);
+            var product = new Product(name, name, category, price);
 
             Assert.NotNull(product);
             Assert.Equal(name, product.Name);
@@ -30,8 +30,8 @@ namespace Soat10.TechChallenge.Domain.Tests.Entities.Tests
             var category = CategoryEnum.Bebida;
             var price = 15.99;
 
-            Assert.Throws<ArgumentException>(() => new Product("  ", category, price));
-            Assert.Throws<ArgumentException>(() => new Product(new string('A', 51), category, price)); // Name too long
+            Assert.Throws<ArgumentException>(() => new Product("  ", "  ", category, price));
+            Assert.Throws<ArgumentException>(() => new Product(new string('A', 51), new string('A', 51), category, price)); // Name too long
         }
 
         [Fact]
@@ -40,8 +40,8 @@ namespace Soat10.TechChallenge.Domain.Tests.Entities.Tests
             var name = "Burger";
             var category = CategoryEnum.Bebida;
 
-            Assert.Throws<ArgumentException>(() => new Product(name, category, 0));
-            Assert.Throws<ArgumentException>(() => new Product(name, category, -5.00));
+            Assert.Throws<ArgumentException>(() => new Product(name, name, category, 0));
+            Assert.Throws<ArgumentException>(() => new Product(name, name, category, -5.00));
         }
 
         [Fact]
@@ -119,7 +119,7 @@ namespace Soat10.TechChallenge.Domain.Tests.Entities.Tests
         [Fact]
         public void Product_QuantityInStock_ShouldUpdateStatusCorrectly()
         {
-            var product = new Product("Burger", CategoryEnum.Lanche, 10.0);
+            var product = new Product("Burger", "Burger", CategoryEnum.Lanche, 10.0);
 
             Assert.Equal(ProductStatusEnum.OutOfStock, product.Status);
 

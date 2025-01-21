@@ -4,6 +4,7 @@ namespace Soat10.TechChallenge.Application.UseCases.GetOrders
 {
     public class GetOrdersResponse
     {
+        public string OrderId { get; set; }
         public string Status { get; set; }
         public string CustumerId { get; set; }
         public string CustomerName { get; set; }
