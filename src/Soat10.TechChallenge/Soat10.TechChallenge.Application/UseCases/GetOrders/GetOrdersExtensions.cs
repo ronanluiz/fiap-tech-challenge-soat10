@@ -28,6 +28,7 @@ namespace Soat10.TechChallenge.Application.UseCases.GetOrders
                 orderResponse.Add(
                     new GetOrdersResponse
                     {
+                        OrderId = order.Id.ToString(),
                         CustumerId = order.CustomerId.ToString(),
                         CustomerName = order.Customer.Name,
                         Status = order.Status.ToString(),

@@ -47,6 +47,12 @@ namespace Soat10.TechChallenge.API.Controllers
             }
         }
 
+        [HttpGet("availables")]
+        public async Task<IActionResult> IGetAvailableProducts()
+        {
+            return Ok(await _getAvailableProductsAsync.ExecuteAsync());
+        }
+
         [HttpGet("{productId}")]
         public async Task<IActionResult> GetById(int productId)
         {

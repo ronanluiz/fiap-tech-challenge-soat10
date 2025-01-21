@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Soat10.TechChallenge.Application.ProductApplication.Requests;
 using Soat10.TechChallenge.Domain.Entities;
 using Soat10.TechChallenge.Domain.Enums;
 using Soat10.TechChallenge.Domain.Interfaces;
@@ -49,8 +50,17 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 
         public async  Task UpdateAsync(Product product)
         {
-            _context.Products.Update(product);
+            var existingEntity = _context.Products.Local.FirstOrDefault(p => p.Id == product.Id);
+            if (existingEntity != null)
+            {
+                _context.Entry(existingEntity).CurrentValues.SetValues(product);
+            }
+            else
+            {
+                _context.Products.Update(product); // Atualize ou adicione a entidade
+            }
             await _context.SaveChangesAsync();
+
         }
     }
 }

@@ -16,7 +16,8 @@ namespace Soat10.TechChallenge.Application.ProductApplication.Validations
                 .MaximumLength(200).WithMessage("A descrição do produto deve conter no máximo 200 caracteres.");
 
             RuleFor(x => x.ProductCategory)
-                .NotEmpty().WithMessage("A categoria do produto é obrigatória.");
+                .NotNull().WithMessage("A categoria do produto é obrigatória.")
+                .IsInEnum().WithMessage("Categoria inválida.");
 
             RuleFor(x => x.Price)
                 .GreaterThan(0).WithMessage("O preço do produto deve ser maior que zero.");

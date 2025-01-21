@@ -1,6 +1,7 @@
 ﻿using Soat10.TechChallenge.Application.ProductApplication.Requests;
 using Soat10.TechChallenge.Application.ProductApplication.Responses;
 using Soat10.TechChallenge.Domain.Entities;
+using Soat10.TechChallenge.Domain.Enums;
 
 namespace Soat10.TechChallenge.Application.ProductApplication.ExtensionsProducts
 {
@@ -66,6 +67,7 @@ namespace Soat10.TechChallenge.Application.ProductApplication.ExtensionsProducts
                 );
         }
 
+
         public static IEnumerable<ProductResponse> ProductToProductResponse(this IEnumerable<Product> products)
         {
             var productResponse = new List<ProductResponse>();
@@ -92,9 +94,21 @@ namespace Soat10.TechChallenge.Application.ProductApplication.ExtensionsProducts
 
         public static Product CreateProductRequestToProduct(this ProductRequest productRequest)
         {
-            return new Product(productRequest.Name ?? "", productRequest.ProductCategory, productRequest.Price);
+            return new Product(productRequest.Name ?? "" , productRequest.Description ?? "", productRequest.ProductCategory, productRequest.Price);
         }
 
-
+        public static Product UpdateProductRequestToProduct(this ProductRequest productRequest, int id)
+        {
+            return new Product(
+                id, 
+                productRequest.Name ?? "", 
+                productRequest.ProductCategory,
+                productRequest.Price,
+                productRequest.TimeToPrepare,
+                productRequest.Note,
+                productRequest.QuantityInStock,
+                productRequest.Description ?? ""
+            );
+        }
     }
 }
