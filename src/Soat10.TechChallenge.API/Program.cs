@@ -9,7 +9,7 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../.."));
+var rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
 var envFilePath = Path.Combine(rootPath, ".env");
 
 if (File.Exists(envFilePath))
