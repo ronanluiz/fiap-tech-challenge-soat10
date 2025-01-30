@@ -10,9 +10,9 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 COPY . ./
-RUN dotnet restore src/Soat10.TechChallenge/Soat10.TechChallenge.API/Soat10.TechChallenge.API.csproj
+RUN dotnet restore src/Soat10.TechChallenge.API/Soat10.TechChallenge.API.csproj
 COPY . .
-RUN dotnet publish src/Soat10.TechChallenge/Soat10.TechChallenge.API/Soat10.TechChallenge.API.csproj -c Release -o /app
+RUN dotnet publish src/Soat10.TechChallenge.API/Soat10.TechChallenge.API.csproj -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
