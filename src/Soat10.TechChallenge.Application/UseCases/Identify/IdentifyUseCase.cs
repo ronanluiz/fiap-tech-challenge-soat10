@@ -1,44 +1,30 @@
-﻿using FluentValidation;
-using Soat10.TechChallenge.Domain.Interfaces;
+﻿using Soat10.TechChallenge.Application.Dtos;
+using Soat10.TechChallenge.Application.Entities;
+using Soat10.TechChallenge.Application.Exceptions;
+using Soat10.TechChallenge.Application.Gateways;
+using Soat10.TechChallenge.Application.Validators;
 
 namespace Soat10.TechChallenge.Application.UseCases.Identify
 {
-    public class IdentifyUseCase : IIdentifyUseCase
+    public class IdentifyUseCase
     {
-        private readonly ICustomerRepository _customerRepository;
-        private readonly IValidator<IdentifyRequest> _identifyRequestValidator;
-
-        public IdentifyUseCase(ICustomerRepository customerRepository,
-                               IValidator<IdentifyRequest> identifyRequestValidator)
+        public static async Task<Customer> ExecuteSearchAsync(IdentifyDto identify, CustomerGateway customerGateway)
         {
-            _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
-            _identifyRequestValidator = identifyRequestValidator ?? throw new ArgumentNullException(nameof(identifyRequestValidator));
-        }
-
-        public async Task<IdentifyResponse?> ExecuteSearchAsync(string cpf)
-        {
-            var validationResult = _identifyRequestValidator.Validate(new IdentifyRequest { Cpf = cpf });
+            var validator = new IdentifyValidator();
+            var validationResult = validator.Validate(identify);
             if (!validationResult.IsValid)
             {
-                throw new Exceptions.ValidationException(validationResult.Errors.Select(e => e.ErrorMessage));
+                throw new ValidationException(validationResult.Errors.Select(e => e.ErrorMessage));
             }
 
-            var customer = await _customerRepository.Get(cpf);
+            Customer customer = await customerGateway.GetAsync(identify.Cpf);
 
             if (customer == null)
             {
-                return null;
+                throw new ValidationException("Cliente não encontrado");
             }
 
-            return new IdentifyResponse
-            {
-                Id = customer.Id,
-                CreatedAt = customer.CreatedAt,
-                Name = customer.Name,
-                Email = customer.Email.Address,
-                Cpf = customer.Cpf.Number,
-                Status = customer.Status
-            };
+            return customer;
         }
     }
 }

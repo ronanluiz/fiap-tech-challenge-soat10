@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Soat10.TechChallenge.Domain.Entities;
+using Soat10.TechChallenge.Application.Daos;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfigurations
 {
-    public class ProductConfiguration : IEntityTypeConfiguration<Product>
+    public class ProductConfiguration : IEntityTypeConfiguration<ProductDao>
     {
-        public void Configure(EntityTypeBuilder<Product> builder)
+        public void Configure(EntityTypeBuilder<ProductDao> builder)
         {
             builder.ToTable("product");
 

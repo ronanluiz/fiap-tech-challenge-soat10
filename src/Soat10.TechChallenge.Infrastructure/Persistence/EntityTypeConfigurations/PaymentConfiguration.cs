@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Soat10.TechChallenge.Domain.Entities;
+using Soat10.TechChallenge.Application.Daos;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfigurations
 {
-    public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
+    public class PaymentConfiguration : IEntityTypeConfiguration<PaymentDao>
     {
-        public void Configure(EntityTypeBuilder<Payment> builder)
+        public void Configure(EntityTypeBuilder<PaymentDao> builder)
         {
             builder.ToTable("payment");
             builder.HasKey(p => p.Id);

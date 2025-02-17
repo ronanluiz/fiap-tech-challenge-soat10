@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Soat10.TechChallenge.Application.Entities;
 
 namespace Soat10.TechChallenge.Application.UseCases.CustomerRegistration
 {
@@ -23,7 +24,7 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerRegistration
 
         private static bool Validate(string cpf)
         {
-            return new Domain.ValueObjects.Cpf(cpf).CheckIsValid();
+            return new Cpf(cpf).CheckIsValid();
         }
     }
 }

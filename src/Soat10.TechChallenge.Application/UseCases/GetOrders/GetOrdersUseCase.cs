@@ -1,21 +1,13 @@
-﻿using Soat10.TechChallenge.Domain.Interfaces;
+﻿using Soat10.TechChallenge.Application.Entities;
+using Soat10.TechChallenge.Application.Gateways;
 
 namespace Soat10.TechChallenge.Application.UseCases.GetOrders
 {
-    public class GetOrdersUseCase : IGetOrdersUseCase
+    public class GetOrdersUseCase
     {
-        private readonly IOrderRepository _orderRepository;
-
-        public GetOrdersUseCase(IOrderRepository orderRepository)
+        public static async Task<IEnumerable<Order>> ExecuteAsync(OrderGateway orderGateway)
         {
-            _orderRepository = orderRepository;
-        }
-
-        public async Task<IEnumerable<GetOrdersResponse>> GetOrdersAsync()
-        {
-            var orders = await _orderRepository.GetAllAsync();
-
-            return orders.OrdersToOrderResponse();
+            return await orderGateway.GetAllAsync();
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Soat10.TechChallenge.Domain.Entities;
-using Soat10.TechChallenge.Domain.Enums;
+using Soat10.TechChallenge.Application.Daos;
+using Soat10.TechChallenge.Application.Enums;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfigurations
 {
-    public class OrderConfiguration : IEntityTypeConfiguration<Order>
+    public class OrderConfiguration : IEntityTypeConfiguration<OrderDao>
     {
-        public void Configure(EntityTypeBuilder<Order> builder)
+        public void Configure(EntityTypeBuilder<OrderDao> builder)
         {
             builder.ToTable("order");
             builder.HasKey(o => o.Id);
@@ -26,6 +26,12 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
                 .WithMany()
                 .HasForeignKey(o => o.CustomerId)
                 .HasConstraintName("fk_order_customer")
+            .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(o => o.Items)
+                .WithOne()
+                .HasForeignKey(i => i.OrderId)
+                .HasConstraintName("fk_order_item_order")
             .OnDelete(DeleteBehavior.Restrict);
         }
     }

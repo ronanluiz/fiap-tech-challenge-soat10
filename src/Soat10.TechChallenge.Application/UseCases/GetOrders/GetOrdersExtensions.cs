@@ -1,4 +1,4 @@
-﻿using Soat10.TechChallenge.Domain.Entities;
+﻿using Soat10.TechChallenge.Application.Entities;
 
 namespace Soat10.TechChallenge.Application.UseCases.GetOrders
 {

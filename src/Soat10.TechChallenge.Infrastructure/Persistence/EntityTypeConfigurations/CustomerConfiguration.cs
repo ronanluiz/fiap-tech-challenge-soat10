@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Soat10.TechChallenge.Domain.Entities;
+using Soat10.TechChallenge.Application.Daos;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfigurations
 {
 
-    public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
+    public class CustomerConfiguration : IEntityTypeConfiguration<CustomerDao>
     {
-        public void Configure(EntityTypeBuilder<Customer> builder)
+        public void Configure(EntityTypeBuilder<CustomerDao> builder)
         {
             builder.ToTable("customer");
             builder.HasKey(c => c.Id);
@@ -23,13 +23,11 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
                    .IsRequired()
                    .HasMaxLength(255);
 
-            builder.OwnsOne(x => x.Email)
-                    .Property(x => x.Address)
+            builder.Property(x => x.Email)
                     .HasColumnName("email")
                     .HasMaxLength(255);
 
-            builder.OwnsOne(x => x.Cpf)
-                    .Property(x => x.Number)
+            builder.Property(x => x.Cpf)
                     .HasColumnName("cpf")
                     .HasMaxLength(11);
 

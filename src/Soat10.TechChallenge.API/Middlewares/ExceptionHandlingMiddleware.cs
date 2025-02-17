@@ -1,5 +1,4 @@
 ﻿using Soat10.TechChallenge.Application.Exceptions;
-using Soat10.TechChallenge.Domain.Exceptions;
 using System.Text.Json;
 
 namespace Soat10.TechChallenge.API.Middlewares

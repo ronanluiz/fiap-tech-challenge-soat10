@@ -7,22 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ProductApplication\DTOs\**" />
-    <Compile Remove="ProductApplication\Exceptions\**" />
-    <EmbeddedResource Remove="ProductApplication\DTOs\**" />
-    <EmbeddedResource Remove="ProductApplication\Exceptions\**" />
-    <None Remove="ProductApplication\DTOs\**" />
-    <None Remove="ProductApplication\Exceptions\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Soat10.TechChallenge.Domain\Soat10.TechChallenge.Domain.csproj" />
   </ItemGroup>
 
 </Project>
