@@ -1,7 +1,7 @@
-﻿using Soat10.TechChallenge.Application.Interfaces;
-using Soat10.TechChallenge.Application.Entities;
+﻿using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Mappers;
-using Soat10.TechChallenge.Application.Daos;
+using Soat10.TechChallenge.Application.Common.Daos;
+using Soat10.TechChallenge.Application.Common.Interfaces;
 
 namespace Soat10.TechChallenge.Application.Gateways
 {
@@ -9,9 +9,14 @@ namespace Soat10.TechChallenge.Application.Gateways
     {
         private readonly IDataRepository _dataRepository;
 
-        public CustomerGateway(IDataRepository dataRepository)
+        private CustomerGateway(IDataRepository dataRepository)
         {
             _dataRepository = dataRepository;
+        }
+
+        public static CustomerGateway Build(IDataRepository dataRepository)
+        {
+            return new CustomerGateway(dataRepository);
         }
         
         public async Task<int> AddAsync(Customer customer)

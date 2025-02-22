@@ -1,5 +1,5 @@
-﻿using Soat10.TechChallenge.Application.Daos;
-using Soat10.TechChallenge.Application.Interfaces;
+﻿using Soat10.TechChallenge.Application.Common.Daos;
+using Soat10.TechChallenge.Application.Common.Interfaces;
 
 namespace Soat10.TechChallenge.Application.Gateways
 {
@@ -7,9 +7,14 @@ namespace Soat10.TechChallenge.Application.Gateways
     {
         private readonly IDataRepository _dataRepository;
 
-        public ProductGateway(IDataRepository dataRepository)
+        private ProductGateway(IDataRepository dataRepository)
         {
             _dataRepository = dataRepository;
+        }
+
+        public static ProductGateway Build(IDataRepository dataRepository)
+        {
+            return new ProductGateway(dataRepository);
         }
 
         public async Task<ProductDao?> GetByIdAsync(int id)

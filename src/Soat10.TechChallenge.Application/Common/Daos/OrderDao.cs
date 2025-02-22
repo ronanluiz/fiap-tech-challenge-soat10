@@ -1,14 +1,14 @@
 ﻿using Soat10.TechChallenge.Application.Enums;
 
-namespace Soat10.TechChallenge.Application.Dtos
+namespace Soat10.TechChallenge.Application.Common.Daos
 {
-    public class OrderDto
+    public class OrderDao
     {
         public int Id { get; set; }
         public OrderStatus Status { get; set; }
-        public virtual CustomerDto Customer { get; set; }
+        public virtual CustomerDao Customer { get; set; }
         public int CustomerId { get; set; }
-        public virtual ICollection<OrderItemDto> Items { get; set; } = [];
+        public virtual ICollection<OrderItemDao> Items { get; set; } = [];
         public decimal Amount { get; set; }
     }
 }

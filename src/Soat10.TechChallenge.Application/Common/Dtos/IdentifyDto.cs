@@ -1,4 +1,4 @@
-﻿namespace Soat10.TechChallenge.Application.Dtos
+﻿namespace Soat10.TechChallenge.Application.Common.Dtos
 {
     public class IdentifyDto
     {

@@ -1,10 +1,10 @@
 ﻿using Bogus;
-using Soat10.TechChallenge.Application.Daos;
-using Soat10.TechChallenge.Application.Services;
+using Soat10.TechChallenge.Application.Common.Daos;
+using Soat10.TechChallenge.Application.Common.Interfaces;
 
 namespace Soat10.TechChallenge.Infrastructure.ExternalServices
 {
-    public class ExternalService : IExternalService
+    public class ExternalService : IExternalPaymentService
     {
         private readonly MercadoPagoPaymentService _mercadoPagoPaymentService;
 

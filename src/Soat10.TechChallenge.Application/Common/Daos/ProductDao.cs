@@ -1,6 +1,6 @@
 ﻿using Soat10.TechChallenge.Application.Enums;
 
-namespace Soat10.TechChallenge.Application.Daos
+namespace Soat10.TechChallenge.Application.Common.Daos
 {
     public class ProductDao
     {

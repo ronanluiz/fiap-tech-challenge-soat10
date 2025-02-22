@@ -1,4 +1,4 @@
-﻿namespace Soat10.TechChallenge.Application.Daos
+﻿namespace Soat10.TechChallenge.Application.Common.Daos
 {
     public class CustomerDao
     {

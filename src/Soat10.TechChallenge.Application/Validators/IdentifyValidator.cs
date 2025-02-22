@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Soat10.TechChallenge.Application.Dtos;
+using Soat10.TechChallenge.Application.Common.Dtos;
 
 namespace Soat10.TechChallenge.Application.Validators
 {

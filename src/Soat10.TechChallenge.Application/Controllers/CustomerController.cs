@@ -1,7 +1,7 @@
-﻿using Soat10.TechChallenge.Application.Dtos;
+﻿using Soat10.TechChallenge.Application.Common.Dtos;
+using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Gateways;
-using Soat10.TechChallenge.Application.Interfaces;
 using Soat10.TechChallenge.Application.Mappers;
 using Soat10.TechChallenge.Application.UseCases.CustomerRegistration;
 
@@ -11,14 +11,19 @@ namespace Soat10.TechChallenge.Application.Controllers
     {
         private readonly IDataRepository _dataRepository;
 
-        public CustomerController(IDataRepository dataRepository)
+        private CustomerController(IDataRepository dataRepository)
         {
             _dataRepository = dataRepository;
         }
 
+        public static CustomerController Build(IDataRepository dataRepository)
+        {
+            return new CustomerController(dataRepository);
+        }
+
         public async Task CreateCustomer(CustomerDto customerDto)
         {
-            var customerGateway = new CustomerGateway(_dataRepository);
+            var customerGateway = CustomerGateway.Build(_dataRepository);
 
             await CustomerRegistrationUseCase.ExecuteAsync(customerDto, customerGateway);
         }

@@ -4,10 +4,9 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Soat10.TechChallenge.API.Middlewares;
 using Soat10.TechChallenge.Application;
+using Soat10.TechChallenge.Application.Common.Dtos;
+using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Controllers;
-using Soat10.TechChallenge.Application.Dtos;
-using Soat10.TechChallenge.Application.Interfaces;
-using Soat10.TechChallenge.Application.Services;
 using Soat10.TechChallenge.Application.Validators;
 using Soat10.TechChallenge.Infrastructure;
 using System.Reflection;
@@ -68,18 +67,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseAuthorization();
-
-//app.MapControllers();
-
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapPost("/api/checkouts", async ([FromServices] IServiceProvider serviceProvider, [FromBody] CheckoutDto checkout) =>
 {
     IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
-    IExternalService externalService = serviceProvider.GetService<IExternalService>();
+    IExternalPaymentService externalService = serviceProvider.GetService<IExternalPaymentService>();
 
-    var controller = new Soat10.TechChallenge.Application.Controllers.OrderController(dataRepository, externalService);
+    var controller = OrderController.Build(dataRepository, externalService);
 
     await controller.ExecuteOrderCheckoutAsync(checkout);
 
@@ -89,20 +84,20 @@ app.MapPost("/api/checkouts", async ([FromServices] IServiceProvider serviceProv
 app.MapGet("/api/orders", async ([FromServices] IServiceProvider serviceProvider) =>
 {
     IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
-    IExternalService externalService = serviceProvider.GetService<IExternalService>();
+    IExternalPaymentService externalService = serviceProvider.GetService<IExternalPaymentService>();
 
-    var controller = new OrderController(dataRepository, externalService);
+    var controller = OrderController.Build(dataRepository, externalService);
 
-    IJsonPresenter jsonPresenter = await controller.GetAllOrders();
+    IEnumerable<OrderDto> orders = await controller.GetAllOrders();
 
-    return TypedResults.Ok(jsonPresenter.GetPresenter());
+    return TypedResults.Ok(orders);
 });
 
 app.MapPost("/api/customers", async ([FromServices] IServiceProvider serviceProvider, [FromBody] CustomerDto customerDto) =>
 {
     IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
 
-    var controller = new CustomerController(dataRepository);
+    var controller = CustomerController.Build(dataRepository);
 
     await controller.CreateCustomer(customerDto);
 

@@ -1,6 +1,6 @@
 ﻿using Soat10.TechChallenge.Application.Entities;
 
-namespace Soat10.TechChallenge.Application.Dtos
+namespace Soat10.TechChallenge.Application.Common.Dtos
 {
     public class CustomerDto
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Soat10.TechChallenge.Application.Daos;
+using Soat10.TechChallenge.Application.Common.Daos;
 using Soat10.TechChallenge.Application.Enums;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfigurations

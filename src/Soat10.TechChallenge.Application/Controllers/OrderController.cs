@@ -1,9 +1,8 @@
-﻿using Soat10.TechChallenge.Application.Dtos;
+﻿using Soat10.TechChallenge.Application.Common.Dtos;
+using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Gateways;
-using Soat10.TechChallenge.Application.Interfaces;
 using Soat10.TechChallenge.Application.Presenters;
-using Soat10.TechChallenge.Application.Services;
 using Soat10.TechChallenge.Application.UseCases.Checkout;
 using Soat10.TechChallenge.Application.UseCases.GetOrders;
 
@@ -12,35 +11,40 @@ namespace Soat10.TechChallenge.Application.Controllers
     public class OrderController
     {
         private readonly IDataRepository _dataRepository;
-        private readonly IExternalService _externalService;
+        private readonly IExternalPaymentService _externalPaymentService;
 
-        public OrderController(IDataRepository dataRepository, IExternalService externalService)
+        private OrderController(IDataRepository dataRepository, IExternalPaymentService externalPaymentService)
         {
             _dataRepository = dataRepository;
-            _externalService = externalService;
+            _externalPaymentService = externalPaymentService;
+        }
+
+        public static OrderController Build(IDataRepository dataRepository, IExternalPaymentService externalService)
+        {
+            return new OrderController(dataRepository, externalService);
         }
 
         public async Task ExecuteOrderCheckoutAsync(CheckoutDto checkoutDto)
         {   
-            var paymentGateway = new PaymentGateway(_dataRepository);
-            var orderGateway = new OrderGateway(_dataRepository);
-            var paymentServiceGateway = new PaymentServiceGateway(_externalService);
+            var paymentGateway = PaymentGateway.Build(_dataRepository);
+            var orderGateway = OrderGateway.Build(_dataRepository, _externalPaymentService);
+            var paymentServiceGateway = new PaymentServiceGateway(_externalPaymentService);
 
             await CheckoutUseCase.ExecuteAsync(checkoutDto.OrderId,
                 paymentServiceGateway,
-                paymentGateway, 
-                orderGateway);            
+                paymentGateway,
+                orderGateway);
         }
 
-        public async Task<IJsonPresenter> GetAllOrders()
+        public async Task<IEnumerable<OrderDto>> GetAllOrders()
         {
-            var orderGateway = new OrderGateway(_dataRepository);
+            var orderGateway = OrderGateway.Build(_dataRepository, _externalPaymentService);
 
             IEnumerable<Order> orders = await GetOrdersUseCase.ExecuteAsync(orderGateway);
 
-            var presenter = new JsonPresenter<IEnumerable<Order>>(orders);
+            IEnumerable<OrderDto> ordersResult = OrderPresenter.Build(orders);
 
-            return presenter;
+            return ordersResult;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Soat10.TechChallenge.Application.Daos;
+using Soat10.TechChallenge.Application.Common.Daos;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Context
 {

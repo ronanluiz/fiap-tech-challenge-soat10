@@ -1,15 +1,15 @@
-﻿using Soat10.TechChallenge.Application.Daos;
-using Soat10.TechChallenge.Application.Dtos;
+﻿using Soat10.TechChallenge.Application.Common.Daos;
+using Soat10.TechChallenge.Application.Common.Interfaces;
+using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Entities;
-using Soat10.TechChallenge.Application.Services;
 
 namespace Soat10.TechChallenge.Application.Gateways
 {
     public class PaymentServiceGateway
     {
-        private readonly IExternalService _externalService;
+        private readonly IExternalPaymentService _externalService;
 
-        public PaymentServiceGateway(IExternalService externalService)
+        public PaymentServiceGateway(IExternalPaymentService externalService)
         {
             _externalService = externalService;
         }        
