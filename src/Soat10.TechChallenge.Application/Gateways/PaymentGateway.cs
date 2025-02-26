@@ -9,14 +9,9 @@ namespace Soat10.TechChallenge.Application.Gateways
     {
         private readonly IDataRepository _dataRepository;
 
-        private PaymentGateway(IDataRepository dataRepository)
+        public PaymentGateway(IDataRepository dataRepository)
         {
             _dataRepository = dataRepository;
-        }
-
-        public static PaymentGateway Build(IDataRepository dataRepository)
-        {
-            return new PaymentGateway(dataRepository);
         }
 
         public async Task<int> AddAsync(Payment payment)

@@ -26,21 +26,19 @@ namespace Soat10.TechChallenge.Application.Controllers
 
         public async Task ExecuteOrderCheckoutAsync(CheckoutDto checkoutDto)
         {   
-            var paymentGateway = PaymentGateway.Build(_dataRepository);
-            var orderGateway = OrderGateway.Build(_dataRepository, _externalPaymentService);
+            var paymentGateway = new PaymentGateway(_dataRepository);
+            var orderGateway = new OrderGateway(_dataRepository, _externalPaymentService);
             var paymentServiceGateway = new PaymentServiceGateway(_externalPaymentService);
 
-            await CheckoutUseCase.ExecuteAsync(checkoutDto.OrderId,
-                paymentServiceGateway,
-                paymentGateway,
-                orderGateway);
+            await CheckoutUseCase.Build(paymentServiceGateway, paymentGateway, orderGateway)
+                                    .ExecuteAsync(checkoutDto.OrderId);
         }
 
         public async Task<IEnumerable<OrderDto>> GetAllOrders()
         {
-            var orderGateway = OrderGateway.Build(_dataRepository, _externalPaymentService);
+            var orderGateway = new OrderGateway(_dataRepository, _externalPaymentService);
 
-            IEnumerable<Order> orders = await GetOrdersUseCase.ExecuteAsync(orderGateway);
+            IEnumerable<Order> orders = await GetOrdersUseCase.Build(orderGateway).ExecuteAsync();
 
             IEnumerable<OrderDto> ordersResult = OrderPresenter.Build(orders);
 

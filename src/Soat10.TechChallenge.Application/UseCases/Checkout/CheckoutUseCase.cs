@@ -6,23 +6,36 @@ namespace Soat10.TechChallenge.Application.UseCases.Checkout
 {
     public class CheckoutUseCase
     {
-        protected CheckoutUseCase()
-        {
-        }
+        private readonly PaymentServiceGateway _paymentServiceGateway;
+        private readonly PaymentGateway _paymentGateway;
+        private readonly OrderGateway _orderGateway;
 
-        public static async Task ExecuteAsync(int orderId,
-            PaymentServiceGateway paymentServiceGateway,
+        private CheckoutUseCase(PaymentServiceGateway paymentServiceGateway,
             PaymentGateway paymentGateway,
             OrderGateway orderGateway)
         {
-            Order order = await orderGateway.GetByIdAsync(orderId);
-            PaymentOrder paymentOrder = await paymentServiceGateway.Create(order);
+            _paymentServiceGateway = paymentServiceGateway;
+            _paymentGateway = paymentGateway;
+            _orderGateway = orderGateway;
+        }
+
+        public static CheckoutUseCase Build(PaymentServiceGateway paymentServiceGateway,
+            PaymentGateway paymentGateway,
+            OrderGateway orderGateway)
+        {
+            return new CheckoutUseCase(paymentServiceGateway, paymentGateway, orderGateway);
+        }
+
+        public async Task ExecuteAsync(int orderId)
+        {
+            Order order = await _orderGateway.GetByIdAsync(orderId);
+            PaymentOrder paymentOrder = await _paymentServiceGateway.Create(order);
 
             order.ChangeStatus(OrderStatus.Paid);
-            await orderGateway.UpdateAsync(order);
+            await _orderGateway.UpdateAsync(order);
 
             Payment payment = new(paymentOrder.Id, order.Id, order.Amount);
-            await paymentGateway.AddAsync(payment);
+            await _paymentGateway.AddAsync(payment);
         }
     }
 }

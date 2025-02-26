@@ -8,16 +8,27 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerRegistration
 {
     public class CustomerRegistrationUseCase
     {
-        public static async Task ExecuteAsync(CustomerDto customerDto,
-            CustomerGateway customerGateway)
+        private readonly CustomerGateway _customerGateway;
+
+        private CustomerRegistrationUseCase(CustomerGateway customerGateway)
         {
-            Customer customerExists = await customerGateway.GetAsync(customerDto.Cpf);
+            _customerGateway = customerGateway;
+        }
+
+        public static CustomerRegistrationUseCase Build(CustomerGateway customerGateway)
+        {
+            return new CustomerRegistrationUseCase(customerGateway);
+        }
+
+        public async Task ExecuteAsync(CustomerDto customerDto)
+        {
+            Customer customerExists = await _customerGateway.GetAsync(customerDto.Cpf);
             if (customerExists != null)
             {
                 throw new NotAllowedException($"Cliente com o CPF {customerDto.Cpf} já está cadastrado.");
             }
             Customer customer = Mapper.MapToEntity(customerDto);
-            await customerGateway.AddAsync(customer);
+            await _customerGateway.AddAsync(customer);
         }
     }
 }

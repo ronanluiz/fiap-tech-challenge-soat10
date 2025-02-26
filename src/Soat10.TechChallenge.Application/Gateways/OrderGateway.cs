@@ -10,15 +10,10 @@ namespace Soat10.TechChallenge.Application.Gateways
         private readonly IDataRepository _dataRepository;
         private readonly IExternalPaymentService _externalPaymentService;
 
-        private OrderGateway(IDataRepository dataRepository, IExternalPaymentService externalPaymentService)
+        public OrderGateway(IDataRepository dataRepository, IExternalPaymentService externalPaymentService)
         {
             _dataRepository = dataRepository;
             _externalPaymentService = externalPaymentService;
-        }
-
-        public static OrderGateway Build(IDataRepository dataRepository, IExternalPaymentService externalPaymentService)
-        {
-            return new OrderGateway(dataRepository, externalPaymentService);
         }
 
         public async Task<Order> GetByIdAsync(int id)

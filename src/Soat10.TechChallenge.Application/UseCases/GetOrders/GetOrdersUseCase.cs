@@ -5,9 +5,21 @@ namespace Soat10.TechChallenge.Application.UseCases.GetOrders
 {
     public class GetOrdersUseCase
     {
-        public static async Task<IEnumerable<Order>> ExecuteAsync(OrderGateway orderGateway)
+        private readonly OrderGateway _orderGateway;
+
+        private GetOrdersUseCase(OrderGateway orderGateway)
         {
-            return await orderGateway.GetAllAsync();
+            _orderGateway = orderGateway;
+        }
+
+        public static GetOrdersUseCase Build(OrderGateway orderGateway)
+        {
+            return new GetOrdersUseCase(orderGateway);
+        }
+
+        public async Task<IEnumerable<Order>> ExecuteAsync()
+        {
+            return await _orderGateway.GetAllAsync();
         }
     }
 }

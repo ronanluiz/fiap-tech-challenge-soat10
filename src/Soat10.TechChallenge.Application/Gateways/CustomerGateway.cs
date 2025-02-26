@@ -9,14 +9,9 @@ namespace Soat10.TechChallenge.Application.Gateways
     {
         private readonly IDataRepository _dataRepository;
 
-        private CustomerGateway(IDataRepository dataRepository)
+        public CustomerGateway(IDataRepository dataRepository)
         {
             _dataRepository = dataRepository;
-        }
-
-        public static CustomerGateway Build(IDataRepository dataRepository)
-        {
-            return new CustomerGateway(dataRepository);
         }
         
         public async Task<int> AddAsync(Customer customer)

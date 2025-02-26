@@ -7,14 +7,9 @@ namespace Soat10.TechChallenge.Application.Gateways
     {
         private readonly IDataRepository _dataRepository;
 
-        private ProductGateway(IDataRepository dataRepository)
+        public ProductGateway(IDataRepository dataRepository)
         {
             _dataRepository = dataRepository;
-        }
-
-        public static ProductGateway Build(IDataRepository dataRepository)
-        {
-            return new ProductGateway(dataRepository);
         }
 
         public async Task<ProductDao?> GetByIdAsync(int id)

@@ -1,8 +1,6 @@
 ﻿using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
-using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Gateways;
-using Soat10.TechChallenge.Application.Mappers;
 using Soat10.TechChallenge.Application.UseCases.CustomerRegistration;
 
 namespace Soat10.TechChallenge.Application.Controllers
@@ -23,9 +21,9 @@ namespace Soat10.TechChallenge.Application.Controllers
 
         public async Task CreateCustomer(CustomerDto customerDto)
         {
-            var customerGateway = CustomerGateway.Build(_dataRepository);
+            var customerGateway = new CustomerGateway(_dataRepository);
 
-            await CustomerRegistrationUseCase.ExecuteAsync(customerDto, customerGateway);
+            await CustomerRegistrationUseCase.Build(customerGateway).ExecuteAsync(customerDto);
         }
     }
 }
