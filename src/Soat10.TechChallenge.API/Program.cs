@@ -93,14 +93,14 @@ app.MapGet("/api/orders", async ([FromServices] IServiceProvider serviceProvider
     return TypedResults.Ok(orders);
 });
 
-app.MapGet("/api/orders/list", async ([FromServices] IServiceProvider serviceProvider) =>
+app.MapGet("/api/orders/status", async ([FromServices] IServiceProvider serviceProvider) =>
 {
     IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
     IExternalPaymentService externalService = serviceProvider.GetService<IExternalPaymentService>();
 
     var controller = OrderController.Build(dataRepository, externalService);
 
-    IEnumerable<OrderDto> orders = await controller.GetPreparingOrders();
+    IEnumerable<OrderStatusDto> orders = await controller.GetStatusOrders();
 
     return TypedResults.Ok(orders);
 });

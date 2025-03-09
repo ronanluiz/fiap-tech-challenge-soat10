@@ -44,9 +44,9 @@ namespace Soat10.TechChallenge.Application.Gateways
             return ordersReturn;
         }
 
-        public async Task<IEnumerable<Order>> GetPreparingAsync()
+        public async Task<IEnumerable<Order>> GetStatusAsync()
         {
-            IEnumerable<OrderDao> orders = await _dataRepository.GetPreparingOrdersAsync();
+            IEnumerable<OrderDao> orders = await _dataRepository.GetStatusOrdersAsync();
             IList<Order> ordersReturn = new List<Order>();
 
             foreach (OrderDao order in orders)

@@ -30,7 +30,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<OrderDao>> GetPreparingAsync()
+        public async Task<IEnumerable<OrderDao>> GetStatusAsync()
         {
             return await _context.Orders
                 .AsNoTracking()

@@ -42,9 +42,9 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return await _orderRepository.GetAllAsync();
         }
 
-        public async Task<IEnumerable<OrderDao>> GetPreparingOrdersAsync()
+        public async Task<IEnumerable<OrderDao>> GetStatusOrdersAsync()
         {
-            return await _orderRepository.GetPreparingAsync();
+            return await _orderRepository.GetStatusAsync();
         }
 
         public Task<IEnumerable<ProductDao>> GetAllProductsAsync()
