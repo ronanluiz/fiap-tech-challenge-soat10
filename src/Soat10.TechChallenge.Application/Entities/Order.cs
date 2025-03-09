@@ -18,6 +18,15 @@ namespace Soat10.TechChallenge.Application.Entities
             Validate();
         }
 
+        public Order(int id, Customer customer, List<OrderItem> orderItems, OrderStatus status) : base(id)
+        {
+            Customer = customer;
+            Status = status;
+            Items = orderItems;
+
+            Validate();
+        }
+
         public Order(OrderStatus status, Customer customer, int customerId, List<OrderItem> items, decimal amount)
         {
             Status = status;

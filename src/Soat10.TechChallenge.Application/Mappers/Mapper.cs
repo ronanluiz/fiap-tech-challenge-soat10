@@ -151,7 +151,7 @@ namespace Soat10.TechChallenge.Application.Mappers
                 orderItems.Add(MapToEntity(item));
             }
 
-            return new Order(orderDao.Id, customer, orderItems);
+            return new Order(orderDao.Id, customer, orderItems, orderDao.Status);
         }
 
         public static OrderItem MapToEntity(OrderItemDao orderItemDao)
