@@ -90,3 +90,97 @@ INSERT INTO order_item (order_id, product_id, quantity, price) VALUES
 
 INSERT INTO payment (payment_id, order_id, amount) VALUES
 ('PAY001', (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'João da Silva')), 1999.99);
+
+--------------------------------------------------------------------------------------------------------------------------------
+-- Atualização Diogo 08/03/2025 - Inserção de clientes adicionais, assim como pedidos e itens dos pedidos
+--------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------
+-- INSERÇÃO DOS PEDIDOS
+------------------------------------------------------------
+
+INSERT INTO customer (customer_id, name, email, cpf)
+VALUES
+  (3, 'José Neves', 'joseneves@outlook.com', '30806499826'),
+  (4, 'Samanta Silva', 'samantas@gmail.com', '16727130809'),
+  (5, 'Clarice Porto', 'claricepor@hotmail.com', '58265515855'),
+  (6, 'Maria da Silva', 'mariasilva@yahoo.com' ,'06044142850'),
+  (7, 'João Oliveira', 'joaoo@hotmail.com', '56156233814'),
+  (8, 'Vanessa Souza', 'vanessasouza@gmail.com', '00171203810'),
+  (9, 'Silvia dos Santos', 'silviasantos@outlook.com', '05475035806'),
+  (10, 'Rodrigo Rodrigues', 'rodrigoro@yahoo.com', '94278522835'),
+  (11, 'Marcos Borges', 'marcosborges@gmail.com', '71197537899'),
+  (12, 'Helena Cardoso', 'cardosoh@outlook.com', '18581319874'),
+  (13, 'Rafaela Ferreira', 'rafaelaferreira@hotmail.com', '75722338800'),
+  (14, 'Ana Machado', 'machadoana@outlook.com.br', '93257754841');
+
+------------------------------------------------------------
+-- INSERÇÃO DOS PEDIDOS
+------------------------------------------------------------
+INSERT INTO "order" (order_id, customer_id, status, amount)
+VALUES
+  (3, 14, 'Pronto', 13.50),         
+  (4, 13, 'Em Preparação', 9.00),   
+  (5, 12, 'Recebido', 20.00),         
+  (6, 11, 'Finalizado', 12.50),     
+  (7, 10, 'Pronto', 15.00),       
+  (8, 9, 'Em Preparação', 11.00),   
+  (9, 8, 'Recebido', 15.00),        
+  (10, 7, 'Finalizado', 18.00),      
+  (11, 6, 'Pronto', 12.00),          
+  (12, 5, 'Em Preparação', 15.50),    
+  (13, 4, 'Recebido', 20.00),
+  (14, 3, 'Finalizado', 12.50);
+
+------------------------------------------------------------
+-- INSERÇÃO DOS ITENS DOS PEDIDOS
+------------------------------------------------------------
+INSERT INTO order_item (order_item_id, order_id, product_id, quantity, price, note)
+VALUES
+  -- Pedido 3
+  (3, 3, 1, 1, 10.00, NULL),
+  (4, 3, 3, 1, 3.50, NULL),
+
+  -- Pedido 4
+  (5, 4, 2, 1, 5.00, NULL),
+  (6, 4, 4, 1, 4.00, NULL),
+
+  -- Pedido 5
+  (7, 5, 1, 2, 10.00, NULL),
+
+  -- Pedido 6
+  (8, 6, 2, 1, 5.00, NULL),
+  (9, 6, 3, 1, 3.50, NULL),
+  (10, 6, 4, 1, 4.00, NULL),
+
+  -- Pedido 7
+  (11, 7, 1, 1, 10.00, NULL),
+  (12, 7, 2, 1, 5.00, NULL),
+
+  -- Pedido 8
+  (13, 8, 3, 2, 3.50, NULL),
+  (14, 8, 4, 1, 4.00, NULL),
+
+  -- Pedido 9
+  (15, 9, 2, 3, 5.00, NULL),
+
+  -- Pedido 10
+  (16, 10, 4, 2, 4.00, NULL),
+  (17, 10, 1, 1, 10.00, NULL),
+
+  -- Pedido 11
+  (18, 11, 3, 2, 3.50, NULL),
+  (19, 11, 2, 1, 5.00, NULL),
+
+  -- Pedido 12
+  (20, 12, 4, 3, 4.00, NULL),
+  (21, 12, 3, 1, 3.50, NULL),
+
+  -- Pedido 13
+  (22, 13, 2, 2, 5.00, NULL),
+  (23, 13, 1, 1, 10.00, NULL),
+
+  -- Pedido 14
+  (24, 14, 3, 1, 3.50, NULL),
+  (25, 14, 4, 1, 4.00, NULL),
+  (26, 14, 2, 1, 5.00, NULL);

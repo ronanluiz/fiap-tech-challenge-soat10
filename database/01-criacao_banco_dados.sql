@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS product (
 CREATE TABLE IF NOT EXISTS "order" (
     order_id SERIAL PRIMARY KEY,
     customer_id INTEGER NOT NULL,
-    status VARCHAR(255) NOT NULL DEFAULT 'Requested',
+    status VARCHAR(255) NOT NULL DEFAULT 'Recebido',
     amount DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT
 );
