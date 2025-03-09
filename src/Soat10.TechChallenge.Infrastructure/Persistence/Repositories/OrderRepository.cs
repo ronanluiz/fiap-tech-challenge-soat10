@@ -29,5 +29,12 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<OrderDao>> GetPreparingAsync()
+        {
+            return await _context.Orders
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }

@@ -119,18 +119,18 @@ VALUES
 ------------------------------------------------------------
 INSERT INTO "order" (order_id, customer_id, status, amount)
 VALUES
-  (3, 14, 'Pronto', 13.50),         
-  (4, 13, 'Em Preparação', 9.00),   
-  (5, 12, 'Recebido', 20.00),         
-  (6, 11, 'Finalizado', 12.50),     
-  (7, 10, 'Pronto', 15.00),       
-  (8, 9, 'Em Preparação', 11.00),   
-  (9, 8, 'Recebido', 15.00),        
-  (10, 7, 'Finalizado', 18.00),      
-  (11, 6, 'Pronto', 12.00),          
-  (12, 5, 'Em Preparação', 15.50),    
-  (13, 4, 'Recebido', 20.00),
-  (14, 3, 'Finalizado', 12.50);
+  (3, 14, 'Ready', 13.50),         
+  (4, 13, 'Preparing', 9.00),   
+  (5, 12, 'Received', 20.00),         
+  (6, 11, 'Finished', 12.50),     
+  (7, 10, 'Ready', 15.00),       
+  (8, 9, 'Preparing', 11.00),   
+  (9, 8, 'Received', 15.00),        
+  (10, 7, 'Finished', 18.00),      
+  (11, 6, 'Ready', 12.00),          
+  (12, 5, 'Preparing', 15.50),    
+  (13, 4, 'Preparing', 20.00),
+  (14, 3, 'Finished', 12.50);
 
 ------------------------------------------------------------
 -- INSERÇÃO DOS ITENS DOS PEDIDOS

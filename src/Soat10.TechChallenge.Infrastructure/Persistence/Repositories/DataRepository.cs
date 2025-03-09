@@ -42,6 +42,11 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return await _orderRepository.GetAllAsync();
         }
 
+        public async Task<IEnumerable<OrderDao>> GetPreparingOrdersAsync()
+        {
+            return await _orderRepository.GetPreparingAsync();
+        }
+
         public Task<IEnumerable<ProductDao>> GetAllProductsAsync()
         {
             throw new NotImplementedException();

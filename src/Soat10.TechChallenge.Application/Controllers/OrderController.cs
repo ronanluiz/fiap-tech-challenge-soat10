@@ -5,6 +5,7 @@ using Soat10.TechChallenge.Application.Gateways;
 using Soat10.TechChallenge.Application.Presenters;
 using Soat10.TechChallenge.Application.UseCases.Checkout;
 using Soat10.TechChallenge.Application.UseCases.GetOrders;
+using Soat10.TechChallenge.Application.UseCases.GetPreparingOrders;
 
 namespace Soat10.TechChallenge.Application.Controllers
 {
@@ -39,6 +40,17 @@ namespace Soat10.TechChallenge.Application.Controllers
             var orderGateway = new OrderGateway(_dataRepository, _externalPaymentService);
 
             IEnumerable<Order> orders = await GetOrdersUseCase.Build(orderGateway).ExecuteAsync();
+
+            IEnumerable<OrderDto> ordersResult = OrderPresenter.Build(orders);
+
+            return ordersResult;
+        }
+
+        public async Task<IEnumerable<OrderDto>> GetPreparingOrders()
+        {
+            var orderGateway = new OrderGateway(_dataRepository, _externalPaymentService);
+
+            IEnumerable<Order> orders = await GetPreparingOrdersUseCase.Build(orderGateway).ExecuteAsync();
 
             IEnumerable<OrderDto> ordersResult = OrderPresenter.Build(orders);
 

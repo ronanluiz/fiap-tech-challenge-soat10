@@ -44,6 +44,19 @@ namespace Soat10.TechChallenge.Application.Gateways
             return ordersReturn;
         }
 
+        public async Task<IEnumerable<Order>> GetPreparingAsync()
+        {
+            IEnumerable<OrderDao> orders = await _dataRepository.GetPreparingOrdersAsync();
+            IList<Order> ordersReturn = new List<Order>();
+
+            foreach (OrderDao order in orders)
+            {
+                ordersReturn.Add(Mapper.MapToEntity(order));
+            }
+
+            return ordersReturn;
+        }
+
         public async Task<PaymentOrder> ExecutePayment(Order order)
         {
             PaymentOrderDao paymentOrderResponse = await _externalPaymentService.ProcessPaymentAsync(order.Id.ToString(), string.Empty);
