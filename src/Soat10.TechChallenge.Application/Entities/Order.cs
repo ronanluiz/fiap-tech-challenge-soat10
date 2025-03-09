@@ -27,6 +27,13 @@ namespace Soat10.TechChallenge.Application.Entities
             Amount = amount;
         }
 
+        public Order(int id, OrderStatus status) : base(id)
+        {
+            Status = status;
+
+            Validate();
+        }
+
         public OrderStatus Status { get; private set; }
         public virtual Customer Customer { get; private set; }
         public int CustomerId { get; private set; }

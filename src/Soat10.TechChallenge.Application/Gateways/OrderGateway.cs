@@ -1,4 +1,5 @@
 ﻿using Soat10.TechChallenge.Application.Common.Daos;
+using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Mappers;
@@ -47,14 +48,8 @@ namespace Soat10.TechChallenge.Application.Gateways
         public async Task<IEnumerable<Order>> GetStatusAsync()
         {
             IEnumerable<OrderDao> orders = await _dataRepository.GetStatusOrdersAsync();
-            IList<Order> ordersReturn = new List<Order>();
 
-            foreach (OrderDao order in orders)
-            {
-                ordersReturn.Add(Mapper.MapToEntity(order));
-            }
-
-            return ordersReturn;
+            return orders.Select(Mapper.MapToEntity);
         }
 
         public async Task<PaymentOrder> ExecutePayment(Order order)

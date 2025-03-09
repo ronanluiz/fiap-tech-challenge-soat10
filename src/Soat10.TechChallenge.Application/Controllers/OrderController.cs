@@ -51,7 +51,7 @@ namespace Soat10.TechChallenge.Application.Controllers
         {
             var orderGateway = new OrderGateway(_dataRepository, _externalPaymentService);
 
-            IEnumerable<Order> orders = await GetStatusOrdersUseCase.Build(orderGateway).ExecuteAsync();
+            IEnumerable<OrderStatusDto> orders = await GetStatusOrdersUseCase.Build(orderGateway).ExecuteAsync();
 
             IEnumerable<OrderStatusDto> ordersResult = OrderStatusPresenter.Build(orders);
 

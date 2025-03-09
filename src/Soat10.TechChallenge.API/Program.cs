@@ -30,6 +30,14 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnCh
                    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
                    .AddEnvironmentVariables();
 
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
+
+
 
 //builder.Services.AddControllers(); // Mantém os controladores registrados
 builder.Services.AddFluentValidationAutoValidation(); // Adiciona validação automática com FluentValidation

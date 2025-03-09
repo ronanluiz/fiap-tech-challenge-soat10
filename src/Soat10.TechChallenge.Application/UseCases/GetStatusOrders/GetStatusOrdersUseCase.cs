@@ -1,5 +1,7 @@
-﻿using Soat10.TechChallenge.Application.Entities;
+﻿using Soat10.TechChallenge.Application.Common.Dtos;
+using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Gateways;
+using Soat10.TechChallenge.Application.Mappers;
 
 namespace Soat10.TechChallenge.Application.UseCases.GetStatusOrdersUseCase
 {
@@ -17,9 +19,11 @@ namespace Soat10.TechChallenge.Application.UseCases.GetStatusOrdersUseCase
             return new GetStatusOrdersUseCase(orderGateway);
         }
 
-        public async Task<IEnumerable<Order>> ExecuteAsync()
+        public async Task<IEnumerable<OrderStatusDto>> ExecuteAsync()
         {
-            return await _orderGateway.GetStatusAsync();
+            IEnumerable<Order> orders = await _orderGateway.GetStatusAsync();
+
+            return orders.Select(Mapper.MapToStatusDto);
         }
     }
 }
