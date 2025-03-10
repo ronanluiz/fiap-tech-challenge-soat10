@@ -31,7 +31,7 @@ var app = builder.Build();
 
 // app.UseHttpsRedirection();
 
-app.MapPost("/payment-request-status", async ([FromQuery] string id, [FromQuery] string topic) =>
+app.MapPost("/payment-request-status", async (string id, string topic) =>
 {
     Console.WriteLine($"id: {id}, topic: {topic}");
 
