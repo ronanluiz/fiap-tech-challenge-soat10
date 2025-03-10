@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Refit;
 using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Infrastructure.ExternalServices;
 using Soat10.TechChallenge.Infrastructure.Persistence.Context;
@@ -18,6 +19,11 @@ namespace Soat10.TechChallenge.Infrastructure
             services.AddScoped<OrderRepository>();
             services.AddScoped<PaymentRepository>();
             services.AddScoped<MercadoPagoPaymentService>();
+
+            services
+                .AddRefitClient<IMercadoPagoApi>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.mercadopago.com"));
+        
 
             //Para realização de testes rápido em product
             //services.AddTransient<IProductRepository>(provider => new ProductRepositoryTemp("products.json"));

@@ -2,13 +2,15 @@
 {
     public class PaymentOrder
     {
-        public PaymentOrder(string id, string qrData)
+        public PaymentOrder(string id, string orderId, string status)
         {
             Id = id;
-            QrData = qrData;
+            OrderId = orderId;
+            Status = status;
         }
 
         public string Id { get; private set; }
-        public string QrData { get; private set; }
+        public string OrderId { get; private set; }
+        public string Status { get; set; }
     }
 }

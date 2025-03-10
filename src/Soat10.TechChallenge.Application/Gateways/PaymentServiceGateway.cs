@@ -18,7 +18,14 @@ namespace Soat10.TechChallenge.Application.Gateways
         {
             PaymentOrderDao paymentOrderResponse = await _externalService.ProcessPaymentAsync(order.Id.ToString(), string.Empty);
 
-            return new PaymentOrder(paymentOrderResponse.InStoreOrderId, paymentOrderResponse.Qrdata);
+            return new PaymentOrder(paymentOrderResponse.InStoreOrderId, paymentOrderResponse.Qrdata, string.Empty);
+        }
+
+        public async Task<PaymentOrder> Get(string paymentId)
+        {
+            ExternalOrderDao externalOrder = await _externalService.GetPayment(paymentId);
+
+            return new PaymentOrder(externalOrder.Id.ToString(), externalOrder.ExternalReference, externalOrder.Status);
         }
     }
 }

@@ -7,13 +7,11 @@ namespace Soat10.TechChallenge.Application.Gateways
 {
     public class OrderGateway
     {
-        private readonly IDataRepository _dataRepository;
-        private readonly IExternalPaymentService _externalPaymentService;
+        private readonly IDataRepository _dataRepository;        
 
-        public OrderGateway(IDataRepository dataRepository, IExternalPaymentService externalPaymentService)
+        public OrderGateway(IDataRepository dataRepository)
         {
             _dataRepository = dataRepository;
-            _externalPaymentService = externalPaymentService;
         }
 
         public async Task<Order> GetByIdAsync(int id)
@@ -42,13 +40,6 @@ namespace Soat10.TechChallenge.Application.Gateways
             }
 
             return ordersReturn;
-        }
-
-        public async Task<PaymentOrder> ExecutePayment(Order order)
-        {
-            PaymentOrderDao paymentOrderResponse = await _externalPaymentService.ProcessPaymentAsync(order.Id.ToString(), string.Empty);
-
-            return new PaymentOrder(paymentOrderResponse.InStoreOrderId, paymentOrderResponse.Qrdata);
         }
     }
 }
