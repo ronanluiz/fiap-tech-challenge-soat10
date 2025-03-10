@@ -1,0 +1,6 @@
+@Soat10.TechChallenge.Webhook_HostAddress = http://localhost:5244
+
+GET {{Soat10.TechChallenge.Webhook_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
