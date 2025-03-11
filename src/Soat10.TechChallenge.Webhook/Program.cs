@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Soat10.TechChallenge.Application;
 using Soat10.TechChallenge.Infrastructure;
 
@@ -33,7 +32,7 @@ var app = builder.Build();
 
 app.MapPost("/payment-request-status", async (string id, string topic) =>
 {
-    Console.WriteLine($"id: {id}, topic: {topic}");
+    await Task.Run(() => Console.WriteLine($"id: {id}, topic: {topic}"));
 
     return TypedResults.Ok();
 });
