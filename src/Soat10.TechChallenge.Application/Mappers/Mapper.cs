@@ -89,6 +89,7 @@ namespace Soat10.TechChallenge.Application.Mappers
             {
                 return new CustomerDao
                 {
+                    Id = customer.Id,
                     Name = customer.Name
                 };
             }
@@ -190,11 +191,11 @@ namespace Soat10.TechChallenge.Application.Mappers
             };
         }
 
-        public static Customer MapToEntity(CustomerDao customerDto)
+        public static Customer MapToEntity(CustomerDao customerDao)
         {
-            var customer = new Customer(customerDto.Name);
-            var cpf = new Cpf(customerDto.Cpf);
-            var email = new Email(customerDto.Email);
+            var customer = new Customer(customerDao.Id, customerDao.Name);
+            var cpf = new Cpf(customerDao.Cpf);
+            var email = new Email(customerDao.Email);
             customer.SetCpf(cpf);
             customer.SetEmail(email);
 
