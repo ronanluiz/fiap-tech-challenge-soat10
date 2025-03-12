@@ -6,7 +6,9 @@ namespace Soat10.TechChallenge.Application.Common.Interfaces
     {
         Task<int> AddCustomerAsync(CustomerDao customer);
         Task<CustomerDao> GetCustomerAsync(string cpf);
+        Task<CustomerDao> GetCustomerAsync(int id);
         Task<OrderDao> GetOrderByIdAsync(int id);
+        Task<CartDao> GetCartByIdAsync(Guid id);
         Task UpdateOrderAsync(OrderDao order);
         Task<IEnumerable<OrderDao>> GetAllOrdersAsync();
         Task<int> AddPaymentAsync(PaymentDao payment);
@@ -18,5 +20,7 @@ namespace Soat10.TechChallenge.Application.Common.Interfaces
         Task<IEnumerable<ProductDao>> GetProductsByCategoryAsync(string category);
         Task<IEnumerable<ProductDao>> GetProductsByStatusAsync(string status);
         Task<IEnumerable<ProductDao>> GetAvailableProductsAsync();
+        Task<CartDao> AddCartAsync(CartDao cart);
+        Task<CartItemDao> AddCartItemAsync(CartItemDao cartItem);
     }
 }

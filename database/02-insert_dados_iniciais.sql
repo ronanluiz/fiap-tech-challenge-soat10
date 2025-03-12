@@ -7,8 +7,7 @@ INSERT INTO customer (name, email, cpf) VALUES
 -- Inserção de dados na tabela product
 INSERT INTO product (
     name, description, category, price, status, 
-    time_to_prepare, note, is_available, quantity_in_stock, 
-    created_at, updated_at, user_updated
+    time_to_prepare, is_available, created_at
 ) VALUES
 (
     'X-Burguer com Queijo e Bacon',
@@ -16,13 +15,9 @@ INSERT INTO product (
     0, -- Lanche (assumindo que "Lanche" seja representado como 0 no enum)
     10.00,
     1, -- Status 1 (provavelmente representa um valor válido no enum de status)
-    10, -- 10 minutos de preparo, convertido para valor inteiro
-    NULL,
+    10, -- 10 minutos de preparo, convertido para valor inteiro    
     FALSE,
-    10,
-    '2025-01-15T13:25:37.6893259Z',
-    '2025-01-15T13:25:37.689327Z',
-    'João da Silva'
+    '2025-01-15T13:25:37.6893259Z'
 ),
 (
     'Batata Frita Crocante',
@@ -31,12 +26,8 @@ INSERT INTO product (
     5.00,
     1,
     5,
-    NULL,
     TRUE,
-    20,
-    '2025-01-15T14:00:00Z',
-    '2025-01-15T14:00:00Z',
-    'João da Silva'
+    '2025-01-15T14:00:00Z'
 ),
 (
     'Refrigerante Cola 350ml',
@@ -45,12 +36,8 @@ INSERT INTO product (
     3.50,
     1,
     0,
-    NULL,
     TRUE,
-    50,
-    '2025-01-15T14:15:00Z',
-    '2025-01-15T14:15:00Z',
-    'João da Silva'
+    '2025-01-15T14:15:00Z'
 ),
 (
     'Mousse de Maracujá Cremoso',
@@ -59,12 +46,8 @@ INSERT INTO product (
     4.00,
     1,
     3,
-    NULL,
     TRUE,
-    15,
-    '2025-01-15T14:30:00Z',
-    '2025-01-15T14:30:00Z',
-    'Maria Oliveira'
+    '2025-01-15T14:30:00Z'
 );
 
 -- Para inserir em "order", precisamos primeiro obter os IDs dos clientes inseridos

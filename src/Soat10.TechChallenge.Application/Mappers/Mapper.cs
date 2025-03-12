@@ -42,7 +42,7 @@ namespace Soat10.TechChallenge.Application.Mappers
         }
 
         public static OrderItem MapToEntity(OrderItemDto orderItemDto)
-        {   
+        {
             var product = MapToEntity(orderItemDto.Product);
             return new OrderItem
             (
@@ -54,29 +54,60 @@ namespace Soat10.TechChallenge.Application.Mappers
                 orderItemDto.Price,
                 orderItemDto.Note
             );
-        }        
+        }
 
-        public static CustomerDao MapToDao(Customer customer)
+        public static Cart MapToEntity(CartDao cartDao)
         {
-            return new CustomerDao
-            { 
-                Name = customer.Name 
-            };
+            Customer customer = MapToEntity(cartDao.Customer);
+
+            var items = new List<CartItem>();
+            foreach (CartItemDao item in cartDao.Items)
+            {
+                items.Add(MapToEntity(item));
+            }
+
+            return new Cart(cartDao.Id, customer, items, cartDao.Status, cartDao.CreatedAt);
+        }
+
+        public static CartItem MapToEntity(CartItemDao cartItemDao)
+        {
+            Product product = MapToEntity(cartItemDao.Product);
+            return new CartItem
+            (
+                cartItemDao.Id,
+                cartItemDao.CartId,
+                cartItemDao.ProductId,
+                product,
+                cartItemDao.Quantity,
+                cartItemDao.Notes
+            );
+        }
+
+        public static CustomerDao? MapToDao(Customer customer)
+        {
+            if (customer != null)
+            {
+                return new CustomerDao
+                {
+                    Name = customer.Name
+                };
+            }
+            return null;
         }
 
         public static ProductDao MapToDao(Product product)
         {
             return new ProductDao
             {
+                Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
                 IsAvailable = product.IsAvailable,
-                Note = product.Note,
                 Price = product.Price,
                 ProductCategory = product.ProductCategory,
-                QuantityInStock = product.QuantityInStock,
                 Status = product.Status,
-                TimeToPrepare = product.TimeToPrepare
+                TimeToPrepare = product.TimeToPrepare,
+                CreatedAt = product.CreatedAt
             };
         }
 
@@ -101,7 +132,7 @@ namespace Soat10.TechChallenge.Application.Mappers
             };
         }
         public static OrderItemDao MapToDao(OrderItem orderItem)
-        {   
+        {
             var product = MapToDao(orderItem.Product);
             return new OrderItemDao
             {
@@ -122,6 +153,40 @@ namespace Soat10.TechChallenge.Application.Mappers
                 Amount = payment.Amount,
                 Order = MapToDao(payment.Order),
                 OrderId = payment.OrderId
+            };
+        }
+
+        public static CartItemDao MapToDao(CartItem item)
+        {
+            var product = MapToDao(item.Product);
+            return new CartItemDao
+            {
+                Id = item.Id,
+                Notes = item.Notes,
+                Product = product,
+                CartId = item.CartId,
+                ProductId = item.ProductId,
+                Quantity = item.Quantity
+            };
+        }
+
+        public static CartDao MapToDao(Cart cart)
+        {
+            CustomerDao customer = MapToDao(cart.Customer);
+
+            var items = new List<CartItemDao>();
+            foreach (CartItem item in cart.Items)
+            {
+                items.Add(MapToDao(item));
+            }
+            return new CartDao
+            {
+                Id = cart.Id,
+                Customer = customer,
+                CustomerId = customer?.Id,
+                Items = items,
+                Status = cart.Status,
+                CreatedAt = cart.CreatedAt
             };
         }
 
@@ -168,13 +233,16 @@ namespace Soat10.TechChallenge.Application.Mappers
         {
             return new Product
              (
+                productDao.Id,  
                 productDao.Name,
-                productDao.Description,
                 productDao.ProductCategory,
-                productDao.Price
+                productDao.Price,
+                productDao.TimeToPrepare,
+                productDao.Description,
+                productDao.IsAvailable
              );
         }
-        
+
 
         public static OrderDto MapToDto(Order orderEntity)
         {
@@ -236,11 +304,8 @@ namespace Soat10.TechChallenge.Application.Mappers
                 IsAvailable = productEntity.IsAvailable,
                 Name = productEntity.Name,
                 Price = productEntity.Price,
-                Note = productEntity.Note,
                 ProductCategory = productEntity.ProductCategory,
-                QuantityInStock = productEntity.QuantityInStock,
-                TimeToPrepare = productEntity.TimeToPrepare,
-                UpdatedAt = productEntity.UpdatedAt
+                TimeToPrepare = productEntity.TimeToPrepare
             };
         }
     }

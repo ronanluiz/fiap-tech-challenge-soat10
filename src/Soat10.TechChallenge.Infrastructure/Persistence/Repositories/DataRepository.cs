@@ -8,15 +8,22 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
         private readonly CustomerRepository _customerRepository;
         private readonly PaymentRepository _paymentRepository;
         private readonly OrderRepository _orderRepository;
+        private readonly CartRepository _cartRepository;
+        private readonly ProductRepository _productRepository;
 
         public DataRepository(CustomerRepository customerRepository, 
             PaymentRepository paymentRepository,
-            OrderRepository orderRepository)
+            OrderRepository orderRepository,
+            CartRepository cartRepository,
+            ProductRepository productRepository)
         {
             _customerRepository = customerRepository;
             _paymentRepository = paymentRepository;
             _orderRepository = orderRepository;
-        }
+            _cartRepository = cartRepository;
+            _productRepository = productRepository;
+        }        
+
         public async Task<int> AddCustomerAsync(CustomerDao customer)
         {
             return await _customerRepository.AddAsync(customer);
@@ -25,6 +32,23 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
         public async Task<int> AddPaymentAsync(PaymentDao payment)
         {
             return await _paymentRepository.AddAsync(payment);
+        }
+
+        public async Task<CartDao> AddCartAsync(CartDao cart)
+        {
+            await _cartRepository.AddAsync(cart);
+            return cart;
+        }
+
+        public async Task<CartDao> GetCartByIdAsync(Guid id)
+        {
+            return await _cartRepository.GetByIdAsync(id);
+        }
+
+        public async Task<CartItemDao> AddCartItemAsync(CartItemDao cartItem)
+        {
+            await _cartRepository.AddAsync(cartItem);
+            return cartItem;
         }
 
         public Task<int> AddProductAsync(ProductDao product)
@@ -50,9 +74,14 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
         public Task<IEnumerable<ProductDao>> GetAvailableProductsAsync()
         {
             throw new NotImplementedException();
-        }
+        }        
 
         public Task<CustomerDao> GetCustomerAsync(string cpf)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CustomerDao> GetCustomerAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -62,9 +91,9 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return await _orderRepository.GetByIdAsync(id);
         }
 
-        public Task<ProductDao> GetProductByIdAsync(int id)
+        public async Task<ProductDao> GetProductByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _productRepository.GetByIdAsync(id);
         }
 
         public Task<IEnumerable<ProductDao>> GetProductsByCategoryAsync(string category)

@@ -18,6 +18,8 @@ namespace Soat10.TechChallenge.Infrastructure
             services.AddScoped<CustomerRepository>();
             services.AddScoped<OrderRepository>();
             services.AddScoped<PaymentRepository>();
+            services.AddScoped<CartRepository>();
+            services.AddScoped<ProductRepository>();
             services.AddScoped<MercadoPagoPaymentService>();
 
             services

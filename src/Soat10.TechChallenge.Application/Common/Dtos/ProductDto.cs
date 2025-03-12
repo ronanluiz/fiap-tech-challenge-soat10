@@ -11,9 +11,7 @@ namespace Soat10.TechChallenge.Application.Common.Dtos
         public double Price { get; set; }
         public ProductStatusEnum Status { get; set; }
         public TimeSpan TimeToPrepare { get; set; }
-        public string? Note { get; set; }
         public bool IsAvailable { get; set; }
-        public int QuantityInStock { get; set; } = 0;
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string? UserUpdated { get; set; }
