@@ -9,6 +9,13 @@ namespace Soat10.TechChallenge.Application.Entities
     {
         public Order() : base(default) { }
 
+        public Order(Customer customer)
+        {
+            Customer = customer;
+            Status = OrderStatus.Requested;
+            Amount = 0;
+        }
+
         public Order(int id, Customer customer, List<OrderItem> orderItems) : base(id)
         {
             Customer = customer;
@@ -38,11 +45,17 @@ namespace Soat10.TechChallenge.Application.Entities
         public void AddItem(OrderItem item)
         {
             Items.Add(item);
+            CalculateAmount(item);
         }
 
         public void ChangeStatus(OrderStatus orderStatus)
         {
             Status = orderStatus;
+        }
+
+        private void CalculateAmount(OrderItem orderItem)
+        {
+            Amount += orderItem.Quantity * orderItem.Price;
         }
 
         private void Validate()

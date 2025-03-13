@@ -15,8 +15,7 @@ namespace Soat10.TechChallenge.Application.Entities
         [Required]
         public CategoryEnum ProductCategory { get; private set; }
 
-        [Range(0.01, double.MaxValue)]
-        public double Price { get; private set; }
+        public decimal Price { get; private set; }
 
         public ProductStatusEnum Status { get; private set; } = ProductStatusEnum.OutOfStock;
 
@@ -34,7 +33,7 @@ namespace Soat10.TechChallenge.Application.Entities
         }
 
         [JsonConstructor]
-        public Product(int id, string name, CategoryEnum productCategory, double price, TimeSpan timeToPrepare, string? description = "", bool isAvailable = false) : this()
+        public Product(int id, string name, CategoryEnum productCategory, decimal price, TimeSpan timeToPrepare, string? description = "", bool isAvailable = false) : this()
         {
             Id = id;
             SetName(name);
@@ -46,7 +45,7 @@ namespace Soat10.TechChallenge.Application.Entities
             IsAvailable = isAvailable;
         }
 
-        public Product(string name, string description, CategoryEnum productCategory, double price) : this()
+        public Product(string name, string description, CategoryEnum productCategory, decimal price) : this()
         {
             SetName(name);
             Description = description;
@@ -83,7 +82,7 @@ namespace Soat10.TechChallenge.Application.Entities
             Name = name;
         }
 
-        private void SetPrice(double price)
+        private void SetPrice(decimal price)
         {
             if (price <= 0)
                 throw new ArgumentException("Price must be greater than zero.");

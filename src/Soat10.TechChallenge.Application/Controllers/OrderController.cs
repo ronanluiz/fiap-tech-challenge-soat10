@@ -3,7 +3,7 @@ using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Gateways;
 using Soat10.TechChallenge.Application.Presenters;
-using Soat10.TechChallenge.Application.UseCases.Checkout;
+using Soat10.TechChallenge.Application.UseCases;
 using Soat10.TechChallenge.Application.UseCases.GetOrders;
 
 namespace Soat10.TechChallenge.Application.Controllers
@@ -24,14 +24,15 @@ namespace Soat10.TechChallenge.Application.Controllers
             return new OrderController(dataRepository, externalService);
         }
 
-        public async Task ExecuteOrderCheckoutAsync(CheckoutDto checkoutDto)
-        {   
+        public async Task ExecuteCheckoutAsync(CheckoutRequest checkoutRequest)
+        {
+            var cartGateway = new CartGateway(_dataRepository);
             var paymentGateway = new PaymentGateway(_dataRepository);
             var orderGateway = new OrderGateway(_dataRepository);
             var paymentServiceGateway = new PaymentServiceGateway(_externalPaymentService);
 
-            await CheckoutUseCase.Build(paymentServiceGateway, paymentGateway, orderGateway)
-                                    .ExecuteAsync(checkoutDto.OrderId);
+            await CheckoutUseCase.Build(cartGateway, paymentServiceGateway, paymentGateway, orderGateway)
+                                    .ExecuteAsync(checkoutRequest);
         }
 
         public async Task<IEnumerable<OrderDto>> GetAllOrders()

@@ -17,6 +17,15 @@ namespace Soat10.TechChallenge.Application.Entities
             Note = note;
         }
 
+        public OrderItem(Product product, int quantity, decimal price, string note)
+        {
+            ProductId = product.Id;
+            Product = product;
+            Quantity = quantity;
+            Price = price;
+            Note = note;
+        }
+
         public OrderItem(int id, int orderId, int productId, Product product, int quantity, decimal price, string note) : base(id)
         {
             OrderId = orderId;

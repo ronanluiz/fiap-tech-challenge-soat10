@@ -244,6 +244,18 @@ namespace Soat10.TechChallenge.Application.Mappers
              );
         }
 
+        public static Order MapToOrder(Cart cart)
+        {
+            Order order = new(cart.Customer);
+            foreach (CartItem item in cart.Items)
+            {
+                var orderItem = new OrderItem(item.Product, item.Quantity, item.Price, item.Notes);
+                order.AddItem(orderItem);
+            }
+
+            return order;
+        }
+
 
         public static OrderDto MapToDto(Order orderEntity)
         {

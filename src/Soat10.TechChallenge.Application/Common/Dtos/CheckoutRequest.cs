@@ -1,7 +1,7 @@
 ﻿namespace Soat10.TechChallenge.Application.Common.Dtos
 {
-    public class CheckoutDto
+    public class CheckoutRequest
     {
-        public int OrderId { get; set; }
+        public Guid CartId { get; set; }
     }
 }

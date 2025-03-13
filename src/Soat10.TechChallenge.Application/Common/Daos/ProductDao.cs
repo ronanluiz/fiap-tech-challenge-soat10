@@ -8,7 +8,7 @@ namespace Soat10.TechChallenge.Application.Common.Daos
         public string Name { get; set; }
         public string? Description { get; set; }
         public CategoryEnum ProductCategory { get; set; }
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         public ProductStatusEnum Status { get; set; }
         public TimeSpan TimeToPrepare { get; set; }
         public bool IsAvailable { get; set; }

@@ -19,7 +19,7 @@ namespace Soat10.TechChallenge.Application.Validators
                 .NotNull().WithMessage("A categoria do produto é obrigatória.");
 
             RuleFor(x => x.Price)
-                .GreaterThan(0.01).WithMessage("O preço do produto deve ser maior que 0.");
+                .GreaterThan(0.00m).WithMessage("O preço do produto deve ser maior que 0.");
 
             RuleFor(x => x.Status)
                 .IsInEnum().WithMessage("O status do produto deve ser um valor válido.");

@@ -58,14 +58,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.MapPost("/api/checkouts", async ([FromServices] IServiceProvider serviceProvider, [FromBody] CheckoutDto checkout) =>
+app.MapPost("/api/checkouts", async ([FromServices] IServiceProvider serviceProvider, [FromBody] CheckoutRequest checkout) =>
 {
     IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
     IExternalPaymentService externalService = serviceProvider.GetService<IExternalPaymentService>();
 
-    var controller = OrderController.Build(dataRepository, externalService);
-
-    await controller.ExecuteOrderCheckoutAsync(checkout);
+    await OrderController.Build(dataRepository, externalService)
+                            .ExecuteCheckoutAsync(checkout);
 
     return TypedResults.Ok();
 });
