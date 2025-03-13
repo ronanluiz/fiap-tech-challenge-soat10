@@ -23,7 +23,7 @@ namespace Soat10.TechChallenge.Application.Presenters
                 Items = [.. cart.Items.Select(item => new CartItemResponse()
                 {
                     ProductName = item.Product?.Name,
-                    ProductCategory = item.Product?.ProductCategory ?? Enums.CategoryEnum.NaoDefinida,
+                    ProductCategory = item.Product.ProductCategory,
                     Quantity = item.Quantity,
                     Price = item.Price,
                     Notes = item.Notes
