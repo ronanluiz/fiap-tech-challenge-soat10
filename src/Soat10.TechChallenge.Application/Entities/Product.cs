@@ -30,6 +30,7 @@ namespace Soat10.TechChallenge.Application.Entities
         public Product()
         {
             CreatedAt = DateTime.UtcNow;
+            ProductCategory = CategoryEnum.NaoDefinida;
         }
 
         [JsonConstructor]

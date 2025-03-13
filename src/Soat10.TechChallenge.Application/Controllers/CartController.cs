@@ -3,7 +3,7 @@ using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Gateways;
 using Soat10.TechChallenge.Application.Presenters;
-using Soat10.TechChallenge.Application.UseCases.AddingItemsCart;
+using Soat10.TechChallenge.Application.UseCases;
 
 namespace Soat10.TechChallenge.Application.Controllers
 {
@@ -31,7 +31,16 @@ namespace Soat10.TechChallenge.Application.Controllers
             Cart cart = await AddingItemsCartUseCase.Build(customerGateway, cartGateway, productGateway, cartItemGateway)
                                                     .ExecuteAsync(addingItemsCartRequest);
 
-            return CartPresenter.Build(cart);
+            return CartPresenter.BuildAddingItemCart(cart);
+        }
+
+        public async Task<CartResponse> GetCartByIdAsync(Guid id)
+        {
+            var cartGateway = new CartGateway(_dataRepository);
+
+            Cart cart = await GetCartByIdUseCase.Build(cartGateway).ExecuteAsync(id);
+
+            return CartPresenter.BuildCart(cart);
         }
     }
 }

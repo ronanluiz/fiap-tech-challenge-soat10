@@ -37,6 +37,7 @@ namespace Soat10.TechChallenge.Application.Entities
         public virtual Product Product { get; set; }
         public int Quantity { get; private set; }
         public string? Notes { get; private set; }
+        public double Price => (double)(Product?.Price);
 
     }
 }

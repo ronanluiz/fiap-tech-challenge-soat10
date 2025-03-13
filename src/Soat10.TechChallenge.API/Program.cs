@@ -95,13 +95,22 @@ app.MapPost("/api/customers", async ([FromServices] IServiceProvider serviceProv
 
 app.MapPost("/api/carts/items", async ([FromServices] IServiceProvider serviceProvider, [FromBody] List<AddingItemCartRequest> addingItemsCart) =>
 {
-    IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
+    IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();    
 
-    var controller = CartController.Build(dataRepository);
-
-    AddingItemCartResponse addingItemCartResponse = await controller.AddItemsCartAsync(addingItemsCart);
+    AddingItemCartResponse addingItemCartResponse = await CartController.Build(dataRepository)
+                                                    .AddItemsCartAsync(addingItemsCart);
 
     return TypedResults.Ok(addingItemCartResponse);
+});
+
+app.MapGet("/api/carts/{id}", async ([FromServices] IServiceProvider serviceProvider, Guid id) =>
+{
+    IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();  
+
+    CartResponse cartResponse = await CartController.Build(dataRepository)
+                                                    .GetCartByIdAsync(id);
+
+    return TypedResults.Ok(cartResponse);
 });
 
 await app.RunAsync();

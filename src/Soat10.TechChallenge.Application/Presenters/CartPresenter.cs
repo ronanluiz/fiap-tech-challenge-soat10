@@ -5,11 +5,29 @@ namespace Soat10.TechChallenge.Application.Presenters
 {
     public static class CartPresenter
     {
-        public static AddingItemCartResponse Build(Cart cart)
+        public static AddingItemCartResponse BuildAddingItemCart(Cart cart)
         {
             return new AddingItemCartResponse()
             {
                 CartId = cart.Id
+            };
+        }
+
+        public static CartResponse BuildCart(Cart cart)
+        {
+            return new CartResponse()
+            {
+                Id = cart.Id,
+                Customer = cart.Customer?.Name,
+                Status = cart.Status.ToString(),
+                Items = [.. cart.Items.Select(item => new CartItemResponse()
+                {
+                    ProductName = item.Product?.Name,
+                    ProductCategory = item.Product?.ProductCategory ?? Enums.CategoryEnum.NaoDefinida,
+                    Quantity = item.Quantity,
+                    Price = item.Price,
+                    Notes = item.Notes
+                })]
             };
         }
     }

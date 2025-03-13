@@ -3,7 +3,7 @@ using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Exceptions;
 using Soat10.TechChallenge.Application.Gateways;
 
-namespace Soat10.TechChallenge.Application.UseCases.AddingItemsCart
+namespace Soat10.TechChallenge.Application.UseCases
 {
     public class AddingItemsCartUseCase
     {
