@@ -6,7 +6,7 @@ namespace Soat10.TechChallenge.Application.Common.Interfaces
     {
         Task<int> AddCustomerAsync(CustomerDao customer);
         Task<CustomerDao> GetCustomerAsync(string cpf);
-        Task<CustomerDao> GetCustomerAsync(int id);
+        Task<CustomerDao> GetCustomerByIdAsync(Guid id);
         Task<OrderDao> GetOrderByIdAsync(int id);
         Task<CartDao> GetCartByIdAsync(Guid id);
         Task UpdateOrderAsync(OrderDao order);

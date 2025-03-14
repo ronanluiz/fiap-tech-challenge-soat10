@@ -81,7 +81,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<CustomerDao> GetCustomerAsync(int id)
+        public async Task<CustomerDao> GetCustomerByIdAsync(Guid id)
         {
             return await _customerRepository.GetByIdAsync(id);
         }

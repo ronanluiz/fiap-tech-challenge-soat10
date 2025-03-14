@@ -30,9 +30,9 @@ namespace Soat10.TechChallenge.Application.Gateways
             return customer;
         }
 
-        public async Task<Customer> GetAsync(int id)
+        public async Task<Customer> GetByIdAsync(Guid id)
         {
-            CustomerDao customerDto = await _dataRepository.GetCustomerAsync(id);
+            CustomerDao customerDto = await _dataRepository.GetCustomerByIdAsync(id);
 
             Customer customer = Mapper.MapToEntity(customerDto);
 

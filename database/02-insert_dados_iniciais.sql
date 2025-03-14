@@ -1,8 +1,8 @@
 -- Inserção de dados (exemplos)
 
-INSERT INTO customer (name, email, cpf) VALUES
-('João da Silva', 'joao@email.com', '12345678901'),
-('Maria Oliveira', 'maria@email.com', '98765432109');
+INSERT INTO customer (customer_id, name, email, cpf) VALUES
+('f8f0414d-db16-42d4-ab1f-444d53b1fd3e', 'João da Silva', 'joao@email.com', '12345678901'),
+('1c36d785-0ea1-4d3f-8b21-27914969b366', 'Maria Oliveira', 'maria@email.com', '98765432109');
 
 -- Inserção de dados na tabela product
 INSERT INTO product (

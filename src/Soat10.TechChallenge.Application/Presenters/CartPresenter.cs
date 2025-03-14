@@ -5,6 +5,14 @@ namespace Soat10.TechChallenge.Application.Presenters
 {
     public static class CartPresenter
     {
+        public static CartCreationResponse BuildCartCreation(Cart cart)
+        {
+            return new CartCreationResponse()
+            {
+                CartId = cart.Id
+            };
+        }
+
         public static AddingItemCartResponse BuildAddingItemCart(Cart cart)
         {
             return new AddingItemCartResponse()

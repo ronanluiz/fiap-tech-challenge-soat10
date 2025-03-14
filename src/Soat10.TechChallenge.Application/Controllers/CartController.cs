@@ -21,15 +21,25 @@ namespace Soat10.TechChallenge.Application.Controllers
             return new CartController(dataRepository);
         }
 
-        public async Task<AddingItemCartResponse> AddItemsCartAsync(List<AddingItemCartRequest> addingItemsCartRequest)
+        public async Task<CartCreationResponse> CreateCartAsync(CartCreationRequest cartCreationRequest)
         {   
             var customerGateway = new CustomerGateway(_dataRepository);
+            var cartGateway = new CartGateway(_dataRepository);
+
+            Cart cart = await CartCreationUseCase.Build(customerGateway, cartGateway)
+                                                   .ExecuteAsync(cartCreationRequest);
+
+            return CartPresenter.BuildCartCreation(cart);
+        }
+
+        public async Task<AddingItemCartResponse> AddItemsCartAsync(Guid cartId, List<AddingItemCartRequest> addingItemsCartRequest)
+        {
             var cartGateway = new CartGateway(_dataRepository);
             var productGateway = new ProductGateway(_dataRepository);
             var cartItemGateway = new CartItemGateway(_dataRepository);
 
-            Cart cart = await AddingItemsCartUseCase.Build(customerGateway, cartGateway, productGateway, cartItemGateway)
-                                                    .ExecuteAsync(addingItemsCartRequest);
+            Cart cart = await AddingItemsCartUseCase.Build(cartGateway, productGateway, cartItemGateway)
+                                                    .ExecuteAsync(cartId, addingItemsCartRequest);
 
             return CartPresenter.BuildAddingItemCart(cart);
         }

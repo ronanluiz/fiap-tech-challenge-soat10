@@ -9,8 +9,8 @@ namespace Soat10.TechChallenge.Application.Entities
         public CartItem(Guid cartId, Product product, int quantity, string notes) : this()
         {
             CartId = cartId;
-            ProductId = product.Id;
             Product = product;
+            ProductId = product.Id;
             Quantity = quantity;
             Notes = notes;
         }

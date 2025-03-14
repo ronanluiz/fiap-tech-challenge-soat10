@@ -9,10 +9,8 @@ namespace Soat10.TechChallenge.Application.Mappers
         public static Customer MapToEntity(CustomerDto customerDto)
         {
             var customer = new Customer(customerDto.Name);
-            var cpf = new Cpf(customerDto.Cpf);
-            var email = new Email(customerDto.Email);
-            customer.SetCpf(cpf);
-            customer.SetEmail(email);
+            customer.SetCpf(customerDto.Cpf);
+            customer.SetEmail(customerDto.Email);
 
             return customer;
         }
@@ -180,11 +178,12 @@ namespace Soat10.TechChallenge.Application.Mappers
             {
                 items.Add(MapToDao(item));
             }
+
             return new CartDao
             {
                 Id = cart.Id,
                 Customer = customer,
-                CustomerId = customer?.Id,
+                CustomerId = customer.Id,
                 Items = items,
                 Status = cart.Status,
                 CreatedAt = cart.CreatedAt
@@ -193,11 +192,9 @@ namespace Soat10.TechChallenge.Application.Mappers
 
         public static Customer MapToEntity(CustomerDao customerDao)
         {
-            var customer = new Customer(customerDao.Id, customerDao.Name);
-            var cpf = new Cpf(customerDao.Cpf);
-            var email = new Email(customerDao.Email);
-            customer.SetCpf(cpf);
-            customer.SetEmail(email);
+            var customer = new Customer(customerDao.Id, customerDao.Name);            
+            customer.SetCpf(customerDao.Cpf);
+            customer.SetEmail(customerDao.Email);
 
             return customer;
         }

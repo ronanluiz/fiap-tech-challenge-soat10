@@ -8,7 +8,7 @@ namespace Soat10.TechChallenge.Application.Common.Daos
         public Guid Id { get; set; }
         public CartStatus Status { get; set; }
         public virtual CustomerDao Customer { get; set; }
-        public int? CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         public virtual ICollection<CartItemDao> Items { get; set; } = [];
         public DateTime CreatedAt { get; set; }
     }

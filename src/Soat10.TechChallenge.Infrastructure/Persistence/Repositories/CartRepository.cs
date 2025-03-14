@@ -19,8 +19,8 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 
         public async Task AddAsync(CartDao cartDao)
         {
+            cartDao.Customer = null;
             await _context.Carts.AddAsync(cartDao);
-            await _context.SaveChangesAsync();
             await _context.SaveChangesAsync();
         }
 

@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS customer (
-    customer_id SERIAL PRIMARY KEY,
+    customer_id UUID PRIMARY KEY,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    cpf VARCHAR(11) UNIQUE,
+    email VARCHAR(255) NULL,
+    cpf VARCHAR(11) NULL,
     status VARCHAR(50) DEFAULT 'active'
 );
 
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS product (
 
 CREATE TABLE IF NOT EXISTS "order" (
     order_id SERIAL PRIMARY KEY,
-    customer_id INTEGER NOT NULL,
+    customer_id UUID NOT NULL,
     status VARCHAR(255) NOT NULL DEFAULT 'Requested',
     amount DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS payment (
 
 CREATE TABLE IF NOT EXISTS cart (
     cart_id UUID PRIMARY KEY,
-    customer_id INTEGER NULL,
+    customer_id UUID NULL,
     status VARCHAR(50) NOT NULL DEFAULT 'Created',
     created_at TIMESTAMP NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT
