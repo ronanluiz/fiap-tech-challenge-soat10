@@ -1,4 +1,4 @@
-﻿namespace Soat10.TechChallenge.Application.UseCases.GetPreparingOrders
+﻿namespace Soat10.TechChallenge.Application.UseCases.GetStatusOrders
 {
     internal class GetStatusOrdersExtensions
     {

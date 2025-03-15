@@ -7,6 +7,7 @@ using Soat10.TechChallenge.Application;
 using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Controllers;
+using Soat10.TechChallenge.Application.UseCases.GetStatusOrders;
 using Soat10.TechChallenge.Application.Validators;
 using Soat10.TechChallenge.Infrastructure;
 using System.Reflection;
@@ -108,7 +109,7 @@ app.MapGet("/api/orders/status", async ([FromServices] IServiceProvider serviceP
 
     var controller = OrderController.Build(dataRepository, externalService);
 
-    IEnumerable<OrderStatusDto> orders = await controller.GetStatusOrders();
+    IEnumerable<GetStatusOrdersResponse> orders = await controller.GetStatusOrders();
 
     return TypedResults.Ok(orders);
 });

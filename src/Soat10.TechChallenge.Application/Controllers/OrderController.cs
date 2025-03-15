@@ -5,7 +5,7 @@ using Soat10.TechChallenge.Application.Gateways;
 using Soat10.TechChallenge.Application.Presenters;
 using Soat10.TechChallenge.Application.UseCases.Checkout;
 using Soat10.TechChallenge.Application.UseCases.GetOrders;
-using Soat10.TechChallenge.Application.UseCases.GetPreparingOrders;
+using Soat10.TechChallenge.Application.UseCases.GetStatusOrders;
 using Soat10.TechChallenge.Application.UseCases.GetStatusOrdersUseCase;
 
 namespace Soat10.TechChallenge.Application.Controllers
@@ -47,15 +47,10 @@ namespace Soat10.TechChallenge.Application.Controllers
             return ordersResult;
         }
 
-        public async Task<IEnumerable<OrderStatusDto>> GetStatusOrders()
+        public async Task<IEnumerable<GetStatusOrdersResponse>> GetStatusOrders()
         {
             var orderGateway = new OrderGateway(_dataRepository, _externalPaymentService);
-
-            IEnumerable<OrderStatusDto> orders = await GetStatusOrdersUseCase.Build(orderGateway).ExecuteAsync();
-
-            IEnumerable<OrderStatusDto> ordersResult = OrderStatusPresenter.Build(orders);
-
-            return ordersResult;
+            return await GetStatusOrdersUseCase.Build(orderGateway).ExecuteAsync();
         }
     }
 }
