@@ -22,9 +22,8 @@ namespace Soat10.TechChallenge.Application.UseCases.GetStatusOrdersUseCase
 
         public async Task<IEnumerable<GetStatusOrdersResponse>> ExecuteAsync()
         {
-            IEnumerable<Order> orders = await _orderGateway.GetStatusAsync();
-
-            return orders.Select(o => new GetStatusOrdersResponse(o.Id, o.Status.ToString()));
+            return await _orderGateway.GetStatusAsync();
         }
+
     }
 }

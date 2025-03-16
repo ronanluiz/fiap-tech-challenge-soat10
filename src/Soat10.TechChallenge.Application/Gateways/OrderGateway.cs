@@ -1,8 +1,8 @@
 ﻿using Soat10.TechChallenge.Application.Common.Daos;
-using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Mappers;
+using Soat10.TechChallenge.Application.UseCases.GetStatusOrders;
 
 namespace Soat10.TechChallenge.Application.Gateways
 {
@@ -45,12 +45,22 @@ namespace Soat10.TechChallenge.Application.Gateways
             return ordersReturn;
         }
 
-        public async Task<IEnumerable<Order>> GetStatusAsync()
+        public async Task<IEnumerable<GetStatusOrdersResponse>> GetStatusAsync()
         {
-            IEnumerable<OrderDao> orders = await _dataRepository.GetStatusOrdersAsync();
+            IEnumerable<OrderProductDao> orderProducts = await _dataRepository.GetOrdersFromViewAsync();
 
-            return orders.Select(Mapper.MapToEntity);
+            var groupedOrders = orderProducts
+                .GroupBy(op => new { op.OrderId, op.Status, op.Amount })
+                .Select(group => new GetStatusOrdersResponse(
+                    group.Key.OrderId,
+                    group.Key.Status,
+                    group.Key.Amount,
+                    group.First().Products
+                ));
+
+            return groupedOrders;
         }
+
 
         public async Task<PaymentOrder> ExecutePayment(Order order)
         {

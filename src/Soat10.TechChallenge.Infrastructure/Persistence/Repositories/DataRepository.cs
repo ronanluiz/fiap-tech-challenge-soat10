@@ -1,4 +1,5 @@
-﻿using Soat10.TechChallenge.Application.Common.Daos;
+﻿using Microsoft.EntityFrameworkCore;
+using Soat10.TechChallenge.Application.Common.Daos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
@@ -8,14 +9,17 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
         private readonly CustomerRepository _customerRepository;
         private readonly PaymentRepository _paymentRepository;
         private readonly OrderRepository _orderRepository;
+        private readonly OrderProductRepository _orderProductRepository;
 
         public DataRepository(CustomerRepository customerRepository, 
             PaymentRepository paymentRepository,
-            OrderRepository orderRepository)
+            OrderRepository orderRepository,
+            OrderProductRepository orderProductRepository)
         {
             _customerRepository = customerRepository;
             _paymentRepository = paymentRepository;
             _orderRepository = orderRepository;
+            _orderProductRepository = orderProductRepository;
         }
         public async Task<int> AddCustomerAsync(CustomerDao customer)
         {
@@ -42,9 +46,9 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return await _orderRepository.GetAllAsync();
         }
 
-        public async Task<IEnumerable<OrderDao>> GetStatusOrdersAsync()
+        public async Task<IEnumerable<OrderProductDao>> GetOrdersFromViewAsync()
         {
-            return await _orderRepository.GetStatusAsync();
+            return await _orderProductRepository.GetOrdersFromViewAsync();
         }
 
         public Task<IEnumerable<ProductDao>> GetAllProductsAsync()

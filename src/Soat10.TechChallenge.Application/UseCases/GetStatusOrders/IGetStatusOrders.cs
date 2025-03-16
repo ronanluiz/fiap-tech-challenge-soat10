@@ -4,6 +4,6 @@ namespace Soat10.TechChallenge.Application.UseCases.GetStatusOrders
 {
     public interface IGetStatusOrders
     {
-        Task<IEnumerable<GetOrdersResponse>> GetOrdersAsync();
+        Task<IEnumerable<GetStatusOrdersResponse>> GetOrdersAsync();
     }
 }
