@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Soat10.TechChallenge.Application.Common.Daos;
+﻿using Soat10.TechChallenge.Application.Common.Daos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories

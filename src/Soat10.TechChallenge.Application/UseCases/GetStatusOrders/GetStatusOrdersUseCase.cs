@@ -1,7 +1,4 @@
-﻿using Soat10.TechChallenge.Application.Common.Dtos;
-using Soat10.TechChallenge.Application.Entities;
-using Soat10.TechChallenge.Application.Gateways;
-using Soat10.TechChallenge.Application.Mappers;
+﻿using Soat10.TechChallenge.Application.Gateways;
 using Soat10.TechChallenge.Application.UseCases.GetStatusOrders;
 
 namespace Soat10.TechChallenge.Application.UseCases.GetStatusOrdersUseCase

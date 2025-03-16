@@ -1,4 +1,3 @@
-
 using Soat10.TechChallenge.Application.Enums;
 using Soat10.TechChallenge.Application.Exceptions;
 using Soat10.TechChallenge.Application.Validators;
