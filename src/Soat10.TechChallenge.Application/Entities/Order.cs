@@ -5,18 +5,19 @@ using Soat10.TechChallenge.Application.Validators;
 
 namespace Soat10.TechChallenge.Application.Entities
 {
-    public class Order : Entity<int>
+    public class Order : Entity<Guid>
     {
         public Order() : base(default) { }
 
         public Order(Customer customer)
         {
+            Id = Guid.NewGuid();
             Customer = customer;
+            CustomerId = Customer.Id;
             Status = OrderStatus.Requested;
-            Amount = 0;
         }
 
-        public Order(int id, Customer customer, List<OrderItem> orderItems) : base(id)
+        public Order(Guid id, Customer customer, List<OrderItem> orderItems) : base(id)
         {
             Customer = customer;
             Status = OrderStatus.Requested;
@@ -25,37 +26,22 @@ namespace Soat10.TechChallenge.Application.Entities
             Validate();
         }
 
-        public Order(OrderStatus status, Customer customer, int customerId, List<OrderItem> items, decimal amount)
-        {
-            Status = status;
-            Customer = customer;
-            CustomerId = customerId;
-            Items = items;
-            Amount = amount;
-        }
-
         public OrderStatus Status { get; private set; }
         public virtual Customer Customer { get; private set; }
-        public int CustomerId { get; private set; }
+        public Guid CustomerId { get; private set; }
         public virtual ICollection<OrderItem> Items { get; private set; } = [];
-        public decimal Amount { get; private set; }
+        public decimal TotalAmount => Items.Sum(i => i.TotalAmont);
 
         private static readonly OrderValidator Validator = new();
 
         public void AddItem(OrderItem item)
         {
             Items.Add(item);
-            CalculateAmount(item);
         }
 
         public void ChangeStatus(OrderStatus orderStatus)
         {
             Status = orderStatus;
-        }
-
-        private void CalculateAmount(OrderItem orderItem)
-        {
-            Amount += orderItem.Quantity * orderItem.Price;
         }
 
         private void Validate()

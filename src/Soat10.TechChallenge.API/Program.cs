@@ -14,7 +14,7 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-ConfigureEnviroment();
+ConfigureEnviroment(builder);
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
@@ -63,10 +63,10 @@ app.MapPost("/api/checkouts", async ([FromServices] IServiceProvider serviceProv
     IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
     IExternalPaymentService externalService = serviceProvider.GetService<IExternalPaymentService>();
 
-    await OrderController.Build(dataRepository, externalService)
-                            .ExecuteCheckoutAsync(checkout);
+    CheckoutResponse checkoutResponse = await OrderController.Build(dataRepository, externalService)
+                                                            .ExecuteCheckoutAsync(checkout);
 
-    return TypedResults.Ok();
+    return TypedResults.Ok(checkoutResponse);
 });
 
 app.MapGet("/api/orders", async ([FromServices] IServiceProvider serviceProvider) =>
@@ -134,18 +134,25 @@ static void ConfigureLog(WebApplicationBuilder builder)
     builder.Services.AddSerilog();
 }
 
-static void ConfigureEnviroment()
+static void ConfigureEnviroment(WebApplicationBuilder builder)
 {
-    var rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
-    var envFilePath = Path.Combine(rootPath, ".env");
+    // O AddUserSecrets é automaticamente chamado em ambiente de desenvolvimento
+    // quando você usa CreateBuilder(), mas você pode explicitamente adicionar:
+    if (builder.Environment.IsDevelopment())
+    {
+        builder.Configuration.AddUserSecrets<Program>();
+    }
 
-    if (File.Exists(envFilePath))
-    {
-        DotNetEnv.Env.Load(envFilePath); // Carregar o arquivo .env
-        Console.WriteLine($"Arquivo .env carregado do caminho: {envFilePath}");
-    }
-    else
-    {
-        Console.WriteLine($"Arquivo .env não encontrado no caminho: {envFilePath}");
-    }
+    //var rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+    //var envFilePath = Path.Combine(rootPath, ".env");
+
+    //if (File.Exists(envFilePath))
+    //{
+    //    DotNetEnv.Env.Load(envFilePath); // Carregar o arquivo .env
+    //    Console.WriteLine($"Arquivo .env carregado do caminho: {envFilePath}");
+    //}
+    //else
+    //{
+    //    Console.WriteLine($"Arquivo .env não encontrado no caminho: {envFilePath}");
+    //}
 }

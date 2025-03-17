@@ -4,7 +4,7 @@ namespace Soat10.TechChallenge.Application.Common.Daos
 {
     public class OrderDao
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public OrderStatus Status { get; set; }
         public virtual CustomerDao Customer { get; set; }
         public Guid CustomerId { get; set; }

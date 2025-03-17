@@ -10,9 +10,23 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
         {
             builder.ToTable("payment");
             builder.HasKey(p => p.Id);
-            builder.Property(o => o.Id).HasColumnName("payment_id");
-            builder.Property(p => p.OrderId).HasColumnName("order_id");
-            builder.Property(p => p.Amount).HasColumnName("amount").HasColumnType("decimal(10, 2)").IsRequired();
+            builder.Property(o => o.Id)
+                .HasColumnName("payment_id");
+            builder.Property(p => p.OrderId)
+                .HasColumnName("order_id");
+            builder.Property(p => p.TotalAmount)
+                .HasColumnName("total_amount")
+                .HasColumnType("decimal(10, 2)")
+                .IsRequired();
+            builder.Property(o => o.QrData).HasColumnName("qr_data");
+            builder.Property(p => p.ExternalPaymentId)
+                .HasColumnName("external_payment_id")
+                .HasMaxLength(255);
+            builder.Property(p => p.CreatedAt)
+                   .HasColumnName("created_at")
+                   .IsRequired();
+            builder.Property(p => p.PaidAt)
+                   .HasColumnName("paid_at");
 
             builder.HasOne(p => p.Order)
                 .WithMany()

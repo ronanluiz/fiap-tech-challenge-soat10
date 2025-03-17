@@ -14,7 +14,7 @@ namespace Soat10.TechChallenge.Application.Gateways
             _dataRepository = dataRepository;
         }
 
-        public async Task<Order> GetByIdAsync(int id)
+        public async Task<Order> GetByIdAsync(Guid id)
         {
             OrderDao orderDao = await _dataRepository.GetOrderByIdAsync(id);
 
@@ -23,6 +23,11 @@ namespace Soat10.TechChallenge.Application.Gateways
             return order;
         }
 
+        public async Task AddAsync(Order order)
+        {
+            OrderDao orderDto = Mapper.MapToDao(order);
+            await _dataRepository.AddOrderAsync(orderDto);
+        }
         public async Task UpdateAsync(Order order)
         {
             OrderDao orderDto = Mapper.MapToDao(order);

@@ -5,13 +5,19 @@ using Soat10.TechChallenge.Application.Mappers;
 
 namespace Soat10.TechChallenge.Application.Gateways
 {
-    public class PaymentGateway
+    public class PaymentGateway(IDataRepository dataRepository,
+        IExternalPaymentService externalService)
     {
-        private readonly IDataRepository _dataRepository;
+        private readonly IDataRepository _dataRepository = dataRepository;
+        private readonly IExternalPaymentService _externalService = externalService;
 
-        public PaymentGateway(IDataRepository dataRepository)
+        public async Task<Payment> CreateQrCodeOrder(Order order)
         {
-            _dataRepository = dataRepository;
+            QrCodeOrderDao qrCodeOrderDao = Mapper.MapToQrCodeOrderDao(order);
+
+            QrCodeOrderResponseDao qrCodeOrderResponse = await _externalService.CreateQrCodeOrder(qrCodeOrderDao);
+
+            return new Payment(order, order.TotalAmount, qrCodeOrderResponse.Qrdata);
         }
 
         public async Task<int> AddAsync(Payment payment)

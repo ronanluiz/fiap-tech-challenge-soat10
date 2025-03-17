@@ -2,9 +2,13 @@
 {
     public class PaymentDao
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }        
+        public DateTime CreatedAt { get; set; }
         public virtual OrderDao Order { get; set; }
-        public int OrderId { get; set; }
-        public decimal Amount { get; set; }
+        public Guid OrderId { get; set; }
+        public decimal TotalAmount { get; set; }
+        public string QrData { get; set; }
+        public string ExternalPaymentId { get; set; }
+        public DateTime? PaidAt { get; set; }
     }
 }

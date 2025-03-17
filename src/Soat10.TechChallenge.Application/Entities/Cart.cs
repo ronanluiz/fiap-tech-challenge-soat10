@@ -1,5 +1,6 @@
 
 using Soat10.TechChallenge.Application.Enums;
+using System.Security.Cryptography;
 
 namespace Soat10.TechChallenge.Application.Entities
 {
@@ -20,6 +21,7 @@ namespace Soat10.TechChallenge.Application.Entities
         public Cart(Guid id, Customer customer, List<CartItem> items, CartStatus status, DateTime createdDate) : base(id)
         {   
             Customer = customer;
+            CustomerId = customer.Id;
             Status = status;
             Items = items;
             CreatedAt = createdDate;

@@ -24,15 +24,17 @@ namespace Soat10.TechChallenge.Application.Controllers
             return new OrderController(dataRepository, externalService);
         }
 
-        public async Task ExecuteCheckoutAsync(CheckoutRequest checkoutRequest)
+        public async Task<CheckoutResponse> ExecuteCheckoutAsync(CheckoutRequest checkoutRequest)
         {
             var cartGateway = new CartGateway(_dataRepository);
-            var paymentGateway = new PaymentGateway(_dataRepository);
+            var paymentGateway = new PaymentGateway(_dataRepository, _externalPaymentService);
             var orderGateway = new OrderGateway(_dataRepository);
             var paymentServiceGateway = new PaymentServiceGateway(_externalPaymentService);
 
-            await CheckoutUseCase.Build(cartGateway, paymentServiceGateway, paymentGateway, orderGateway)
-                                    .ExecuteAsync(checkoutRequest);
+            Payment payment = await CheckoutUseCase.Build(cartGateway, paymentServiceGateway, paymentGateway, orderGateway)
+                                                    .ExecuteAsync(checkoutRequest);
+
+                return OrderPresenter.Build(payment);
         }
 
         public async Task<IEnumerable<OrderDto>> GetAllOrders()

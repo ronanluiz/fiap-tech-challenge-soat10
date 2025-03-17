@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS product (
 );
 
 CREATE TABLE IF NOT EXISTS "order" (
-    order_id SERIAL PRIMARY KEY,
+    order_id UUID PRIMARY KEY,
     customer_id UUID NOT NULL,
     status VARCHAR(255) NOT NULL DEFAULT 'Requested',
     amount DECIMAL(10, 2) NOT NULL,
@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS "order" (
 );
 
 CREATE TABLE IF NOT EXISTS order_item (
-    order_item_id SERIAL PRIMARY KEY,
-    order_id INTEGER NOT NULL,
+    order_item_id UUID PRIMARY KEY,
+    order_id UUID NOT NULL,
     product_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
@@ -39,9 +39,13 @@ CREATE TABLE IF NOT EXISTS order_item (
 );
 
 CREATE TABLE IF NOT EXISTS payment (
-    payment_id VARCHAR(255) PRIMARY KEY,
-    order_id INTEGER NOT NULL,
-    amount DECIMAL(10, 2) NOT NULL,
+    payment_id UUID PRIMARY KEY,
+    order_id UUID NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    qr_data TEXT NULL,
+    external_payment_id VARCHAR(255) NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    paid_at TIMESTAMP NULL,
     FOREIGN KEY (order_id) REFERENCES "order"(order_id) ON DELETE RESTRICT
 );
 

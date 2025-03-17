@@ -52,24 +52,26 @@ INSERT INTO product (
 
 -- Para inserir em "order", precisamos primeiro obter os IDs dos clientes inseridos
 -- Usamos subqueries para isso
-INSERT INTO "order" (customer_id, amount) VALUES
-((SELECT customer_id FROM customer WHERE name = 'João da Silva'), 1999.99),
-((SELECT customer_id FROM customer WHERE name = 'Maria Oliveira'), 49.90);
+INSERT INTO "order" (order_id, customer_id, amount) VALUES
+('67078c6e-dc64-4775-a3d3-fb348db4c1cd', (SELECT customer_id FROM customer WHERE name = 'João da Silva'), 1999.99),
+('96966223-7334-4030-9171-0f09c28ae98a', (SELECT customer_id FROM customer WHERE name = 'Maria Oliveira'), 49.90);
 
 -- Para inserir em order_item, precisamos dos IDs dos produtos e pedidos
-INSERT INTO order_item (order_id, product_id, quantity, price) VALUES
+INSERT INTO order_item (order_item_id, order_id, product_id, quantity, price) VALUES
 (
-    (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'João da Silva')),
+    '4213ade3-7c04-4d23-9e22-fadeb058bd39',
+    '67078c6e-dc64-4775-a3d3-fb348db4c1cd',
     (SELECT product_id FROM product WHERE name = 'X-Burguer com Queijo e Bacon'),
     1,
     1999.99
 ),
 (
-    (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Maria Oliveira')),
+    '00740e15-8efc-4166-b9ba-42814c9fe973',
+    '96966223-7334-4030-9171-0f09c28ae98a',
     (SELECT product_id FROM product WHERE name = 'Batata Frita Crocante'),
     2,
     24.95
 );
 
-INSERT INTO payment (payment_id, order_id, amount) VALUES
-('PAY001', (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'João da Silva')), 1999.99);
+INSERT INTO payment (payment_id, order_id, total_amount) VALUES
+('aed0e8d8-f609-4f68-80f7-aacb36d7bac5', '96966223-7334-4030-9171-0f09c28ae98a', 1999.99);

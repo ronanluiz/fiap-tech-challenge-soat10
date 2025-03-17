@@ -14,21 +14,18 @@ namespace Soat10.TechChallenge.Infrastructure
         public static void Register(IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IDataRepository, DataRepository>();
-            services.AddScoped<IExternalPaymentService, ExternalService>();
+            services.AddScoped<IExternalPaymentService, ExternalPaymentService>();
             services.AddScoped<CustomerRepository>();
             services.AddScoped<OrderRepository>();
             services.AddScoped<PaymentRepository>();
             services.AddScoped<CartRepository>();
             services.AddScoped<ProductRepository>();
-            services.AddScoped<MercadoPagoPaymentService>();
+            services.AddTransient<AuthenticationHeaderMercadoPagoHandler>();
 
             services
                 .AddRefitClient<IMercadoPagoApi>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.mercadopago.com"));
-        
-
-            //Para realização de testes rápido em product
-            //services.AddTransient<IProductRepository>(provider => new ProductRepositoryTemp("products.json"));
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.mercadopago.com"))
+                .AddHttpMessageHandler<AuthenticationHeaderMercadoPagoHandler>();
 
             ConfigureDatabase(services, configuration);
         }

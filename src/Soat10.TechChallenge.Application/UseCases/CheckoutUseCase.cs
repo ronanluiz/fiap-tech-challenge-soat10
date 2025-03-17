@@ -3,6 +3,7 @@ using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Enums;
 using Soat10.TechChallenge.Application.Exceptions;
 using Soat10.TechChallenge.Application.Gateways;
+using Soat10.TechChallenge.Application.Mappers;
 
 namespace Soat10.TechChallenge.Application.UseCases
 {
@@ -32,19 +33,18 @@ namespace Soat10.TechChallenge.Application.UseCases
             return new CheckoutUseCase(cartGateway, paymentServiceGateway, paymentGateway, orderGateway);
         }
 
-        public async Task ExecuteAsync(CheckoutRequest checkoutRequest)
+        public async Task<Payment> ExecuteAsync(CheckoutRequest checkoutRequest)
         {
             Cart cart = await _cartGateway.GetByIdAsync(checkoutRequest.CartId) ?? 
-                throw new ValidationException("Carrinho não encontrado");
+                throw new ValidationException($"Carrinho com o id {checkoutRequest.CartId} não encontrado");
+            Order order = Mapper.MapToOrder(cart);
 
-            //Order order = await _orderGateway.GetByIdAsync(checkoutRequest.);
-            //PaymentOrder paymentOrder = await _paymentServiceGateway.Create(order);
+            await _orderGateway.AddAsync(order);
+            Payment payment = await _paymentGateway.CreateQrCodeOrder(order);
 
-            //order.ChangeStatus(OrderStatus.Paid);
-            //await _orderGateway.UpdateAsync(order);
+            await _paymentGateway.AddAsync(payment);
 
-            //Payment payment = new(paymentOrder.Id, order.Id, order.Amount);
-            //await _paymentGateway.AddAsync(payment);
+            return payment;            
         }
     }
 }

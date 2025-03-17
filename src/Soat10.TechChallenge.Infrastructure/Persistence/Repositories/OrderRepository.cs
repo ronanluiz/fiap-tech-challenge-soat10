@@ -10,11 +10,22 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 
         public OrderRepository(ApplicationDbContext context) => _context = context;
 
-        public async Task<OrderDao> GetByIdAsync(int id)
+        public async Task<OrderDao> GetByIdAsync(Guid id)
         {
             return await _context.Orders
                         .AsNoTracking()
                         .FirstOrDefaultAsync(o => o.Id == id);
+        }
+
+        public async Task AddAsync(OrderDao order)
+        {
+            order.Customer = null;
+            foreach (var item in order.Items)
+            {
+                item.Product = null;
+            }
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(OrderDao order)

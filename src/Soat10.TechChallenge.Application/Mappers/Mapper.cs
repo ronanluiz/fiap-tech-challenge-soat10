@@ -122,7 +122,7 @@ namespace Soat10.TechChallenge.Application.Mappers
 
             return new OrderDao
             {
-                Amount = order.Amount,
+                Amount = order.TotalAmount,
                 Id = order.Id,
                 Customer = customer,
                 CustomerId = customer.Id,
@@ -149,9 +149,14 @@ namespace Soat10.TechChallenge.Application.Mappers
         {
             return new PaymentDao
             {
-                Amount = payment.Amount,
+                Id = payment.Id,
+                TotalAmount = payment.TotalAmount,
                 Order = MapToDao(payment.Order),
-                OrderId = payment.OrderId
+                OrderId = payment.OrderId,
+                CreatedAt = payment.CreatedAt,
+                ExternalPaymentId = payment.ExternalPaymentId,
+                PaidAt = payment.PaidAt,
+                QrData = payment.QrData,
             };
         }
 
@@ -187,6 +192,37 @@ namespace Soat10.TechChallenge.Application.Mappers
                 Items = items,
                 Status = cart.Status,
                 CreatedAt = cart.CreatedAt
+            };
+        }
+
+        public static QrCodeOrderDao MapToQrCodeOrderDao(Order order)
+        {
+            var items = new List<QrCodeOrderItemDao>();
+            foreach (OrderItem item in order.Items)
+            {
+                items.Add(MapToQrCodeOrderItemDao(item));
+            }
+
+            return new QrCodeOrderDao
+            {
+                Description = $"Solicitação de QR Code para o pedido {order.Id}",
+                Title = "Solicitação de QR Code",
+                ExternalReference = order.Id.ToString(),
+                TotalAmount = order.TotalAmount,
+                Items = items,
+            };
+        }
+        public static QrCodeOrderItemDao MapToQrCodeOrderItemDao(OrderItem orderItem)
+        {
+            return new QrCodeOrderItemDao
+            {
+                Category = orderItem.Product.ProductCategory.ToString(),
+                Description = orderItem.Product.Description,
+                Quantity = orderItem.Quantity,
+                Title = orderItem.Product.Name,
+                TotalAmount = orderItem.TotalAmont,
+                UnitMeasure = "unit",
+                UnitPrice = orderItem.Price
             };
         }
 
@@ -246,7 +282,7 @@ namespace Soat10.TechChallenge.Application.Mappers
             Order order = new(cart.Customer);
             foreach (CartItem item in cart.Items)
             {
-                var orderItem = new OrderItem(item.Product, item.Quantity, item.Price, item.Notes);
+                var orderItem = new OrderItem(order.Id, item.Product, item.Quantity, item.Price, item.Notes);
                 order.AddItem(orderItem);
             }
 
@@ -266,7 +302,7 @@ namespace Soat10.TechChallenge.Application.Mappers
 
             return new OrderDto
             {
-                Amount = orderEntity.Amount,
+                Amount = orderEntity.TotalAmount,
                 Id = orderEntity.Id,
                 Customer = customer,
                 CustomerId = orderEntity.CustomerId,

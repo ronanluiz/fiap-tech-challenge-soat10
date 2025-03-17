@@ -3,7 +3,7 @@ using Soat10.TechChallenge.Application.Common.Interfaces;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 {
-    internal class DataRepository : IDataRepository
+    public class DataRepository : IDataRepository
     {
         private readonly CustomerRepository _customerRepository;
         private readonly PaymentRepository _paymentRepository;
@@ -86,7 +86,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return await _customerRepository.GetByIdAsync(id);
         }
 
-        public async Task<OrderDao> GetOrderByIdAsync(int id)
+        public async Task<OrderDao> GetOrderByIdAsync(Guid id)
         {
             return await _orderRepository.GetByIdAsync(id);
         }
@@ -114,6 +114,12 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
         public Task UpdateProductAsync(ProductDao product)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<OrderDao> AddOrderAsync(OrderDao order)
+        {
+            await _orderRepository.AddAsync(order);
+            return order;
         }
     }
 }

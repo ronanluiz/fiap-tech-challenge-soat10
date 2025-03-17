@@ -4,7 +4,7 @@ namespace Soat10.TechChallenge.Application.Common.Interfaces
 {
     public interface IExternalPaymentService
     {
-        Task<PaymentOrderDao> ProcessPaymentAsync(string orderId, string paymentQrCode);
+        Task<QrCodeOrderResponseDao> CreateQrCodeOrder(QrCodeOrderDao externalOrderRequestDao);
         Task<ExternalOrderDao> GetPayment(string id);
     }
 }
