@@ -19,19 +19,21 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 
         public async Task AddAsync(OrderDao order)
         {
-            order.Customer = null;
-            foreach (var item in order.Items)
-            {
-                item.Product = null;
-            }
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(OrderDao order)
+        public async Task<int> UpdateAsync(OrderDao orderDao)
         {
-            _context.Orders.Update(order);
-            await _context.SaveChangesAsync();
+            var current = _context.Orders.Local.FirstOrDefault(e => e.Id == orderDao.Id);
+            if (current != null)
+            {
+                _context.Entry(current).State = EntityState.Detached;
+            }
+            _context.Update(orderDao);
+            var saveChanges = await _context.SaveChangesAsync();
+
+            return saveChanges;
         }
 
         public async Task<IEnumerable<OrderDao>> GetAllAsync()

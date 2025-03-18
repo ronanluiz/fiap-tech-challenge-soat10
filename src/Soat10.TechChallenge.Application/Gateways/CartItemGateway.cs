@@ -16,7 +16,7 @@ namespace Soat10.TechChallenge.Application.Gateways
 
         public async Task CreateAsync(CartItem cartItem)
         {
-            CartItemDao cartItemDao = Mapper.MapToDao(cartItem);
+            CartItemDao cartItemDao = MapperDao.Map(cartItem);
             cartItemDao.Product = null;
             await _dataRepository.AddCartItemAsync(cartItemDao);
         }

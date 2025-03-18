@@ -23,5 +23,7 @@ namespace Soat10.TechChallenge.Application.Common.Interfaces
         Task<IEnumerable<ProductDao>> GetAvailableProductsAsync();
         Task<CartDao> AddCartAsync(CartDao cart);
         Task<CartItemDao> AddCartItemAsync(CartItemDao cartItem);
+        Task<PaymentDao> GetPaymentByOrder(Guid orderId);
+        Task UpdatePaymentAsync(PaymentDao paymentDao);
     }
 }

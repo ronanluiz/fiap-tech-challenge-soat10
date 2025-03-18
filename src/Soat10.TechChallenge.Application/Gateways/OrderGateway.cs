@@ -25,13 +25,14 @@ namespace Soat10.TechChallenge.Application.Gateways
 
         public async Task AddAsync(Order order)
         {
-            OrderDao orderDto = Mapper.MapToDao(order);
+            OrderDao orderDto = MapperDao.Map(order);
             await _dataRepository.AddOrderAsync(orderDto);
         }
         public async Task UpdateAsync(Order order)
         {
-            OrderDao orderDto = Mapper.MapToDao(order);
-            await _dataRepository.UpdateOrderAsync(orderDto);
+            OrderDao orderDao = MapperDao.Map(order);
+            orderDao.Items = [];
+            await _dataRepository.UpdateOrderAsync(orderDao);
         }
 
         public async Task<IEnumerable<Order>> GetAllAsync()

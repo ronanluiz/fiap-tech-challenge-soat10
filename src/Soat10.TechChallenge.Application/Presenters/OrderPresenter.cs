@@ -10,7 +10,7 @@ namespace Soat10.TechChallenge.Application.Presenters
         public static IEnumerable<OrderDto> Build(IEnumerable<Order> orders)
         {
             IList<OrderDto> orderDtos = orders
-                                        .Select(o => Mapper.MapToDto(o))
+                                        .Select(o => MapperDto.Map(o))
                                         .ToList();
 
             return orderDtos;

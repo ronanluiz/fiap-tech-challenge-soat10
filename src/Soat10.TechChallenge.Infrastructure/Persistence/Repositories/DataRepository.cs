@@ -121,5 +121,15 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             await _orderRepository.AddAsync(order);
             return order;
         }
+
+        public async Task<PaymentDao> GetPaymentByOrder(Guid orderId)
+        {
+            return await _paymentRepository.GetByOrder(orderId);
+        }
+
+        public async Task UpdatePaymentAsync(PaymentDao paymentDao)
+        {
+            await _paymentRepository.UpdateAsync(paymentDao);
+        }
     }
 }

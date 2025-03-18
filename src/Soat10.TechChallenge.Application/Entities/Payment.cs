@@ -11,6 +11,24 @@ namespace Soat10.TechChallenge.Application.Entities
             CreatedAt = DateTime.UtcNow;
         }
 
+        public Payment(Guid id, 
+            DateTime createdAt, 
+            Order order, 
+            decimal totalAmount, 
+            string qrData, 
+            string externalPaymentId, 
+            DateTime? paidAt)
+        {
+            Id = id;
+            CreatedAt = createdAt;
+            Order = order;
+            OrderId = order.Id;
+            TotalAmount = totalAmount;
+            QrData = qrData;
+            ExternalPaymentId = externalPaymentId;
+            PaidAt = paidAt;
+        }
+
         public DateTime CreatedAt { get; private set; }
         public virtual Order Order { get; set; }
         public Guid OrderId { get; private set; }
@@ -24,9 +42,9 @@ namespace Soat10.TechChallenge.Application.Entities
             ExternalPaymentId = externalPaymentId;            
         }
 
-        public void SetPaymentDate()
+        public void SetPaymentDate(DateTime paymentDate)
         {
-            PaidAt = DateTime.UtcNow;
+            PaidAt = paymentDate;
         }
 
 

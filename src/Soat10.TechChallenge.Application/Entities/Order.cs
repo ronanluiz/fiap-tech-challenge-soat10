@@ -20,6 +20,7 @@ namespace Soat10.TechChallenge.Application.Entities
         public Order(Guid id, Customer customer, List<OrderItem> orderItems) : base(id)
         {
             Customer = customer;
+            CustomerId = customer.Id;
             Status = OrderStatus.Requested;
             Items = orderItems;
 
