@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS "order" (
     customer_id INTEGER NOT NULL,
     status VARCHAR(255) NOT NULL DEFAULT 'Requested',
     amount DECIMAL(10, 2) NOT NULL,
+    order_number SERIAL,
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT
 );
 
@@ -42,9 +43,12 @@ CREATE TABLE IF NOT EXISTS order_item (
     FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE RESTRICT
 );
 
+
 CREATE TABLE IF NOT EXISTS payment (
-    payment_id VARCHAR(255) PRIMARY KEY,
+    payment_id SERIAL PRIMARY KEY,
     order_id INTEGER NOT NULL,
     amount DECIMAL(10, 2) NOT NULL,
+    status VARCHAR(255) NOT NULL DEFAULT 'pending',
+    detailed_status VARCHAR(255) NOT NULL DEFAULT 'pending',
     FOREIGN KEY (order_id) REFERENCES "order"(order_id) ON DELETE RESTRICT
 );

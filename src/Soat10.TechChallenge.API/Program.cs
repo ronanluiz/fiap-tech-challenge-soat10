@@ -6,9 +6,11 @@ using Soat10.TechChallenge.API.Middlewares;
 using Soat10.TechChallenge.Application;
 using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
+using Soat10.TechChallenge.Application.Common.Requests;
 using Soat10.TechChallenge.Application.Controllers;
 using Soat10.TechChallenge.Application.Validators;
 using Soat10.TechChallenge.Infrastructure;
+using Soat10.TechChallenge.Infrastructure.ExternalServices;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -102,6 +104,18 @@ app.MapPost("/api/customers", async ([FromServices] IServiceProvider serviceProv
     await controller.CreateCustomer(customerDto);
 
     return TypedResults.Created();
+});
+
+app.MapGet("/api/check-payment-status", async ([FromServices] IServiceProvider serviceProvider, [AsParameters] OrderPaymentStatusRequest paymentStatusRequest) =>
+{
+    IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>() ?? throw new InvalidOperationException("IDataRepository service not found."); 
+    IExternalPaymentService externalService = serviceProvider.GetService<IExternalPaymentService>() ?? throw new InvalidOperationException("IDataRepository service not found.");
+
+    var controller = OrderController.Build(dataRepository, externalService);
+
+    var paymentStatusResult = await controller.GetOrderByNumber(paymentStatusRequest.OrderNumber);
+
+    return TypedResults.Ok(paymentStatusResult);
 });
 
 await app.RunAsync();

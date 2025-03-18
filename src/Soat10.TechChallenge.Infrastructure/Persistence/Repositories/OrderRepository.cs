@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Bogus;
+using Microsoft.EntityFrameworkCore;
 using Soat10.TechChallenge.Application.Common.Daos;
 using Soat10.TechChallenge.Infrastructure.Persistence.Context;
 
@@ -28,6 +29,13 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return await _context.Orders
                 .AsNoTracking()
                 .ToListAsync();
+        }
+
+        public async Task<OrderDao> GetOrderByNumber(int orderNumber)
+        {
+            return await _context.Orders
+                .AsNoTracking()
+                .FirstOrDefaultAsync(order => order.OrderNumber == orderNumber);
         }
     }
 }

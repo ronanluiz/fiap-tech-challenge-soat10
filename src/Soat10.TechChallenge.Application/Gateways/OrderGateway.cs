@@ -50,5 +50,14 @@ namespace Soat10.TechChallenge.Application.Gateways
 
             return new PaymentOrder(paymentOrderResponse.InStoreOrderId, paymentOrderResponse.Qrdata);
         }
+
+        public async Task<Order> GetOrderByNumber(int orderNumber)
+        {
+            OrderDao orderDao = await _dataRepository.GetOrderByNumber(orderNumber);
+
+            Order order = Mapper.MapToEntity(orderDao);
+
+            return order;
+        }
     }
 }

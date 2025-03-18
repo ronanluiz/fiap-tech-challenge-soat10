@@ -13,6 +13,8 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
             builder.Property(o => o.Id).HasColumnName("payment_id");
             builder.Property(p => p.OrderId).HasColumnName("order_id");
             builder.Property(p => p.Amount).HasColumnName("amount").HasColumnType("decimal(10, 2)").IsRequired();
+            builder.Property(p => p.Status).HasColumnName("status").HasDefaultValue("pending");
+            builder.Property(p => p.DetailedStatus).HasColumnName("detailed_status").HasDefaultValue("pending");
 
             builder.HasOne(p => p.Order)
                 .WithMany()

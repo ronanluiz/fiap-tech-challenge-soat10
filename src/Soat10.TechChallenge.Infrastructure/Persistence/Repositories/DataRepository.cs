@@ -17,44 +17,34 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             _paymentRepository = paymentRepository;
             _orderRepository = orderRepository;
         }
+        
+        #region Costumer's Repository
         public async Task<int> AddCustomerAsync(CustomerDao customer)
         {
             return await _customerRepository.AddAsync(customer);
         }
 
+        public Task<CustomerDao> GetCustomerAsync(string cpf)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Payment's Repository
         public async Task<int> AddPaymentAsync(PaymentDao payment)
         {
             return await _paymentRepository.AddAsync(payment);
         }
-
-        public Task<int> AddProductAsync(ProductDao product)
+        public async Task<PaymentDao> GetPaymentByOrderIdAsync(int orderId)
         {
-            throw new NotImplementedException();
+            return await _paymentRepository.GetPaymentByOrderIdAsync(orderId);
         }
+        #endregion
 
-        public Task DeleteProductAsync(ProductDao product)
-        {
-            throw new NotImplementedException();
-        }
-
+        #region Order's Repository
         public async Task<IEnumerable<OrderDao>> GetAllOrdersAsync()
         {
             return await _orderRepository.GetAllAsync();
-        }
-
-        public Task<IEnumerable<ProductDao>> GetAllProductsAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<ProductDao>> GetAvailableProductsAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<CustomerDao> GetCustomerAsync(string cpf)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<OrderDao> GetOrderByIdAsync(int id)
@@ -62,6 +52,18 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return await _orderRepository.GetByIdAsync(id);
         }
 
+        public async Task<OrderDao> GetOrderByNumber(int orderNumber)
+        {
+            return await _orderRepository.GetOrderByNumber(orderNumber);
+        }
+
+        public async Task UpdateOrderAsync(OrderDao order)
+        {
+            await _orderRepository.UpdateAsync(order);
+        }
+        #endregion
+
+        #region Product's Repository
         public Task<ProductDao> GetProductByIdAsync(int id)
         {
             throw new NotImplementedException();
@@ -77,14 +79,30 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task UpdateOrderAsync(OrderDao order)
-        {
-            await _orderRepository.UpdateAsync(order);
-        }
-
         public Task UpdateProductAsync(ProductDao product)
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<ProductDao>> GetAllProductsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ProductDao>> GetAvailableProductsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> AddProductAsync(ProductDao product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteProductAsync(ProductDao product)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

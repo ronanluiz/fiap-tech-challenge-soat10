@@ -6,5 +6,8 @@
         public virtual OrderDao Order { get; set; }
         public int OrderId { get; set; }
         public decimal Amount { get; set; }
+        public string Status { get; set; }
+        public string DetailedStatus { get; set; }
+
     }
 }

@@ -69,9 +69,9 @@ INSERT INTO product (
 
 -- Para inserir em "order", precisamos primeiro obter os IDs dos clientes inseridos
 -- Usamos subqueries para isso
-INSERT INTO "order" (customer_id, amount) VALUES
-((SELECT customer_id FROM customer WHERE name = 'João da Silva'), 1999.99),
-((SELECT customer_id FROM customer WHERE name = 'Maria Oliveira'), 49.90);
+INSERT INTO "order" ( customer_id, amount, order_number) VALUES
+((SELECT customer_id FROM customer WHERE name = 'João da Silva'), 1999.99,1),
+((SELECT customer_id FROM customer WHERE name = 'Maria Oliveira'), 49.90,2);
 
 -- Para inserir em order_item, precisamos dos IDs dos produtos e pedidos
 INSERT INTO order_item (order_id, product_id, quantity, price) VALUES
@@ -88,5 +88,6 @@ INSERT INTO order_item (order_id, product_id, quantity, price) VALUES
     24.95
 );
 
-INSERT INTO payment (payment_id, order_id, amount) VALUES
-('PAY001', (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'João da Silva')), 1999.99);
+INSERT INTO payment (order_id, amount) VALUES
+((SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'João da Silva')), 1999.99);
+

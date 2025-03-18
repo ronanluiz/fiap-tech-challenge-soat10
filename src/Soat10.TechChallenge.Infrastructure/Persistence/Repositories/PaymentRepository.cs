@@ -1,4 +1,5 @@
-﻿using Soat10.TechChallenge.Application.Common.Daos;
+﻿using Microsoft.EntityFrameworkCore;
+using Soat10.TechChallenge.Application.Common.Daos;
 using Soat10.TechChallenge.Infrastructure.Persistence.Context;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
@@ -13,6 +14,14 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
         {
             await _context.Payments.AddAsync(payment);
             return await _context.SaveChangesAsync();
+        }
+
+        public async Task<PaymentDao> GetPaymentByOrderIdAsync(int orderId)
+        {
+            return await _context.Payments
+                       .AsNoTracking()
+                       .FirstOrDefaultAsync(payment => payment.OrderId == orderId);
+
         }
     }
 }
