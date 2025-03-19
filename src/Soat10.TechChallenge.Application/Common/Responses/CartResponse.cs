@@ -1,6 +1,6 @@
 ﻿using Soat10.TechChallenge.Application.Enums;
 
-namespace Soat10.TechChallenge.Application.Common.Dtos
+namespace Soat10.TechChallenge.Application.Common.Responses
 {
     public class CartResponse
     {

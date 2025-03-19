@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Soat10.TechChallenge.Application.Common.Dtos
+namespace Soat10.TechChallenge.Application.Common.Requests
 {
     public class PaymentNotificationDataRequest
     {

@@ -8,6 +8,7 @@ using Soat10.TechChallenge.Application;
 using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Common.Requests;
+using Soat10.TechChallenge.Application.Common.Responses;
 using Soat10.TechChallenge.Application.Controllers;
 using Soat10.TechChallenge.Application.Validators;
 using Soat10.TechChallenge.Infrastructure;
@@ -160,6 +161,6 @@ static void ConfigureEnviroment(WebApplicationBuilder builder)
     }
     else
     {
-        Console.WriteLine($"Arquivo .env n�o encontrado no caminho: {envFilePath}");
+        Console.WriteLine($"Arquivo .env não encontrado no caminho: {envFilePath}");
     }
 }

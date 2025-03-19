@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
+Ôªøusing Microsoft.AspNetCore.Mvc;
 using Soat10.TechChallenge.Application;
-using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
+using Soat10.TechChallenge.Application.Common.Requests;
 using Soat10.TechChallenge.Application.Controllers;
 using Soat10.TechChallenge.Infrastructure;
 using System.Reflection;
@@ -20,7 +20,7 @@ builder.Services.AddSwaggerGen(config =>
     {
         Title = "Soat 10 Tech Challenge - Webhook",
         Version = "v1",
-        Description = "Webhook respons·vel por receber triggers externas relacionadas ‡s integraÁ„oes do sistema de autoatendimento de fast food"
+        Description = "Webhook respons√°vel por receber triggers externas relacionadas √†s integra√ß√£oes do sistema de autoatendimento de fast food"
     });
 
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -66,6 +66,6 @@ static void ConfigureEnviroment(WebApplicationBuilder builder)
     }
     else
     {
-        Console.WriteLine($"Arquivo .env n?o encontrado no caminho: {envFilePath}");
+        Console.WriteLine($"Arquivo .env n√£o encontrado no caminho: {envFilePath}");
     }
 }

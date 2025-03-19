@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Soat10.TechChallenge.Application.Common.Dtos
+namespace Soat10.TechChallenge.Application.Common.Requests
 {
     public class PaymentNotificationRequest
     {

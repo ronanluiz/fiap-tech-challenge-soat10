@@ -1,4 +1,4 @@
-﻿using Soat10.TechChallenge.Application.Common.Dtos;
+﻿using Soat10.TechChallenge.Application.Common.Requests;
 using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Enums;
 using Soat10.TechChallenge.Application.Exceptions;

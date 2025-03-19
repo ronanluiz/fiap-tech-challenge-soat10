@@ -1,4 +1,4 @@
-﻿namespace Soat10.TechChallenge.Application.Common.Dtos
+﻿namespace Soat10.TechChallenge.Application.Common.Requests
 {
     public class CheckoutRequest
     {
