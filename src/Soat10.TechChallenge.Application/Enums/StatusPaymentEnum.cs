@@ -8,14 +8,14 @@ namespace Soat10.TechChallenge.Application.Enums
 {
     public enum StatusPaymentEnum
     {
-        approved,
-        authorized,
-        in_process,
-        pending,
-        cancelled,
-        charged_back,
-        refunded,
-        rejected,
+        Approved,
+        Authorized,
+        InProcess,
+        Pending,
+        Cancelled,
+        ChargedBack,
+        Refunded,
+        Rejected,
 
     }
 }
