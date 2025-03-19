@@ -33,7 +33,7 @@ namespace Soat10.TechChallenge.Application.UseCases
                 throw new ValidationException("O id do pedido está inválido");
             }
 
-            Payment payment = await _paymentGateway.GetByOrder(orderId) ?? 
+            Payment payment = await _paymentGateway.GetByOrderAsync(orderId) ?? 
                 throw new ValidationException("Não foi encontrado registro de pagamento para o pedido informado");
             Order order = payment.Order;
 

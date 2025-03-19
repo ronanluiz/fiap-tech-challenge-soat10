@@ -47,5 +47,14 @@ namespace Soat10.TechChallenge.Application.Gateways
 
             return ordersReturn;
         }
+
+        public async Task<Order> GetOrderByNumber(int orderNumber)
+        {
+            OrderDao orderDao = await _dataRepository.GetOrderByNumberAsync(orderNumber);
+
+            Order order = Mapper.MapToEntity(orderDao);
+
+            return order;
+        }
     }
 }

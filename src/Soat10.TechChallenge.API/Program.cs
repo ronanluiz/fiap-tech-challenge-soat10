@@ -7,9 +7,11 @@ using Soat10.TechChallenge.API.Middlewares;
 using Soat10.TechChallenge.Application;
 using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
+using Soat10.TechChallenge.Application.Common.Requests;
 using Soat10.TechChallenge.Application.Controllers;
 using Soat10.TechChallenge.Application.Validators;
 using Soat10.TechChallenge.Infrastructure;
+using Soat10.TechChallenge.Infrastructure.ExternalServices;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,8 +24,8 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnCh
 
 ConfigureLog(builder);
 
-builder.Services.AddFluentValidationAutoValidation(); // Adiciona validação automática com FluentValidation
-builder.Services.AddFluentValidationClientsideAdapters(); // (opcional) Adiciona validação no cliente
+builder.Services.AddFluentValidationAutoValidation(); // Adiciona validaï¿½ï¿½o automï¿½tica com FluentValidation
+builder.Services.AddFluentValidationClientsideAdapters(); // (opcional) Adiciona validaï¿½ï¿½o no cliente
 
 // Registra todos os validadores encontrados no assembly do projeto Application
 builder.Services.AddValidatorsFromAssemblyContaining<OrderValidator>();
@@ -35,7 +37,7 @@ builder.Services.AddSwaggerGen(config =>
     {
         Title = "Soat 10 Tech Challenge - Api Fast Food",
         Version = "v1",
-        Description = "Api Fast Food é um sistema de autoatendimento de fast food projetado para gerenciar clientes, produtos e pedidos, além de facilitar o processo de checkout e acompanhamento dos pedidos"
+        Description = "Api Fast Food ï¿½ um sistema de autoatendimento de fast food projetado para gerenciar clientes, produtos e pedidos, alï¿½m de facilitar o processo de checkout e acompanhamento dos pedidos"
     });
 
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -43,7 +45,7 @@ builder.Services.AddSwaggerGen(config =>
     config.IncludeXmlComments(xmlPath);
 });
 
-builder.Services.AddFluentValidationRulesToSwagger(); // Integração com Swagger
+builder.Services.AddFluentValidationRulesToSwagger(); // Integraï¿½ï¿½o com Swagger
 
 ApplicationBootstrapper.Register(builder.Services);
 InfrastructureBootstrapper.Register(builder.Services, builder.Configuration);
@@ -92,6 +94,18 @@ app.MapPost("/api/customers", async ([FromServices] IServiceProvider serviceProv
     return TypedResults.Created();
 });
 
+app.MapGet("/api/check-payment-status", async ([FromServices] IServiceProvider serviceProvider, [AsParameters] OrderPaymentStatusRequest paymentStatusRequest) =>
+{
+    IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>() ?? throw new InvalidOperationException("IDataRepository service not found."); 
+    IExternalPaymentService externalService = serviceProvider.GetService<IExternalPaymentService>() ?? throw new InvalidOperationException("IDataRepository service not found.");
+
+    var controller = OrderController.Build(dataRepository, externalService);
+
+    var paymentStatusResult = await controller.GetOrderByNumber(paymentStatusRequest.OrderNumber);
+
+    return TypedResults.Ok(paymentStatusResult);
+});
+
 app.MapPost("/api/carts", async ([FromServices] IServiceProvider serviceProvider, CartCreationRequest cartCreationRequest) =>
 {
     IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
@@ -136,8 +150,8 @@ static void ConfigureLog(WebApplicationBuilder builder)
 
 static void ConfigureEnviroment(WebApplicationBuilder builder)
 {
-    // O AddUserSecrets é automaticamente chamado em ambiente de desenvolvimento
-    // quando você usa CreateBuilder(), mas você pode explicitamente adicionar:
+    // O AddUserSecrets ï¿½ automaticamente chamado em ambiente de desenvolvimento
+    // quando vocï¿½ usa CreateBuilder(), mas vocï¿½ pode explicitamente adicionar:
     if (builder.Environment.IsDevelopment())
     {
         builder.Configuration.AddUserSecrets<Program>();
@@ -153,6 +167,6 @@ static void ConfigureEnviroment(WebApplicationBuilder builder)
     //}
     //else
     //{
-    //    Console.WriteLine($"Arquivo .env não encontrado no caminho: {envFilePath}");
+    //    Console.WriteLine($"Arquivo .env nï¿½o encontrado no caminho: {envFilePath}");
     //}
 }

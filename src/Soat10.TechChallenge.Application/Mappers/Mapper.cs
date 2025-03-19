@@ -15,6 +15,13 @@ namespace Soat10.TechChallenge.Application.Mappers
             return customer;
         }
 
+        public static Payment MapToEntity(PaymentDto paymentDto)
+        {
+            var customer = new Payment(paymentDto.Id, paymentDto.OrderId, paymentDto.Amount, paymentDto.Status, null);
+
+            return customer;
+        }
+
         public static Product MapToEntity(ProductDto productDto)
         {
             return new Product
@@ -36,7 +43,7 @@ namespace Soat10.TechChallenge.Application.Mappers
                 orderItems.Add(MapToEntity(item));
             }
 
-            return new Order(orderDto.Id, customer, orderItems);
+            return new Order(orderDto.Id, customer, orderItems, orderDto.OrderNumber);
         }
 
         public static OrderItem MapToEntity(OrderItemDto orderItemDto)
@@ -129,7 +136,7 @@ namespace Soat10.TechChallenge.Application.Mappers
                 orderItems.Add(MapToEntity(item));
             }
 
-            return new Order(orderDao.Id, customer, orderItems);
+            return new Order(orderDao.Id, customer, orderItems, orderDao.OrderNumber);
         }
 
         public static OrderItem MapToEntity(OrderItemDao orderItemDao)

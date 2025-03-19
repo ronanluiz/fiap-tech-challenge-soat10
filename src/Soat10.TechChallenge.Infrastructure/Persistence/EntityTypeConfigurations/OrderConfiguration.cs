@@ -13,6 +13,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
             builder.HasKey(o => o.Id);
             builder.Property(o => o.Id).HasColumnName("order_id");
             builder.Property(o => o.CustomerId).HasColumnName("customer_id");
+            builder.Property(o => o.OrderNumber).HasColumnName("order_number");
             builder.Property(o => o.Status)
                     .HasColumnName("status")
                     .HasColumnType("varchar")

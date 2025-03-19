@@ -52,9 +52,9 @@ INSERT INTO product (
 
 -- Para inserir em "order", precisamos primeiro obter os IDs dos clientes inseridos
 -- Usamos subqueries para isso
-INSERT INTO "order" (order_id, customer_id, amount) VALUES
-('67078c6e-dc64-4775-a3d3-fb348db4c1cd', (SELECT customer_id FROM customer WHERE name = 'João da Silva'), 1999.99),
-('96966223-7334-4030-9171-0f09c28ae98a', (SELECT customer_id FROM customer WHERE name = 'Maria Oliveira'), 49.90);
+INSERT INTO "order" (order_id, customer_id, amount, order_number) VALUES
+('67078c6e-dc64-4775-a3d3-fb348db4c1cd', (SELECT customer_id FROM customer WHERE name = 'João da Silva'), 1999.99,1),
+('96966223-7334-4030-9171-0f09c28ae98a', (SELECT customer_id FROM customer WHERE name = 'Maria Oliveira'), 49.90,2);
 
 -- Para inserir em order_item, precisamos dos IDs dos produtos e pedidos
 INSERT INTO order_item (order_item_id, order_id, product_id, quantity, price) VALUES

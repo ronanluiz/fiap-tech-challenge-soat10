@@ -1,10 +1,12 @@
 ﻿using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
+using Soat10.TechChallenge.Application.Common.Responses;
 using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Gateways;
 using Soat10.TechChallenge.Application.Presenters;
 using Soat10.TechChallenge.Application.UseCases;
 using Soat10.TechChallenge.Application.UseCases.GetOrders;
+using Soat10.TechChallenge.Application.UseCases.GetPaymentByOrderId;
 
 namespace Soat10.TechChallenge.Application.Controllers
 {
@@ -46,6 +48,19 @@ namespace Soat10.TechChallenge.Application.Controllers
             IEnumerable<OrderDto> ordersResult = OrderPresenter.Build(orders);
 
             return ordersResult;
+        }
+
+        public async Task<OrderPaymentStatusResponse> GetOrderByNumber(int orderNumber)
+        {
+            var orderGateway = new OrderGateway(_dataRepository);
+            var paymentGateway = new PaymentGateway(_dataRepository, _externalPaymentService);
+
+            Order order = await GetOrderPaymentStatusUseCase.Build(orderGateway).ExecuteAsync(orderNumber);
+            Payment payment = await GetPaymentByOrderIdUseCase.Build(paymentGateway).ExecuteAsync(order.Id);
+
+            OrderPaymentStatusResponse orderPaymentStatusResponse = OrderPresenter.Present(order, payment);
+
+            return orderPaymentStatusResponse;
         }
     }
 }

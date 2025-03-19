@@ -18,6 +18,8 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
                 .HasColumnName("total_amount")
                 .HasColumnType("decimal(10, 2)")
                 .IsRequired();
+            builder.Property(p => p.Status).HasColumnName("status").HasDefaultValue("pending");
+            builder.Property(p => p.DetailedStatus).HasColumnName("detailed_status").HasDefaultValue("pending");
             builder.Property(o => o.QrData).HasColumnName("qr_data");
             builder.Property(p => p.ExternalPaymentId)
                 .HasColumnName("external_payment_id")

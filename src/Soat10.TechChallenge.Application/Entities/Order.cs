@@ -17,12 +17,13 @@ namespace Soat10.TechChallenge.Application.Entities
             Status = OrderStatus.Requested;
         }
 
-        public Order(Guid id, Customer customer, List<OrderItem> orderItems) : base(id)
+        public Order(Guid id, Customer customer, List<OrderItem> orderItems, int orderNumber) : base(id)
         {
             Customer = customer;
             CustomerId = customer.Id;
             Status = OrderStatus.Requested;
             Items = orderItems;
+            OrderNumber = orderNumber;
 
             Validate();
         }
@@ -30,6 +31,7 @@ namespace Soat10.TechChallenge.Application.Entities
         public OrderStatus Status { get; private set; }
         public virtual Customer Customer { get; private set; }
         public Guid CustomerId { get; private set; }
+        public int OrderNumber { get; private set; }
         public virtual ICollection<OrderItem> Items { get; private set; } = [];
         public decimal TotalAmount => Items.Sum(i => i.TotalAmont);
 
