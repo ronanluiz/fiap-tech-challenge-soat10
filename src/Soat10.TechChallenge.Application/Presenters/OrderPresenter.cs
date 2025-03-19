@@ -22,9 +22,10 @@ namespace Soat10.TechChallenge.Application.Presenters
             return new OrderPaymentStatusResponse
             {
                 OrderId = order.Id,
-                OrderNumber = order.OrderNumber.ToString().PadLeft(7, '0'),
+                OrderNumber = order.OrderNumberToDisplay,
                 OrderValue = order.Items.Sum(item => item.Price),
-                StatusPayment = payment.Status,
+                PaymentStatus = payment.Status,
+                PaymentDetailedStatus = payment.DetailedStatus,
                 CustomerName =  order.Customer.Name,
             };
         }
@@ -34,6 +35,7 @@ namespace Soat10.TechChallenge.Application.Presenters
             return new CheckoutResponse()
             {
                 OrderId = payment.OrderId,
+                OrderNumber = payment.Order.OrderNumberToDisplay,
                 QrData = payment.QrData
             };
         }

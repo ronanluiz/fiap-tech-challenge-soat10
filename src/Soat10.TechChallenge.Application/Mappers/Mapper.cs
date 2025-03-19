@@ -15,13 +15,6 @@ namespace Soat10.TechChallenge.Application.Mappers
             return customer;
         }
 
-        public static Payment MapToEntity(PaymentDto paymentDto)
-        {
-            var customer = new Payment(paymentDto.Id, paymentDto.OrderId, paymentDto.Amount, paymentDto.Status, null);
-
-            return customer;
-        }
-
         public static Product MapToEntity(ProductDto productDto)
         {
             return new Product
@@ -100,7 +93,9 @@ namespace Soat10.TechChallenge.Application.Mappers
                 paymentDao.TotalAmount,
                 paymentDao.QrData,
                 paymentDao.ExternalPaymentId,
-                paymentDao.PaidAt                
+                paymentDao.PaidAt,
+                paymentDao.Status,
+                paymentDao.DetailedStatus
             );
         }
 
@@ -130,13 +125,13 @@ namespace Soat10.TechChallenge.Application.Mappers
         {
             Customer customer = MapToEntity(orderDao.Customer);
 
-            List<OrderItem> orderItems = new List<OrderItem>();
+            List<OrderItem> orderItems = new();
             foreach (OrderItemDao item in orderDao.Items)
             {
                 orderItems.Add(MapToEntity(item));
             }
 
-            return new Order(orderDao.Id, customer, orderItems, orderDao.OrderNumber);
+            return new Order(orderDao.Id, customer, orderItems, orderDao.OrderNumber, orderDao.Status);
         }
 
         public static OrderItem MapToEntity(OrderItemDao orderItemDao)

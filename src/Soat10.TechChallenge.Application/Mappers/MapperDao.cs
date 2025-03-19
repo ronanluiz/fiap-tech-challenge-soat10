@@ -75,6 +75,8 @@ namespace Soat10.TechChallenge.Application.Mappers
                 ExternalPaymentId = payment.ExternalPaymentId,
                 PaidAt = payment.PaidAt,
                 QrData = payment.QrData,
+                Status = payment.Status,
+                DetailedStatus = payment.DetailedStatus
             };
         }
 

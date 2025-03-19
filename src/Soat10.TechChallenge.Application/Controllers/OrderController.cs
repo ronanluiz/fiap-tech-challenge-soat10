@@ -36,7 +36,7 @@ namespace Soat10.TechChallenge.Application.Controllers
             Payment payment = await CheckoutUseCase.Build(cartGateway, paymentServiceGateway, paymentGateway, orderGateway)
                                                     .ExecuteAsync(checkoutRequest);
 
-                return OrderPresenter.Build(payment);
+            return OrderPresenter.Build(payment);
         }
 
         public async Task<IEnumerable<OrderDto>> GetAllOrders()

@@ -4,8 +4,8 @@
     {
         public Guid OrderId { get; set; }
         public string OrderNumber { get; set; }
-        public string StatusPayment { get; set; }
-        public string DetailedStatusPayment { get; set; }
+        public string PaymentStatus { get; set; }
+        public string PaymentDetailedStatus { get; set; }
         public decimal OrderValue { get; set; }
         public string CustomerName { get; set; }
     }

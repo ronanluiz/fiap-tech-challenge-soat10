@@ -7,7 +7,7 @@ namespace Soat10.TechChallenge.Application.Entities
 {
     public class Order : Entity<Guid>
     {
-        public Order() : base(default) { }
+        protected Order() : base(Guid.NewGuid()) { }
 
         public Order(Customer customer)
         {
@@ -28,10 +28,22 @@ namespace Soat10.TechChallenge.Application.Entities
             Validate();
         }
 
+        public Order(Guid id, Customer customer, List<OrderItem> orderItems, int orderNumber, OrderStatus status) : base(id)
+        {
+            Customer = customer;
+            CustomerId = customer.Id;
+            Status = status;
+            Items = orderItems;
+            OrderNumber = orderNumber;
+
+            Validate();
+        }
+
         public OrderStatus Status { get; private set; }
         public virtual Customer Customer { get; private set; }
         public Guid CustomerId { get; private set; }
         public int OrderNumber { get; private set; }
+        public string OrderNumberToDisplay => OrderNumber.ToString().PadLeft(7, '0');
         public virtual ICollection<OrderItem> Items { get; private set; } = [];
         public decimal TotalAmount => Items.Sum(i => i.TotalAmont);
 

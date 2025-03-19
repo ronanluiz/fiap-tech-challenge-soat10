@@ -60,6 +60,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+app.MapPost("/api/customers", async ([FromServices] IServiceProvider serviceProvider, [FromBody] CustomerDto customerDto) =>
+{
+    IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
+
+    var controller = CustomerController.Build(dataRepository);
+
+    await controller.CreateCustomer(customerDto);
+
+    return TypedResults.Created();
+});
+
 app.MapPost("/api/checkouts", async ([FromServices] IServiceProvider serviceProvider, [FromBody] CheckoutRequest checkout) =>
 {
     IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
@@ -83,18 +94,7 @@ app.MapGet("/api/orders", async ([FromServices] IServiceProvider serviceProvider
     return TypedResults.Ok(orders);
 });
 
-app.MapPost("/api/customers", async ([FromServices] IServiceProvider serviceProvider, [FromBody] CustomerDto customerDto) =>
-{
-    IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
-
-    var controller = CustomerController.Build(dataRepository);
-
-    await controller.CreateCustomer(customerDto);
-
-    return TypedResults.Created();
-});
-
-app.MapGet("/api/check-payment-status", async ([FromServices] IServiceProvider serviceProvider, [AsParameters] OrderPaymentStatusRequest paymentStatusRequest) =>
+app.MapGet("/api/orders/payment-status", async ([FromServices] IServiceProvider serviceProvider, [AsParameters] OrderPaymentStatusRequest paymentStatusRequest) =>
 {
     IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>() ?? throw new InvalidOperationException("IDataRepository service not found."); 
     IExternalPaymentService externalService = serviceProvider.GetService<IExternalPaymentService>() ?? throw new InvalidOperationException("IDataRepository service not found.");
@@ -150,23 +150,16 @@ static void ConfigureLog(WebApplicationBuilder builder)
 
 static void ConfigureEnviroment(WebApplicationBuilder builder)
 {
-    // O AddUserSecrets � automaticamente chamado em ambiente de desenvolvimento
-    // quando voc� usa CreateBuilder(), mas voc� pode explicitamente adicionar:
-    if (builder.Environment.IsDevelopment())
+    var rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+    var envFilePath = Path.Combine(rootPath, ".env");
+
+    if (File.Exists(envFilePath))
     {
-        builder.Configuration.AddUserSecrets<Program>();
+        DotNetEnv.Env.Load(envFilePath); // Carregar o arquivo .env
+        Console.WriteLine($"Arquivo .env carregado do caminho: {envFilePath}");
     }
-
-    //var rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
-    //var envFilePath = Path.Combine(rootPath, ".env");
-
-    //if (File.Exists(envFilePath))
-    //{
-    //    DotNetEnv.Env.Load(envFilePath); // Carregar o arquivo .env
-    //    Console.WriteLine($"Arquivo .env carregado do caminho: {envFilePath}");
-    //}
-    //else
-    //{
-    //    Console.WriteLine($"Arquivo .env n�o encontrado no caminho: {envFilePath}");
-    //}
+    else
+    {
+        Console.WriteLine($"Arquivo .env n�o encontrado no caminho: {envFilePath}");
+    }
 }

@@ -54,11 +54,18 @@ app.MapPost("/webhook/payment-notifications", async (
 
 await app.RunAsync();
 
-
 static void ConfigureEnviroment(WebApplicationBuilder builder)
 {
-    if (builder.Environment.IsDevelopment())
+    var rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
+    var envFilePath = Path.Combine(rootPath, ".env");
+
+    if (File.Exists(envFilePath))
     {
-        builder.Configuration.AddUserSecrets<Program>();
+        DotNetEnv.Env.Load(envFilePath); // Carregar o arquivo .env
+        Console.WriteLine($"Arquivo .env carregado do caminho: {envFilePath}");
+    }
+    else
+    {
+        Console.WriteLine($"Arquivo .env n?o encontrado no caminho: {envFilePath}");
     }
 }

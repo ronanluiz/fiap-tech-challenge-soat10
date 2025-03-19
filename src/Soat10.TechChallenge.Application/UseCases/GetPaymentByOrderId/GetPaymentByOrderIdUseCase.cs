@@ -1,10 +1,6 @@
 ﻿using Soat10.TechChallenge.Application.Entities;
+using Soat10.TechChallenge.Application.Exceptions;
 using Soat10.TechChallenge.Application.Gateways;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Soat10.TechChallenge.Application.UseCases.GetPaymentByOrderId
 {
@@ -24,7 +20,8 @@ namespace Soat10.TechChallenge.Application.UseCases.GetPaymentByOrderId
 
         public async Task<Payment> ExecuteAsync(Guid orderId)
         {
-            return await _paymentGeteway.GetByOrderAsync(orderId);
+            return await _paymentGeteway.GetByOrderAsync(orderId) ??
+                throw new ValidationException($"Pagamento não encontrado para os dados informados");
         }
     }
 }
