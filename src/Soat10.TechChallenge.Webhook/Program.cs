@@ -8,7 +8,7 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-ConfigureEnviroment(builder);
+ConfigureEnviroment();
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
@@ -54,7 +54,7 @@ app.MapPost("/webhook/payment-notifications", async (
 
 await app.RunAsync();
 
-static void ConfigureEnviroment(WebApplicationBuilder builder)
+static void ConfigureEnviroment()
 {
     var rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
     var envFilePath = Path.Combine(rootPath, ".env");
