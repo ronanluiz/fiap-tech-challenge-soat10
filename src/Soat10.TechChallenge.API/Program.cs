@@ -7,7 +7,6 @@ using Soat10.TechChallenge.Application;
 using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Controllers;
-using Soat10.TechChallenge.Application.UseCases.GetStatusOrders;
 using Soat10.TechChallenge.Application.Validators;
 using Soat10.TechChallenge.Infrastructure;
 using System.Reflection;
@@ -102,14 +101,14 @@ app.MapGet("/api/orders", async ([FromServices] IServiceProvider serviceProvider
     return TypedResults.Ok(orders);
 });
 
-app.MapGet("/api/orders/status", async ([FromServices] IServiceProvider serviceProvider) =>
+app.MapGet("/api/orders/open", async ([FromServices] IServiceProvider serviceProvider) =>
 {
     IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
     IExternalPaymentService externalService = serviceProvider.GetService<IExternalPaymentService>();
 
     var controller = OrderController.Build(dataRepository, externalService);
 
-    IEnumerable<GetStatusOrdersResponse> orders = await controller.GetStatusOrders();
+    IEnumerable<OpenOrdersResponse> orders = await controller.GetOpenOrders();
 
     return TypedResults.Ok(orders);
 });

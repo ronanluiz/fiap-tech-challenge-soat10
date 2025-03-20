@@ -3,10 +3,9 @@ using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Gateways;
 using Soat10.TechChallenge.Application.Presenters;
+using Soat10.TechChallenge.Application.UseCases;
 using Soat10.TechChallenge.Application.UseCases.Checkout;
 using Soat10.TechChallenge.Application.UseCases.GetOrders;
-using Soat10.TechChallenge.Application.UseCases.GetStatusOrders;
-using Soat10.TechChallenge.Application.UseCases.GetStatusOrdersUseCase;
 
 namespace Soat10.TechChallenge.Application.Controllers
 {
@@ -47,10 +46,15 @@ namespace Soat10.TechChallenge.Application.Controllers
             return ordersResult;
         }
 
-        public async Task<IEnumerable<GetStatusOrdersResponse>> GetStatusOrders()
+        public async Task<IEnumerable<OpenOrdersResponse>> GetOpenOrders()
         {
             var orderGateway = new OrderGateway(_dataRepository, _externalPaymentService);
-            return await GetStatusOrdersUseCase.Build(orderGateway).ExecuteAsync();
+            IEnumerable<Order> orders = await GetOpenOrdersUseCase.Build(orderGateway)
+                                                                    .ExecuteAsync();
+
+            return OrderPresenter.BuildOpenOrders(orders);
+
+
         }
     }
 }

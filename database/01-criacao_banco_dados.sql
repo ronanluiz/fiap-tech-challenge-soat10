@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS "order" (
     customer_id INTEGER NOT NULL,
     status VARCHAR(255) NOT NULL DEFAULT 'Received',
     amount DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT
 );
 

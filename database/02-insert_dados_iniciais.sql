@@ -185,28 +185,3 @@ VALUES
   (25, 14, 4, 1, 4.00, NULL),
   (26, 14, 2, 1, 5.00, NULL);
 
-
--- Criação da view vw_order_products
-CREATE VIEW vw_order_products AS
-    SELECT 
-        od.order_id, 
-        od.status, 
-        od.amount,
-        string_agg(oi.quantity || ' ' || pr.name, ', ') AS products
-    FROM 
-        "order" od
-    JOIN 
-        "order_item" oi ON od.order_id = oi.order_id
-    JOIN 
-        "product" pr ON oi.product_id = pr.product_id
-    WHERE
-        od.status <> 'Finished'
-    GROUP BY 
-        od.order_id, od.status, od.amount
-    ORDER BY CASE od.status
-        WHEN 'Ready' THEN 1
-        WHEN 'Preparing' THEN 2
-        WHEN 'Received' THEN 3
-        ELSE 4
-END;
-

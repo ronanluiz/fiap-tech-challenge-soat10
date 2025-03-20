@@ -26,13 +26,19 @@ namespace Soat10.TechChallenge.Application.Entities
             Validate();
         }
 
-        public Order(OrderStatus status, Customer customer, int customerId, List<OrderItem> items, decimal amount)
+        public Order(int id,
+            OrderStatus status,
+            Customer customer, 
+            List<OrderItem> items, 
+            decimal amount, 
+            DateTime createdAt) : base(id) 
         {
             Status = status;
             Customer = customer;
-            CustomerId = customerId;
+            CustomerId = customer.Id;
             Items = items;
             Amount = amount;
+            CreatedAt = createdAt;
         }
 
         public Order(int id, OrderStatus status) : base(id)
@@ -47,6 +53,7 @@ namespace Soat10.TechChallenge.Application.Entities
         public int CustomerId { get; private set; }
         public virtual ICollection<OrderItem> Items { get; private set; } = [];
         public decimal Amount { get; private set; }
+        public DateTime CreatedAt { get; private set; }
 
         private static readonly OrderValidator Validator = new();
 

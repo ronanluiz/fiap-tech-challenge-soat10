@@ -10,5 +10,6 @@ namespace Soat10.TechChallenge.Application.Common.Daos
         public int CustomerId { get; set; }
         public virtual ICollection<OrderItemDao> Items { get; set; } = [];
         public decimal Amount { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

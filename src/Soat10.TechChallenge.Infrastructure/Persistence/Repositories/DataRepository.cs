@@ -8,17 +8,14 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
         private readonly CustomerRepository _customerRepository;
         private readonly PaymentRepository _paymentRepository;
         private readonly OrderRepository _orderRepository;
-        private readonly OrderProductRepository _orderProductRepository;
 
         public DataRepository(CustomerRepository customerRepository, 
             PaymentRepository paymentRepository,
-            OrderRepository orderRepository,
-            OrderProductRepository orderProductRepository)
+            OrderRepository orderRepository)
         {
             _customerRepository = customerRepository;
             _paymentRepository = paymentRepository;
             _orderRepository = orderRepository;
-            _orderProductRepository = orderProductRepository;
         }
         public async Task<int> AddCustomerAsync(CustomerDao customer)
         {
@@ -43,11 +40,6 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
         public async Task<IEnumerable<OrderDao>> GetAllOrdersAsync()
         {
             return await _orderRepository.GetAllAsync();
-        }
-
-        public async Task<IEnumerable<OrderProductDao>> GetOrdersFromViewAsync()
-        {
-            return await _orderProductRepository.GetOrdersFromViewAsync();
         }
 
         public Task<IEnumerable<ProductDao>> GetAllProductsAsync()
@@ -93,6 +85,12 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
         public Task UpdateProductAsync(ProductDao product)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<OrderDao>> GetAllOpenOrdersAsync()
+        {
+            IEnumerable<OrderDao> orders = await _orderRepository.GetAllOpen();
+            return orders;
         }
     }
 }

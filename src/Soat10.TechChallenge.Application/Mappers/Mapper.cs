@@ -41,11 +41,6 @@ namespace Soat10.TechChallenge.Application.Mappers
             return new Order(orderDto.Id, customer, orderItems);
         }
 
-        public static OrderStatusDto MapToStatusDto(Order order)
-        {
-            return new OrderStatusDto(order.Id, order.Status);
-        }
-
         public static OrderItem MapToEntity(OrderItemDto orderItemDto)
         {   
             var product = MapToEntity(orderItemDto.Product);
@@ -151,7 +146,7 @@ namespace Soat10.TechChallenge.Application.Mappers
                 orderItems.Add(MapToEntity(item));
             }
 
-            return new Order(orderDao.Id, customer, orderItems, orderDao.Status);
+            return new Order(orderDao.Id, orderDao.Status, customer, orderItems, orderDao.Amount, orderDao.CreatedAt);
         }
 
         public static OrderItem MapToEntity(OrderItemDao orderItemDao)

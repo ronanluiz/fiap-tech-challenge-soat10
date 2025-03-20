@@ -18,7 +18,6 @@ namespace Soat10.TechChallenge.Infrastructure
             services.AddScoped<OrderRepository>();
             services.AddScoped<PaymentRepository>();
             services.AddScoped<MercadoPagoPaymentService>();
-            services.AddScoped<OrderProductRepository>();
 
             //Para realização de testes rápido em product
             //services.AddTransient<IProductRepository>(provider => new ProductRepositoryTemp("products.json"));

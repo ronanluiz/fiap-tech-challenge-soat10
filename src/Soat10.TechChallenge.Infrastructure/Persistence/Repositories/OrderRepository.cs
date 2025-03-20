@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Soat10.TechChallenge.Application.Common.Daos;
+using Soat10.TechChallenge.Application.Enums;
 using Soat10.TechChallenge.Infrastructure.Persistence.Context;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
@@ -33,6 +34,14 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
         public async Task<IEnumerable<OrderDao>> GetStatusAsync()
         {
             return await _context.Orders
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<OrderDao>> GetAllOpen()
+        {
+            return await _context.Orders
+                .Where(o => o.Status != OrderStatus.Finished)
                 .AsNoTracking()
                 .ToListAsync();
         }
