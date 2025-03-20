@@ -1,4 +1,4 @@
-﻿namespace Soat10.TechChallenge.Application.UseCases.CustomerRegistration
+﻿namespace Soat10.TechChallenge.Application.Validators
 {
     public class CustomerRegistrationRequest
     {

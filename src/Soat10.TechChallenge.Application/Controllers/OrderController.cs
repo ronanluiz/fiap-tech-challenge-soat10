@@ -6,9 +6,6 @@ using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Gateways;
 using Soat10.TechChallenge.Application.Presenters;
 using Soat10.TechChallenge.Application.UseCases;
-using Soat10.TechChallenge.Application.UseCases;
-using Soat10.TechChallenge.Application.UseCases.GetOrders;
-using Soat10.TechChallenge.Application.UseCases.GetPaymentByOrderId;
 
 namespace Soat10.TechChallenge.Application.Controllers
 {

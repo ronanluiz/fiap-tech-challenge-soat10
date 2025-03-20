@@ -2,7 +2,7 @@
 using Soat10.TechChallenge.Application.Exceptions;
 using Soat10.TechChallenge.Application.Gateways;
 
-namespace Soat10.TechChallenge.Application.UseCases.GetPaymentByOrderId
+namespace Soat10.TechChallenge.Application.UseCases
 {
     public class GetPaymentByOrderIdUseCase
     {

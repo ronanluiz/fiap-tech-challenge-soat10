@@ -24,7 +24,7 @@ namespace Soat10.TechChallenge.Application.Gateways
         {
             CartDao cartDao = await _dataRepository.GetCartByIdAsync(id);
 
-            Cart cart = Mapper.MapToEntity(cartDao);
+            Cart cart = MapperEntity.MapToEntity(cartDao);
 
             return cart;
         }

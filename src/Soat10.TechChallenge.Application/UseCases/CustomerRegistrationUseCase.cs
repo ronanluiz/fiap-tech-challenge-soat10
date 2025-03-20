@@ -4,7 +4,7 @@ using Soat10.TechChallenge.Application.Exceptions;
 using Soat10.TechChallenge.Application.Gateways;
 using Soat10.TechChallenge.Application.Mappers;
 
-namespace Soat10.TechChallenge.Application.UseCases.CustomerRegistration
+namespace Soat10.TechChallenge.Application.UseCases
 {
     public class CustomerRegistrationUseCase
     {
@@ -20,14 +20,14 @@ namespace Soat10.TechChallenge.Application.UseCases.CustomerRegistration
             return new CustomerRegistrationUseCase(customerGateway);
         }
 
-        public async Task ExecuteAsync(CustomerDto customerDto)
+        public async Task ExecuteAsync(CustomerRegistrationRequest customerRegistrationRequest)
         {
-            Customer customerExists = await _customerGateway.GetAsync(customerDto.Cpf);
+            Customer customerExists = await _customerGateway.GetAsync(customerRegistrationRequest.Cpf);
             if (customerExists != null)
             {
-                throw new NotAllowedException($"Cliente com o CPF {customerDto.Cpf} já está cadastrado.");
+                throw new NotAllowedException($"Cliente com o CPF {customerRegistrationRequest.Cpf} já está cadastrado.");
             }
-            Customer customer = Mapper.MapToEntity(customerDto);
+            Customer customer = MapperEntity.MapToEntity(customerRegistrationRequest);
             await _customerGateway.AddAsync(customer);
         }
     }

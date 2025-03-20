@@ -19,7 +19,7 @@ namespace Soat10.TechChallenge.Application.Gateways
         {
             OrderDao orderDao = await _dataRepository.GetOrderByIdAsync(id);
 
-            Order order = Mapper.MapToEntity(orderDao);
+            Order order = MapperEntity.MapToEntity(orderDao);
 
             return order;
         }
@@ -30,7 +30,7 @@ namespace Soat10.TechChallenge.Application.Gateways
             await _dataRepository.AddOrderAsync(orderDao);
             orderDao = await _dataRepository.GetOrderByIdAsync(order.Id);
 
-            return Mapper.MapToEntity(orderDao);
+            return MapperEntity.MapToEntity(orderDao);
         }
         public async Task UpdateAsync(Order order)
         {
@@ -46,7 +46,7 @@ namespace Soat10.TechChallenge.Application.Gateways
 
             foreach(OrderDao order in orders)
             {
-                ordersReturn.Add(Mapper.MapToEntity(order));
+                ordersReturn.Add(MapperEntity.MapToEntity(order));
             }
 
             return ordersReturn;
@@ -56,7 +56,7 @@ namespace Soat10.TechChallenge.Application.Gateways
         {            
             OrderDao orderDao = await _dataRepository.GetOrderByNumberAsync(orderNumber);
 
-            Order order = Mapper.MapToEntity(orderDao);
+            Order order = MapperEntity.MapToEntity(orderDao);
 
             return order;
         }
@@ -68,7 +68,7 @@ namespace Soat10.TechChallenge.Application.Gateways
 
             foreach (OrderDao order in orders)
             {
-                ordersReturn.Add(Mapper.MapToEntity(order));
+                ordersReturn.Add(MapperEntity.MapToEntity(order));
             }
 
             return ordersReturn;

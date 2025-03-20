@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Soat10.TechChallenge.Application.Entities;
 
-namespace Soat10.TechChallenge.Application.UseCases.CustomerRegistration
+namespace Soat10.TechChallenge.Application.Validators
 {
     public class CustomerRegistrationRequestValidator : AbstractValidator<CustomerRegistrationRequest>
     {

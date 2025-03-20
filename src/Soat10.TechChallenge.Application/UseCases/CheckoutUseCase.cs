@@ -37,7 +37,7 @@ namespace Soat10.TechChallenge.Application.UseCases
         {
             Cart cart = await _cartGateway.GetByIdAsync(checkoutRequest.CartId) ?? 
                 throw new ValidationException($"Carrinho com o id {checkoutRequest.CartId} não encontrado");
-            Order order = Mapper.MapToOrder(cart);
+            Order order = MapperEntity.MapToOrder(cart);
 
             order = await _orderGateway.AddAsync(order);
             Payment payment = await _paymentGateway.CreateQrCodeOrder(order);

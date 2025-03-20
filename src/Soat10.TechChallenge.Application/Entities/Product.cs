@@ -17,7 +17,7 @@ namespace Soat10.TechChallenge.Application.Entities
 
         public decimal Price { get; private set; }
 
-        public ProductStatusEnum Status { get; private set; } = ProductStatusEnum.OutOfStock;
+        public ProductStatus Status { get; private set; } = ProductStatus.OutOfStock;
 
         [Range(0, 50)]
         public TimeSpan TimeToPrepare { get; private set; } = TimeSpan.FromMinutes(10);
@@ -40,7 +40,7 @@ namespace Soat10.TechChallenge.Application.Entities
             ProductCategory = productCategory;
             SetPrice(price);
             SetTimeToPrepare(timeToPrepare);
-            Status = ProductStatusEnum.InStock;
+            Status = ProductStatus.InStock;
             Description = description;
             IsAvailable = isAvailable;
         }
@@ -58,7 +58,7 @@ namespace Soat10.TechChallenge.Application.Entities
             Name = name;
         }
 
-        public void UpdateStatus(ProductStatusEnum status)
+        public void UpdateStatus(ProductStatus status)
         {
             if (status == Status)
                 throw new InvalidOperationException("The product is already in the given status.");

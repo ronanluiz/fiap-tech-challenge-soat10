@@ -9,7 +9,7 @@ namespace Soat10.TechChallenge.API.Endpoints
     {
         public static void MapCustomerEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapPost("/api/customers", async ([FromServices] IServiceProvider serviceProvider, [FromBody] CustomerDto customerDto) =>
+            app.MapPost("/api/customers", async ([FromServices] IServiceProvider serviceProvider, [FromBody] CustomerRegistrationRequest customerDto) =>
             {
                 IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
 

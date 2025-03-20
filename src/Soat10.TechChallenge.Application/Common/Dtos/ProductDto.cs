@@ -9,7 +9,7 @@ namespace Soat10.TechChallenge.Application.Common.Dtos
         public string? Description { get; set; }
         public CategoryEnum ProductCategory { get; set; }
         public decimal Price { get; set; }
-        public ProductStatusEnum Status { get; set; }
+        public ProductStatus Status { get; set; }
         public TimeSpan TimeToPrepare { get; set; }
         public bool IsAvailable { get; set; }
         public DateTime? CreatedAt { get; set; }

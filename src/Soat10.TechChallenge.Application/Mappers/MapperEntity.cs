@@ -4,13 +4,22 @@ using Soat10.TechChallenge.Application.Entities;
 
 namespace Soat10.TechChallenge.Application.Mappers
 {
-    public static class Mapper
+    public static class MapperEntity
     {
         public static Customer MapToEntity(CustomerDto customerDto)
         {
             var customer = new Customer(customerDto.Name);
             customer.SetCpf(customerDto.Cpf);
             customer.SetEmail(customerDto.Email);
+
+            return customer;
+        }
+
+        public static Customer MapToEntity(CustomerRegistrationRequest customerRegistrationRequest)
+        {
+            var customer = new Customer(customerRegistrationRequest.Name);
+            customer.SetCpf(customerRegistrationRequest.Cpf);
+            customer.SetEmail(customerRegistrationRequest.Email);
 
             return customer;
         }

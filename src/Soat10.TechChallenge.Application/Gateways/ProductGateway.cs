@@ -17,7 +17,7 @@ namespace Soat10.TechChallenge.Application.Gateways
         public async Task<Product> GetByIdAsync(int id)
         {
             ProductDao productDao = await _dataRepository.GetProductByIdAsync(id);
-            Product product = Mapper.MapToEntity(productDao);
+            Product product = MapperEntity.MapToEntity(productDao);
 
             return product;
         }

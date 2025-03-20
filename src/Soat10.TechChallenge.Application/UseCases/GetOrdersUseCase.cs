@@ -1,7 +1,7 @@
 ﻿using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Gateways;
 
-namespace Soat10.TechChallenge.Application.UseCases.GetOrders
+namespace Soat10.TechChallenge.Application.UseCases
 {
     public class GetOrdersUseCase
     {

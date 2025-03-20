@@ -16,7 +16,7 @@ namespace Soat10.TechChallenge.Application.Gateways
         
         public async Task<int> AddAsync(Customer customer)
         {
-            CustomerDao customerDto = Mapper.MapToDao(customer);
+            CustomerDao customerDto = MapperEntity.MapToDao(customer);
 
             return await _dataRepository.AddCustomerAsync(customerDto);
         }
@@ -25,7 +25,7 @@ namespace Soat10.TechChallenge.Application.Gateways
         {
             CustomerDao customerDto = await _dataRepository.GetCustomerAsync(cpf);
 
-            Customer customer = Mapper.MapToEntity(customerDto);
+            Customer customer = MapperEntity.MapToEntity(customerDto);
 
             return customer;
         }
@@ -34,7 +34,7 @@ namespace Soat10.TechChallenge.Application.Gateways
         {
             CustomerDao customerDto = await _dataRepository.GetCustomerByIdAsync(id);
 
-            Customer customer = Mapper.MapToEntity(customerDto);
+            Customer customer = MapperEntity.MapToEntity(customerDto);
 
             return customer;
         }

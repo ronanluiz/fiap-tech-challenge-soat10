@@ -1,6 +1,6 @@
 ﻿namespace Soat10.TechChallenge.Application.Enums
 {
-    public enum ProductStatusEnum
+    public enum ProductStatus
     {
         Default,
         InStock,

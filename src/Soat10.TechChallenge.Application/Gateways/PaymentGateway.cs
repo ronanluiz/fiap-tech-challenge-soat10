@@ -32,7 +32,7 @@ namespace Soat10.TechChallenge.Application.Gateways
         {
             PaymentDao paymentDao = await _dataRepository.GetPaymentByOrderAsync(orderId);
             
-            Payment? payment = paymentDao != null ? Mapper.MapToEntity(paymentDao) : null;
+            Payment? payment = paymentDao != null ? MapperEntity.MapToEntity(paymentDao) : null;
 
             return payment;
         }

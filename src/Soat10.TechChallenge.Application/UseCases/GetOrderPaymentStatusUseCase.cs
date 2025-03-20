@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Soat10.TechChallenge.Application.UseCases.GetOrders
+namespace Soat10.TechChallenge.Application.UseCases
 {
     public class GetOrderPaymentStatusUseCase
     {
