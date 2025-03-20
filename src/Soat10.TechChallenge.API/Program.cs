@@ -32,7 +32,7 @@ builder.Services.AddSwaggerGen(config =>
     {
         Title = "Soat 10 Tech Challenge - Api Fast Food",
         Version = "v1",
-        Description = "Api Fast Food � um sistema de autoatendimento de fast food projetado para gerenciar clientes, produtos e pedidos, al�m de facilitar o processo de checkout e acompanhamento dos pedidos"
+        Description = "Api Fast Food de um sistema de autoatendimento de fast food projetado para gerenciar clientes, produtos e pedidos, além de facilitar o processo de checkout e acompanhamento dos pedidos"
     });
 
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
