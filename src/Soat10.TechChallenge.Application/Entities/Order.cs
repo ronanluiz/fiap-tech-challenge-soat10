@@ -1,37 +1,73 @@
-
 using Soat10.TechChallenge.Application.Enums;
 using Soat10.TechChallenge.Application.Exceptions;
 using Soat10.TechChallenge.Application.Validators;
 
 namespace Soat10.TechChallenge.Application.Entities
 {
-    public class Order : Entity<int>
+    public class Order : Entity<Guid>
     {
-        public Order() : base(default) { }
+        protected Order() : base(Guid.NewGuid()) { }
 
-        public Order(int id, Customer customer, List<OrderItem> orderItems) : base(id)
+        public Order(Customer customer)
+        {
+            Id = Guid.NewGuid();
+            Customer = customer;
+            CustomerId = Customer.Id;
+            Status = OrderStatus.Requested;
+        }
+
+        public Order(Guid id, Customer customer, List<OrderItem> orderItems, int orderNumber) : base(id)
         {
             Customer = customer;
+            CustomerId = customer.Id;
             Status = OrderStatus.Requested;
+            Items = orderItems;
+            OrderNumber = orderNumber;
+
+            Validate();
+        }
+
+        public Order(Guid id, Customer customer, List<OrderItem> orderItems, OrderStatus status) : base(id)
+        {
+            Customer = customer;
+            Status = status;
             Items = orderItems;
 
             Validate();
         }
 
-        public Order(OrderStatus status, Customer customer, int customerId, List<OrderItem> items, decimal amount)
+        public Order(Guid id,
+            OrderStatus status,
+            Customer customer, 
+            List<OrderItem> items,
+            int orderNumber,
+            DateTime createdAt) : base(id) 
+        {
+            Customer = customer;
+            CustomerId = customer.Id;
+            Status = status;
+            Items = items;
+            OrderNumber = orderNumber;
+            CreatedAt = createdAt;
+
+            Validate();
+        }
+
+        public Order(Guid id, OrderStatus status) : base(id)
         {
             Status = status;
-            Customer = customer;
-            CustomerId = customerId;
-            Items = items;
-            Amount = amount;
+
+            Validate();
         }
 
         public OrderStatus Status { get; private set; }
         public virtual Customer Customer { get; private set; }
-        public int CustomerId { get; private set; }
+        public Guid CustomerId { get; private set; }
+        public int OrderNumber { get; private set; }
+        public string OrderNumberToDisplay => OrderNumber.ToString().PadLeft(7, '0');
         public virtual ICollection<OrderItem> Items { get; private set; } = [];
-        public decimal Amount { get; private set; }
+        public decimal TotalAmount => Items.Sum(i => i.TotalAmont);
+        public DateTime CreatedAt { get; private set; }
 
         private static readonly OrderValidator Validator = new();
 

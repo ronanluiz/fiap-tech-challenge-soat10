@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>0c928da0-8d99-49f4-8abe-10e90ee600d7</UserSecretsId>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetEnv" Version="3.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Soat10.TechChallenge.Application\Soat10.TechChallenge.Application.csproj" />
+    <ProjectReference Include="..\Soat10.TechChallenge.Infrastructure\Soat10.TechChallenge.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

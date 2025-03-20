@@ -1,23 +1,47 @@
 ﻿using Soat10.TechChallenge.Application.Common.Daos;
+using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Entities;
+using Soat10.TechChallenge.Application.Enums;
 using Soat10.TechChallenge.Application.Mappers;
 
 namespace Soat10.TechChallenge.Application.Gateways
 {
-    public class PaymentGateway
+    public class PaymentGateway(IDataRepository dataRepository,
+        IExternalPaymentService externalService)
     {
-        private readonly IDataRepository _dataRepository;
+        private readonly IDataRepository _dataRepository = dataRepository;
+        private readonly IExternalPaymentService _externalService = externalService;
 
-        public PaymentGateway(IDataRepository dataRepository)
+        public async Task<Payment> CreateQrCodeOrder(Order order)
         {
-            _dataRepository = dataRepository;
+            QrCodeOrderDao qrCodeOrderDao = MapperDao.MapToQrCodeOrder(order);
+
+            QrCodeOrderResponseDao qrCodeOrderResponse = await _externalService.CreateQrCodeOrder(qrCodeOrderDao);
+
+            return new Payment(order, order.TotalAmount, qrCodeOrderResponse.Qrdata);
         }
 
         public async Task<int> AddAsync(Payment payment)
         {
-            PaymentDao paymentDto = Mapper.MapToDao(payment);
+            PaymentDao paymentDto = MapperDao.Map(payment);
             return await _dataRepository.AddPaymentAsync(paymentDto);
-        }        
+        }
+
+        public async Task<Payment> GetByOrderAsync(Guid orderId)
+        {
+            PaymentDao paymentDao = await _dataRepository.GetPaymentByOrderAsync(orderId);
+            
+            Payment? payment = paymentDao != null ? Mapper.MapToEntity(paymentDao) : null;
+
+            return payment;
+        }
+
+        public async Task UpdateAsync(Payment payment)
+        {
+            PaymentDao paymentDao = MapperDao.Map(payment);
+
+            await _dataRepository.UpdatePaymentAsync(paymentDao);
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Soat10.TechChallenge.Application.Entities
 {
-    public class Product : AuditableEntity<int>
+    public class Product : Entity<int>
     {
         [Required, MaxLength(50)]
         public string? Name { get; private set; }
@@ -15,47 +15,45 @@ namespace Soat10.TechChallenge.Application.Entities
         [Required]
         public CategoryEnum ProductCategory { get; private set; }
 
-        [Range(0.01, double.MaxValue)]
-        public double Price { get; private set; }
+        public decimal Price { get; private set; }
 
         public ProductStatusEnum Status { get; private set; } = ProductStatusEnum.OutOfStock;
 
         [Range(0, 50)]
         public TimeSpan TimeToPrepare { get; private set; } = TimeSpan.FromMinutes(10);
 
-        public string? Note { get; private set; }
-
         public bool IsAvailable { get; private set; } = true;
 
-        public int QuantityInStock { get; private set; } = 0;
+        public DateTime? CreatedAt { get; private set; }
+
+        public Product()
+        {
+            CreatedAt = DateTime.UtcNow;
+            ProductCategory = CategoryEnum.NaoDefinida;
+        }
 
         [JsonConstructor]
-        public Product(int id, string name, CategoryEnum productCategory, double price, TimeSpan timeToPrepare, string? note, int quantityInStock = 0, string? description = "", bool isAvailable = false)
+        public Product(int id, string name, CategoryEnum productCategory, decimal price, TimeSpan timeToPrepare, string? description = "", bool isAvailable = false) : this()
         {
             Id = id;
             SetName(name);
             ProductCategory = productCategory;
             SetPrice(price);
             SetTimeToPrepare(timeToPrepare);
-            Note = note;
-            QuantityInStock = quantityInStock;
-            Status = quantityInStock > 0 ? ProductStatusEnum.InStock : ProductStatusEnum.OutOfStock;
+            Status = ProductStatusEnum.InStock;
             Description = description;
             IsAvailable = isAvailable;
-            MarkAsUnavailable(quantityInStock);
-
         }
 
-        public Product(string name, string description, CategoryEnum productCategory, double price)
+        public Product(string name, string description, CategoryEnum productCategory, decimal price) : this()
         {
             SetName(name);
             Description = description;
             ProductCategory = productCategory;
             SetPrice(price);
-            MarkAsUnavailable();
         }
 
-        public Product(string? name)
+        public Product(string? name) : this()
         {
             Name = name;
         }
@@ -67,12 +65,9 @@ namespace Soat10.TechChallenge.Application.Entities
             Status = status;
         }
 
-        public void MarkAsUnavailable(int quantityInStock = 0)
-        {
-            if (quantityInStock == 0)
-            {
-                IsAvailable = false;
-            }
+        public void MarkAsUnavailable()
+        {   
+            IsAvailable = false;
         }
 
         public void MarkAsAvailable()
@@ -87,7 +82,7 @@ namespace Soat10.TechChallenge.Application.Entities
             Name = name;
         }
 
-        private void SetPrice(double price)
+        private void SetPrice(decimal price)
         {
             if (price <= 0)
                 throw new ArgumentException("Price must be greater than zero.");

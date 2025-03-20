@@ -4,7 +4,14 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>77bbb5b7-ebd7-4872-9821-2fdd1a09b543</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="UseCases\Checkout\**" />
+    <EmbeddedResource Remove="UseCases\Checkout\**" />
+    <None Remove="UseCases\Checkout\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.11.0" />

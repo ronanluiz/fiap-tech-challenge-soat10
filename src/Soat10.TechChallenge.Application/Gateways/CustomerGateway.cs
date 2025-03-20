@@ -23,7 +23,16 @@ namespace Soat10.TechChallenge.Application.Gateways
 
         public async Task<Customer> GetAsync(string cpf)
         {
-            var customerDto = await _dataRepository.GetCustomerAsync(cpf);
+            CustomerDao customerDto = await _dataRepository.GetCustomerAsync(cpf);
+
+            Customer customer = Mapper.MapToEntity(customerDto);
+
+            return customer;
+        }
+
+        public async Task<Customer> GetByIdAsync(Guid id)
+        {
+            CustomerDao customerDto = await _dataRepository.GetCustomerByIdAsync(id);
 
             Customer customer = Mapper.MapToEntity(customerDto);
 

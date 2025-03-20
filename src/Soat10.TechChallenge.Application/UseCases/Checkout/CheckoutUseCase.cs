@@ -34,7 +34,7 @@ namespace Soat10.TechChallenge.Application.UseCases.Checkout
             order.ChangeStatus(OrderStatus.Paid);
             await _orderGateway.UpdateAsync(order);
 
-            Payment payment = new(paymentOrder.Id, order.Id, order.Amount);
+            Payment payment = new(int.Parse(paymentOrder.Id), order.Id, order.Amount, null, null);
             await _paymentGateway.AddAsync(payment);
         }
     }

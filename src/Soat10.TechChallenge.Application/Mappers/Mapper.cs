@@ -9,10 +9,8 @@ namespace Soat10.TechChallenge.Application.Mappers
         public static Customer MapToEntity(CustomerDto customerDto)
         {
             var customer = new Customer(customerDto.Name);
-            var cpf = new Cpf(customerDto.Cpf);
-            var email = new Email(customerDto.Email);
-            customer.SetCpf(cpf);
-            customer.SetEmail(email);
+            customer.SetCpf(customerDto.Cpf);
+            customer.SetEmail(customerDto.Email);
 
             return customer;
         }
@@ -38,11 +36,11 @@ namespace Soat10.TechChallenge.Application.Mappers
                 orderItems.Add(MapToEntity(item));
             }
 
-            return new Order(orderDto.Id, customer, orderItems);
+            return new Order(orderDto.Id, customer, orderItems, orderDto.OrderNumber);
         }
 
         public static OrderItem MapToEntity(OrderItemDto orderItemDto)
-        {   
+        {
             var product = MapToEntity(orderItemDto.Product);
             return new OrderItem
             (
@@ -54,84 +52,71 @@ namespace Soat10.TechChallenge.Application.Mappers
                 orderItemDto.Price,
                 orderItemDto.Note
             );
-        }        
-
-        public static CustomerDao MapToDao(Customer customer)
-        {
-            return new CustomerDao
-            { 
-                Name = customer.Name 
-            };
         }
 
-        public static ProductDao MapToDao(Product product)
+        public static Cart MapToEntity(CartDao cartDao)
         {
-            return new ProductDao
-            {
-                Name = product.Name,
-                Description = product.Description,
-                IsAvailable = product.IsAvailable,
-                Note = product.Note,
-                Price = product.Price,
-                ProductCategory = product.ProductCategory,
-                QuantityInStock = product.QuantityInStock,
-                Status = product.Status,
-                TimeToPrepare = product.TimeToPrepare
-            };
-        }
+            Customer customer = MapToEntity(cartDao.Customer);
 
-        public static OrderDao MapToDao(Order order)
-        {
-            CustomerDao customer = MapToDao(order.Customer);
-
-            var orderItems = new List<OrderItemDao>();
-            foreach (OrderItem item in order.Items)
+            var items = new List<CartItem>();
+            foreach (CartItemDao item in cartDao.Items)
             {
-                orderItems.Add(MapToDao(item));
+                items.Add(MapToEntity(item));
             }
 
-            return new OrderDao
-            {
-                Amount = order.Amount,
-                Id = order.Id,
-                Customer = customer,
-                CustomerId = customer.Id,
-                Items = orderItems,
-                Status = order.Status
-            };
-        }
-        public static OrderItemDao MapToDao(OrderItem orderItem)
-        {   
-            var product = MapToDao(orderItem.Product);
-            return new OrderItemDao
-            {
-                Id = orderItem.Id,
-                Note = orderItem.Note,
-                Product = product,
-                OrderId = orderItem.OrderId,
-                Price = orderItem.Price,
-                ProductId = orderItem.ProductId,
-                Quantity = orderItem.Quantity
-            };
+            return new Cart(cartDao.Id, customer, items, cartDao.Status, cartDao.CreatedAt);
         }
 
-        public static PaymentDao MapToDao(Payment payment)
+        public static CartItem MapToEntity(CartItemDao cartItemDao)
         {
-            return new PaymentDao
-            {
-                Amount = payment.Amount,
-                Order = MapToDao(payment.Order),
-                OrderId = payment.OrderId
-            };
+            Product product = MapToEntity(cartItemDao.Product);
+            return new CartItem
+            (
+                cartItemDao.Id,
+                cartItemDao.CartId,
+                cartItemDao.ProductId,
+                product,
+                cartItemDao.Quantity,
+                cartItemDao.Notes
+            );
         }
 
-        public static Customer MapToEntity(CustomerDao customerDto)
+        public static Payment MapToEntity(PaymentDao paymentDao)
         {
-            var customer = new Customer(customerDto.Name);
-            var cpf = new Cpf(customerDto.Cpf);
-            var email = new Email(customerDto.Email);
-            customer.SetCpf(cpf);
-            customer.SetEmail(email);
+            Order order = MapToEntity(paymentDao.Order);
+
+            return new Payment
+            (
+                paymentDao.Id,
+                paymentDao.CreatedAt,
+                order,
+                paymentDao.TotalAmount,
+                paymentDao.QrData,
+                paymentDao.ExternalPaymentId,
+                paymentDao.PaidAt,
+                paymentDao.Status,
+                paymentDao.DetailedStatus
+            );
+        }
+
+        public static CustomerDao? MapToDao(Customer customer)
+        {
+            if (customer != null)
+            {
+                return new CustomerDao
+                {
+                    Id = customer.Id,
+                    Name = customer.Name
+                };
+            }
+            return null;
+        }
+
+        public static Customer MapToEntity(CustomerDao customerDao)
+        {
+            var customer = new Customer(customerDao.Id, customerDao.Name);            
+            customer.SetCpf(customerDao.Cpf);
+            customer.SetEmail(customerDao.Email);
 
             return customer;
         }
@@ -140,13 +125,20 @@ namespace Soat10.TechChallenge.Application.Mappers
         {
             Customer customer = MapToEntity(orderDao.Customer);
 
-            List<OrderItem> orderItems = new List<OrderItem>();
+            List<OrderItem> orderItems = new();
             foreach (OrderItemDao item in orderDao.Items)
             {
                 orderItems.Add(MapToEntity(item));
             }
 
-            return new Order(orderDao.Id, customer, orderItems);
+            return new Order(
+                orderDao.Id, 
+                orderDao.Status, 
+                customer, 
+                orderItems, 
+                orderDao.OrderNumber,
+                orderDao.CreatedAt
+             );
         }
 
         public static OrderItem MapToEntity(OrderItemDao orderItemDao)
@@ -168,80 +160,26 @@ namespace Soat10.TechChallenge.Application.Mappers
         {
             return new Product
              (
+                productDao.Id,  
                 productDao.Name,
-                productDao.Description,
                 productDao.ProductCategory,
-                productDao.Price
+                productDao.Price,
+                productDao.TimeToPrepare,
+                productDao.Description,
+                productDao.IsAvailable
              );
         }
-        
 
-        public static OrderDto MapToDto(Order orderEntity)
+        public static Order MapToOrder(Cart cart)
         {
-            CustomerDto customer = MapToDto(orderEntity.Customer);
-
-            List<OrderItemDto> orderItems = new List<OrderItemDto>();
-            foreach (OrderItem item in orderEntity.Items)
+            Order order = new(cart.Customer);
+            foreach (CartItem item in cart.Items)
             {
-                orderItems.Add(MapToDto(item));
+                var orderItem = new OrderItem(order.Id, item.Product, item.Quantity, item.Price, item.Notes);
+                order.AddItem(orderItem);
             }
 
-            return new OrderDto
-            {
-                Amount = orderEntity.Amount,
-                Id = orderEntity.Id,
-                Customer = customer,
-                CustomerId = orderEntity.CustomerId,
-                Items = orderItems,
-                Status = orderEntity.Status
-            };
-        }
-
-        public static OrderItemDto MapToDto(OrderItem orderItemEntity)
-        {
-            ProductDto product = MapToDto(orderItemEntity.Product);
-            return new OrderItemDto
-            {
-                Id = orderItemEntity.Id,
-                OrderId = orderItemEntity.OrderId,
-                ProductId = orderItemEntity.ProductId,
-                Product = product,
-                Quantity = orderItemEntity.Quantity,
-                Price = orderItemEntity.Price,
-                Note = orderItemEntity.Note
-            };
-        }
-
-        public static CustomerDto MapToDto(Customer customerEntity)
-        {
-            return new CustomerDto()
-            {
-                Cpf = customerEntity.Cpf.Number,
-                CreatedAt = customerEntity.CreatedAt,
-                Email = customerEntity.Email.Address,
-                Id = customerEntity.Id,
-                Name = customerEntity.Name,
-                Status = customerEntity.Status
-            };
-        }
-
-        public static ProductDto MapToDto(Product productEntity)
-        {
-            return new ProductDto
-            {
-                CreatedAt = productEntity.CreatedAt,
-                Status = productEntity.Status,
-                Description = productEntity.Description,
-                Id = productEntity.Id,
-                IsAvailable = productEntity.IsAvailable,
-                Name = productEntity.Name,
-                Price = productEntity.Price,
-                Note = productEntity.Note,
-                ProductCategory = productEntity.ProductCategory,
-                QuantityInStock = productEntity.QuantityInStock,
-                TimeToPrepare = productEntity.TimeToPrepare,
-                UpdatedAt = productEntity.UpdatedAt
-            };
-        }
+            return order;
+        }        
     }
 }

@@ -8,6 +8,7 @@ namespace Soat10.TechChallenge.Application.Enums
         Lanche,
         Acompanhamento,
         Bebida,
-        Sobremesa
+        Sobremesa,
+        NaoDefinida
     }
 }

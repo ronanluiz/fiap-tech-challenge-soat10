@@ -47,11 +47,7 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
                        v => v.TotalMinutes, // Converte TimeSpan para minutos
                        v => TimeSpan.FromMinutes(v) // Converte minutos de volta para TimeSpan
                    );
-
-            builder.Property(p => p.Note)
-                   .HasColumnName("note")
-                   .HasMaxLength(255); // Nota é opcional, mas limitamos o tamanho máximo
-
+            
             builder.Property(p => p.IsAvailable)
                    .HasColumnName("is_available")
                    .IsRequired();
@@ -59,18 +55,6 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
             builder.Property(p => p.CreatedAt)
                    .HasColumnName("created_at")
                    .IsRequired();
-
-            builder.Property(p => p.UpdatedAt)
-                   .HasColumnName("updated_at")
-                   .IsRequired();
-
-            builder.Property(p => p.UserUpdated)
-                   .HasColumnName("user_updated")
-                   .HasMaxLength(100);
-
-            builder.Property(p => p.QuantityInStock)
-                   .HasColumnName("quantity_in_stock")
-                   .IsRequired(); // Remove HasMaxLength, pois é um int
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Soat10.TechChallenge.Application.Common.Daos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
+using Soat10.TechChallenge.Application.Entities;
+using Soat10.TechChallenge.Application.Mappers;
 
 namespace Soat10.TechChallenge.Application.Gateways
 {
@@ -12,9 +14,11 @@ namespace Soat10.TechChallenge.Application.Gateways
             _dataRepository = dataRepository;
         }
 
-        public async Task<ProductDao?> GetByIdAsync(int id)
+        public async Task<Product> GetByIdAsync(int id)
         {
-            var product = await _dataRepository.GetProductByIdAsync(id);
+            ProductDao productDao = await _dataRepository.GetProductByIdAsync(id);
+            Product product = Mapper.MapToEntity(productDao);
+
             return product;
         }
 
