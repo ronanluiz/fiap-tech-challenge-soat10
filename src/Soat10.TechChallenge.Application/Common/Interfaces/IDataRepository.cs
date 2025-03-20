@@ -16,6 +16,7 @@ namespace Soat10.TechChallenge.Application.Common.Interfaces
         Task<OrderDao> AddOrderAsync(OrderDao order);
         Task<IEnumerable<OrderDao>> GetAllOrdersAsync();
         Task<OrderDao> GetOrderByNumberAsync(int orderNumber);
+        Task<IEnumerable<OrderDao>> GetOpenOrdersAsync();
         #endregion
 
         #region Payment's Interfaces
@@ -41,5 +42,6 @@ namespace Soat10.TechChallenge.Application.Common.Interfaces
         Task<CartItemDao> AddCartItemAsync(CartItemDao cartItem);
         #endregion
 
+        
     }
 }

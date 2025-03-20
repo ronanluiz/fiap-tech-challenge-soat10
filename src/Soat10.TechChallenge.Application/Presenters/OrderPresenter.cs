@@ -39,5 +39,19 @@ namespace Soat10.TechChallenge.Application.Presenters
                 QrData = payment.QrData
             };
         }
+
+        public static IEnumerable<OpenOrdersResponse> BuildOpenOrders(IEnumerable<Order> orders)
+        {
+            return orders.Select(order => new OpenOrdersResponse()
+            {
+                OrderId = order.Id,
+                OrderNumber = order.OrderNumberToDisplay,
+                Amount = order.TotalAmount,
+                Status = order.Status.ToString(),
+                Products = string.Join(" | ", order.Items.Select(i => $"{i.Quantity} - {i.Product.Name}")),
+                CreatedAt = order.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss"),
+                CustomerName = order.Customer.Name
+            });              
+        }
     }
 }

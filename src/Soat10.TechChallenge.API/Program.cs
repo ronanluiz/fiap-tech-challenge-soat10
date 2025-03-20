@@ -18,6 +18,14 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnCh
                    .AddEnvironmentVariables();
 
 ConfigureLog(builder);
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
+
+
 
 builder.Services.AddFluentValidationAutoValidation(); // Adiciona valida��o automática com FluentValidation
 builder.Services.AddFluentValidationClientsideAdapters(); // (opcional) Adiciona valida��o no cliente

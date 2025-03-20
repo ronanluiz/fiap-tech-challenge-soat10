@@ -45,6 +45,18 @@ namespace Soat10.TechChallenge.API.Endpoints
 
                 return TypedResults.Ok(checkoutResponse);
             });
+
+            app.MapGet("/api/orders/open", async ([FromServices] IServiceProvider serviceProvider) =>
+            {
+                IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
+                IExternalPaymentService externalService = serviceProvider.GetService<IExternalPaymentService>();
+
+                var controller = OrderController.Build(dataRepository, externalService);
+
+                IEnumerable<OpenOrdersResponse> orders = await controller.GetOpenOrders();
+
+                return TypedResults.Ok(orders);
+            });
         }
     }
 }

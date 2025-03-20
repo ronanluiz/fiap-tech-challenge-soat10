@@ -151,5 +151,11 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return cartItem;
         }
         #endregion
+
+        public async Task<IEnumerable<OrderDao>> GetOpenOrdersAsync()
+        {
+            IEnumerable<OrderDao> orders = await _orderRepository.GetAllOpen();
+            return orders;
+        }
     }
 }

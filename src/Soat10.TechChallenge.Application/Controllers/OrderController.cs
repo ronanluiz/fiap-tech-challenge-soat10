@@ -6,6 +6,7 @@ using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Gateways;
 using Soat10.TechChallenge.Application.Presenters;
 using Soat10.TechChallenge.Application.UseCases;
+using Soat10.TechChallenge.Application.UseCases;
 using Soat10.TechChallenge.Application.UseCases.GetOrders;
 using Soat10.TechChallenge.Application.UseCases.GetPaymentByOrderId;
 
@@ -62,6 +63,17 @@ namespace Soat10.TechChallenge.Application.Controllers
             OrderPaymentStatusResponse orderPaymentStatusResponse = OrderPresenter.Present(order, payment);
 
             return orderPaymentStatusResponse;
+        }
+
+        public async Task<IEnumerable<OpenOrdersResponse>> GetOpenOrders()
+        {
+            var orderGateway = new OrderGateway(_dataRepository);
+            IEnumerable<Order> orders = await GetOpenOrdersUseCase.Build(orderGateway)
+                                                                    .ExecuteAsync();
+
+            return OrderPresenter.BuildOpenOrders(orders);
+
+
         }
     }
 }

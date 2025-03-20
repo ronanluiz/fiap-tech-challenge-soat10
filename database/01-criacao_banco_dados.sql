@@ -22,9 +22,10 @@ CREATE TABLE IF NOT EXISTS product (
 CREATE TABLE IF NOT EXISTS "order" (
     order_id UUID PRIMARY KEY,
     customer_id UUID NOT NULL,
-    status VARCHAR(255) NOT NULL DEFAULT 'Requested',
+    status VARCHAR(255) NOT NULL DEFAULT 'Received',
     amount DECIMAL(10, 2) NOT NULL,
     order_number SERIAL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT
 );
 

@@ -20,7 +20,6 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configurações das entidades (ver detalhes abaixo)
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
         }
