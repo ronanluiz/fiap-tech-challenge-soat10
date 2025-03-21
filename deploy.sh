@@ -1,5 +1,9 @@
 ﻿#!/bin/bash
 
+# Criando secrets
+kubectl create secret generic postgres-secret --from-literal=POSTGRES_USER=fiap_user --from-literal=POSTGRES_PASSWORD=fiap_password
+kubectl create secret generic app-secret --from-literal=DbConnection__User=fiap_user --from-literal=DbConnection__Password=fiap_password
+
 # Criar o ConfigMap com os scripts SQL
 kubectl create configmap postgres-init-scripts \
   --from-file=01-criacao_banco_dados.sql=database/01-criacao_banco_dados.sql \

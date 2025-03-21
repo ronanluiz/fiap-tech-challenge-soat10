@@ -8,5 +8,3 @@ data:
   ASPNETCORE_ENVIRONMENT: "Development"
   DbConnection__Host: "postgres"
   DbConnection__Database: "fiap_db"
-  DbConnection__User: "fiap_user"
-  DbConnection__Password: "fiap_password"

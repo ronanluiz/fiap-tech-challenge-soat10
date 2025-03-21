@@ -19,17 +19,11 @@ spec:
           image: fiap-tech-challenge-soat10:latest
           ports:
             - containerPort: 8080
-          env:
-            - name: ASPNETCORE_ENVIRONMENT
-              value: "Development"
-            - name: DbConnection__Host
-              value: "postgres"
-            - name: DbConnection__Database
-              value: "fiap_db"
-            - name: DbConnection__User
-              value: "fiap_user"
-            - name: DbConnection__Password
-              value: "fiap_password"
+          envFrom:
+            - configMapRef:
+                name: app-configmap
+            - secretRef:
+                name: app-secret
           resources:
             limits:
               cpu: "0.5"
