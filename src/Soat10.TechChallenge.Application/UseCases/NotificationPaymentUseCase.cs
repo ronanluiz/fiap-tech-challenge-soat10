@@ -10,6 +10,28 @@ namespace Soat10.TechChallenge.Application.UseCases
     {
         private readonly PaymentGateway _paymentGateway;
         private readonly OrderGateway _orderGateway;
+        private readonly Dictionary<string, PaymentStatus> _mapPaymentStatus = new()
+        {
+            { "approved", PaymentStatus.Approved },
+            { "authorized", PaymentStatus.Authorized },
+            { "in_process", PaymentStatus.InProcess },
+            { "pending", PaymentStatus.Pending },
+            { "cancelled", PaymentStatus.Cancelled },
+            { "charged_back", PaymentStatus.ChargedBack },
+            { "refunded", PaymentStatus.Refunded },
+            { "rejected", PaymentStatus.Rejected }
+        };
+        private readonly Dictionary<PaymentStatus, OrderStatus> _mapPaymentOrderStatus = new()
+        {
+            { PaymentStatus.Approved, OrderStatus.Paid },
+            { PaymentStatus.Authorized , OrderStatus.Paid },
+            { PaymentStatus.InProcess , OrderStatus.Requested },
+            { PaymentStatus.Pending , OrderStatus.Requested },
+            { PaymentStatus.Cancelled , OrderStatus.Cancelled },
+            { PaymentStatus.ChargedBack , OrderStatus.Cancelled },
+            { PaymentStatus.Refunded , OrderStatus.Cancelled },
+            { PaymentStatus.Rejected , OrderStatus.Cancelled }
+        };
 
         private NotificationPaymentUseCase(
             PaymentGateway paymentGateway,
@@ -33,13 +55,20 @@ namespace Soat10.TechChallenge.Application.UseCases
                 throw new ValidationException("O id do pedido está inválido");
             }
 
-            Payment payment = await _paymentGateway.GetByOrderAsync(orderId) ?? 
+            Payment payment = await _paymentGateway.GetByOrderAsync(orderId) ??
                 throw new ValidationException("Não foi encontrado registro de pagamento para o pedido informado");
             Order order = payment.Order;
 
-            order.ChangeStatus(OrderStatus.Paid);
+            PaymentStatus paymentStatus = _mapPaymentStatus[paymentNotificationRequest.Status];
+            OrderStatus orderStatus = _mapPaymentOrderStatus[paymentStatus];
+            order.ChangeStatus(orderStatus);
+            payment.SetStatus(paymentStatus, paymentNotificationRequest.StatusDetail);
             payment.SetExternalPayment(paymentNotificationRequest.Data.Id);
-            payment.SetPaymentDate(paymentNotificationRequest.DateCreated);
+
+            if(orderStatus == OrderStatus.Paid)
+            {
+                payment.Finish(paymentNotificationRequest.DateCreated, paymentNotificationRequest.StatusDetail);
+            }  
 
             await _paymentGateway.UpdateAsync(payment);
             await _orderGateway.UpdateAsync(order);

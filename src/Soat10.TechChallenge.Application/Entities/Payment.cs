@@ -12,7 +12,7 @@ namespace Soat10.TechChallenge.Application.Entities
             QrData = qrData;
             CreatedAt = DateTime.UtcNow;
             Status = PaymentStatus.Pending.ToString();
-            DetailedStatus = PaymentStatus.Pending.ToString();
+            StatusDetail = PaymentStatus.Pending.ToString();
         }
 
         public Payment(Guid id, 
@@ -34,7 +34,7 @@ namespace Soat10.TechChallenge.Application.Entities
             ExternalPaymentId = externalPaymentId;
             PaidAt = paidAt;
             Status = status;
-            DetailedStatus = detailedStatus;
+            StatusDetail = detailedStatus;
         }
 
         public DateTime CreatedAt { get; private set; }
@@ -42,7 +42,7 @@ namespace Soat10.TechChallenge.Application.Entities
         public Guid OrderId { get; private set; }
         public decimal TotalAmount { get; private set; }
         public string Status { get; set; }
-        public string DetailedStatus { get; set; }
+        public string StatusDetail { get; set; }
         public string QrData { get; private set; }
         public string ExternalPaymentId { get; private set; }
         public DateTime? PaidAt { get; private set; }
@@ -52,11 +52,16 @@ namespace Soat10.TechChallenge.Application.Entities
             ExternalPaymentId = externalPaymentId;            
         }
 
-        public void SetPaymentDate(DateTime paymentDate)
+        public void Finish(DateTime paymentDate, string statusDetail)
         {
             PaidAt = paymentDate;
+            SetStatus(PaymentStatus.Approved, statusDetail);
         }
 
-
+        public void SetStatus(PaymentStatus status, string statusDetail)
+        {
+            Status = status.ToString();
+            StatusDetail = statusDetail;
+        }
     }
 }

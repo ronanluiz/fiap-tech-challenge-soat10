@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{04C6EAD1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soat10.TechChallenge.Webhook", "Soat10.TechChallenge.Webhook\Soat10.TechChallenge.Webhook.csproj", "{C7B14144-1824-4C8E-B64A-8B702E6E90E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soat10.TechChallenge.MockWebhookReturn", "Soat10.TechChallenge.MockWebhookReturn\Soat10.TechChallenge.MockWebhookReturn.csproj", "{DA50A205-7517-46B4-8F35-0F656C3E1FF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{C7B14144-1824-4C8E-B64A-8B702E6E90E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7B14144-1824-4C8E-B64A-8B702E6E90E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7B14144-1824-4C8E-B64A-8B702E6E90E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA50A205-7517-46B4-8F35-0F656C3E1FF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA50A205-7517-46B4-8F35-0F656C3E1FF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA50A205-7517-46B4-8F35-0F656C3E1FF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA50A205-7517-46B4-8F35-0F656C3E1FF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,12 +1,15 @@
-﻿using System.Net.Http.Headers;
+﻿using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
 
 namespace Soat10.TechChallenge.Infrastructure.ExternalServices
 {
     public class AuthenticationHeaderMercadoPagoHandler : DelegatingHandler
     {
+        private readonly IConfiguration _configuration;
+        public AuthenticationHeaderMercadoPagoHandler(IConfiguration configuration) => _configuration = configuration;
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var token = "APP_USR-3827549426311414-031406-158f43d497651f357ee417d643de1caf-2309279098";
+            string token = _configuration["PaymentService:Token"];
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 

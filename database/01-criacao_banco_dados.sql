@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS "order" (
     status VARCHAR(255) NOT NULL DEFAULT 'Received',
     amount DECIMAL(10, 2) NOT NULL,
     order_number SERIAL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE RESTRICT
 );
 
@@ -49,8 +49,8 @@ CREATE TABLE IF NOT EXISTS payment (
     external_payment_id VARCHAR(255) NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     paid_at TIMESTAMP NULL,
-    status VARCHAR(255) NOT NULL DEFAULT 'pending',
-    detailed_status VARCHAR(255) NOT NULL DEFAULT 'pending',
+    status VARCHAR(255) NOT NULL DEFAULT 'Pending',
+    status_detail VARCHAR(255) NOT NULL DEFAULT 'Pending',
     FOREIGN KEY (order_id) REFERENCES "order"(order_id) ON DELETE RESTRICT
 );
 

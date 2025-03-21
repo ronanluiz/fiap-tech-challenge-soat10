@@ -11,6 +11,7 @@ namespace Soat10.TechChallenge.Application.Entities
         public Order(Customer customer)
         {
             Id = Guid.NewGuid();
+            CreatedAt = DateTime.UtcNow;
             Customer = customer;
             CustomerId = Customer.Id;
             Status = OrderStatus.Requested;

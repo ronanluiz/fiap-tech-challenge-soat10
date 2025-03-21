@@ -8,7 +8,7 @@
         public Guid OrderId { get; set; }
         public decimal TotalAmount { get; set; }
         public string Status { get; set; }
-        public string DetailedStatus { get; set; }
+        public string StatusDetail { get; set; }
 
         public string QrData { get; set; }
         public string ExternalPaymentId { get; set; }
