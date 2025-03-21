@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using Soat10.TechChallenge.Application;
 using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Common.Requests;
 using Soat10.TechChallenge.Application.Controllers;
 using Soat10.TechChallenge.Infrastructure;
+using Soat10.TechChallenge.Webhook.Middlewares;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,9 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnCh
                    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
                    .AddEnvironmentVariables();
 
+ConfigureLog(builder);
+
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(config =>
 {
     config.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -31,13 +36,19 @@ builder.Services.AddSwaggerGen(config =>
 ApplicationBootstrapper.Register(builder.Services);
 InfrastructureBootstrapper.Register(builder.Services, builder.Configuration);
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
+
+app.MapHealthChecks("/webhook/hc");
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapPost("/webhook/payment-notifications", async (
     [FromServices] IServiceProvider serviceProvider,
@@ -56,6 +67,7 @@ await app.RunAsync();
 
 static void ConfigureEnviroment()
 {
+#if DEBUG
     var rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
     var envFilePath = Path.Combine(rootPath, ".env");
 
@@ -68,4 +80,15 @@ static void ConfigureEnviroment()
     {
         Console.WriteLine($"Arquivo .env não encontrado no caminho: {envFilePath}");
     }
+#endif
+}
+
+static void ConfigureLog(WebApplicationBuilder builder)
+{
+    Log.Logger = new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .WriteTo.Console()
+        .CreateLogger();
+
+    builder.Services.AddSerilog();
 }

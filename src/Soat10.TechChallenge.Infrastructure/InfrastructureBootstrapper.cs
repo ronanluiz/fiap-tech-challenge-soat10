@@ -24,7 +24,7 @@ namespace Soat10.TechChallenge.Infrastructure
 
             services
                 .AddRefitClient<IMercadoPagoApi>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration["BasePaymentServiceUrl"]))
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration["PaymentService:BaseUrl"]))
                 .AddHttpMessageHandler<AuthenticationHeaderMercadoPagoHandler>();
 
             ConfigureDatabase(services, configuration);

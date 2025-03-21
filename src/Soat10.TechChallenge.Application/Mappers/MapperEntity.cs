@@ -104,7 +104,7 @@ namespace Soat10.TechChallenge.Application.Mappers
                 paymentDao.ExternalPaymentId,
                 paymentDao.PaidAt,
                 paymentDao.Status,
-                paymentDao.DetailedStatus
+                paymentDao.StatusDetail
             );
         }
 

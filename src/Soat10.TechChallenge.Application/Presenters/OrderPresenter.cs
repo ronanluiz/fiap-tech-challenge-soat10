@@ -25,7 +25,7 @@ namespace Soat10.TechChallenge.Application.Presenters
                 OrderNumber = order.OrderNumberToDisplay,
                 OrderValue = order.Items.Sum(item => item.Price),
                 PaymentStatus = payment.Status,
-                PaymentDetailedStatus = payment.DetailedStatus,
+                PaymentDetailedStatus = payment.StatusDetail,
                 CustomerName =  order.Customer.Name,
             };
         }

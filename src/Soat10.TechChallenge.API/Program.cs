@@ -45,7 +45,11 @@ builder.Services.AddFluentValidationRulesToSwagger(); // Integra��o com Swag
 ApplicationBootstrapper.Register(builder.Services);
 InfrastructureBootstrapper.Register(builder.Services, builder.Configuration);
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
+
+app.MapHealthChecks("/api/hc");
 
 if (app.Environment.IsDevelopment())
 {
@@ -61,18 +65,9 @@ app.MapCartEndpoints();
 
 await app.RunAsync();
 
-static void ConfigureLog(WebApplicationBuilder builder)
-{
-    Log.Logger = new LoggerConfiguration()
-        .Enrich.FromLogContext()
-        .WriteTo.Console()
-        .CreateLogger();
-
-    builder.Services.AddSerilog();
-}
-
 static void ConfigureEnviroment()
 {
+#if DEBUG
     var rootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../.."));
     var envFilePath = Path.Combine(rootPath, ".env");
 
@@ -85,4 +80,15 @@ static void ConfigureEnviroment()
     {
         Console.WriteLine($"Arquivo .env não encontrado no caminho: {envFilePath}");
     }
+#endif
+}
+
+static void ConfigureLog(WebApplicationBuilder builder)
+{
+    Log.Logger = new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .WriteTo.Console()
+        .CreateLogger();
+
+    builder.Services.AddSerilog();
 }

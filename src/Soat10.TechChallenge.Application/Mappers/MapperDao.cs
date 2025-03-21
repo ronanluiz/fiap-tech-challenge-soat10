@@ -44,11 +44,13 @@ namespace Soat10.TechChallenge.Application.Mappers
 
             return new OrderDao
             {
-                Amount = order.TotalAmount,
                 Id = order.Id,
+                Amount = order.TotalAmount,
                 CustomerId = order.CustomerId,
                 Items = orderItems,
-                Status = order.Status
+                Status = order.Status,
+                CreatedAt = order.CreatedAt,
+                OrderNumber = order.OrderNumber
             };
         }
         public static OrderItemDao MapToDao(OrderItem orderItem)
@@ -76,7 +78,7 @@ namespace Soat10.TechChallenge.Application.Mappers
                 PaidAt = payment.PaidAt,
                 QrData = payment.QrData,
                 Status = payment.Status,
-                DetailedStatus = payment.DetailedStatus
+                StatusDetail = payment.StatusDetail
             };
         }
 

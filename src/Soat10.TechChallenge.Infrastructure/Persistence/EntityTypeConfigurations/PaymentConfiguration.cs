@@ -22,9 +22,10 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
             builder.Property(p => p.Status)
                 .HasColumnName("status")
                 .HasDefaultValue(PaymentStatus.Pending.ToString());
-            builder.Property(p => p.DetailedStatus)
-                .HasColumnName("detailed_status")
-                .HasDefaultValue(PaymentStatus.Pending.ToString());
+            builder.Property(p => p.StatusDetail)
+                .HasColumnName("status_detail")
+                .HasDefaultValue(PaymentStatus.Pending.ToString())
+                .IsRequired(false);
             builder.Property(o => o.QrData)
                 .HasColumnName("qr_data")
                 .IsRequired(false);

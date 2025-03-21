@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Soat10.TechChallenge.Application.Common.Requests
+namespace Soat10.TechChallenge.MockWebhookReturn
 {
-    public class PaymentNotificationRequest
+    public class PaymentNotificationDto
     {
         [JsonPropertyName("action")]
         public string Action { get; set; }
@@ -11,7 +11,7 @@ namespace Soat10.TechChallenge.Application.Common.Requests
         public string ApiVersion { get; set; }
 
         [JsonPropertyName("data")]
-        public PaymentNotificationDataRequest Data { get; set; }
+        public PaymentNotificationDataDto Data { get; set; }
 
         [JsonPropertyName("date_created")]
         public DateTime DateCreated { get; set; }
