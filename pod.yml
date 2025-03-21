@@ -1,0 +1,22 @@
+﻿apiVersion: v1
+kind: Pod
+metadata:
+  name: fiap-tech-challenge
+  labels:
+    app: fiap-tech-challenge
+spec:
+  containers:
+    - name: fiap-tech-challenge-container
+      image: soat10/fiap-tech-challenge-soat10:latest
+      ports:
+        - containerPort: 8080
+      envFrom:
+        - configMapRef:
+            name: app-configmap
+      resources:
+        limits:
+          cpu: "0.5"
+          memory: "512Mi"
+        requests:
+          cpu: "0.2"
+          memory: "256Mi"

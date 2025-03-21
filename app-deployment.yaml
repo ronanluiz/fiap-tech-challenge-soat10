@@ -1,0 +1,52 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-tech-challenge
+  labels:
+    app: fiap-tech-challenge
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fiap-tech-challenge
+  template:
+    metadata:
+      labels:
+        app: fiap-tech-challenge
+    spec:
+      containers:
+        - name: fiap-tech-challenge-container
+          image: fiap-tech-challenge-soat10:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+            - name: DbConnection__Host
+              value: "postgres"
+            - name: DbConnection__Database
+              value: "fiap_db"
+            - name: DbConnection__User
+              value: "fiap_user"
+            - name: DbConnection__Password
+              value: "fiap_password"
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "512Mi"
+            requests:
+              cpu: "0.2"
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /swagger
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /swagger
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+      restartPolicy: Always

@@ -1,0 +1,15 @@
+﻿apiVersion: v1
+kind: Service
+metadata:
+  name: fiap-tech-challenge-service
+  labels:
+    app: fiap-tech-challenge
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 31000
+      protocol: TCP
+  selector:
+    app: fiap-tech-challenge
