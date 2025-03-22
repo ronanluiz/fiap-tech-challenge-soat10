@@ -62,6 +62,7 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapCustomerEndpoints();
 app.MapOrderEndpoints();
 app.MapCartEndpoints();
+app.MapProductEndpoints();
 
 await app.RunAsync();
 

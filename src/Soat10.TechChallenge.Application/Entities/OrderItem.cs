@@ -13,7 +13,7 @@ namespace Soat10.TechChallenge.Application.Entities
             Note = note;
         }
 
-        public OrderItem(Guid id, Guid orderId, int productId, Product product, int quantity, decimal price, string note) : base(id)
+        public OrderItem(Guid id, Guid orderId, Guid productId, Product product, int quantity, decimal price, string note) : base(id)
         {
             OrderId = orderId;
             ProductId = productId;
@@ -31,7 +31,7 @@ namespace Soat10.TechChallenge.Application.Entities
         }
 
         public Guid OrderId { get; set; }
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
         public virtual Product Product { get; set; }
         public int Quantity { get; private set; }
         public decimal Price { get; private set; }

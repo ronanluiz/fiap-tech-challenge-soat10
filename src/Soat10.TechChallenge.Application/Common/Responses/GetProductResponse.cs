@@ -1,8 +1,13 @@
 ﻿using Soat10.TechChallenge.Application.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Soat10.TechChallenge.Application.Common.Daos
+namespace Soat10.TechChallenge.Application.Common.Responses
 {
-    public class ProductDao
+    public class GetProductResponse
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
