@@ -130,3 +130,44 @@ docker-compose up --build
 ```bash
 docker-compose down --volumes
 ```
+
+## Rodando com o Kubernetes
+
+1 - Pré-requisitos:
+- Verifique se você possui o kubectl instalado e configurado
+```bash
+kubectl version
+```
+- Certifique-se de ter um cluster Kubernetes disponível (via Minikube, GKE, AKS, DockerHub, etc...)
+```bash
+kubectl cluster-info
+```
+
+2 - Aplicar as configurações no Kubernetes:
+Primeiramente, você precisará aplicar os manifests YML do Kubernetes (Deployment, Service, ConfigMap, etc.). 
+No diretório do projeto, execute o script para aplicar as configurações: 
+
+```bash
+./deploy.sh
+```
+
+3 - Valide que tudo funcionou sem problemas com os comandos:
+```bash
+kubectl get all
+```
+
+Com esse comando é possível visualizar todos os recursos disponíveis e os seus status.
+
+4 - Após validar que a aplicação subiu sem erros, acessar a seguinte url no browser para listagem do swagger de todos os endpoints disponíveis:
+
+[http://localhost:31000/swagger](http://localhost:31000/swagger)
+
+### Outros comandos kubectl interessantes:
+
+```bash
+kubectl delete pvc postgres-pvc # Exclui o pvc caso ocorra algum problema com as tabelas do banco
+kubectl delete pod -l app=fiap-tech-challenge # Exclui o pod para forçar a criação de um novo pod
+kubectl exec -it <nome_do_pod> -- psql -U fiap_user -d fiap_db -c "\dt" # Para visualizar as tabelas criadas
+kubectl get pods --watch # Visualizar o status dos pods em tempo real
+kubectl logs fiap-tech-challenge # Visualizar os logs do pod da aplicação
+```
