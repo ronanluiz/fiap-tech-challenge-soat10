@@ -6,10 +6,11 @@ INSERT INTO customer (customer_id, name, email, cpf) VALUES
 
 -- Inserção de dados na tabela product
 INSERT INTO product (
-    name, description, category, price, status, 
+    product_id, name, description, category, price, status, 
     time_to_prepare, is_available, created_at
 ) VALUES
 (
+    '08518e58-fcc3-4298-aa5a-50d954ad3bc3',
     'X-Burguer com Queijo e Bacon',
     'Três hamburgueres, alface, queijo, molho espacial, cebola, pickles e pão com gergelin',
     0, -- Lanche (assumindo que "Lanche" seja representado como 0 no enum)
@@ -20,6 +21,7 @@ INSERT INTO product (
     '2025-01-15T13:25:37.6893259Z'
 ),
 (
+    '6a4b8d15-74ea-4b54-bec5-2d9f64fed573',
     'Batata Frita Crocante',
     'Porção de batatas fritas crocantes, ideal para acompanhar qualquer lanche',
     1, -- Acompanhamento (assumindo que "Acompanhamento" seja representado como 1 no enum)
@@ -30,6 +32,7 @@ INSERT INTO product (
     '2025-01-15T14:00:00Z'
 ),
 (
+    '964e8baf-5984-4f61-aae5-d2a4730b9882',
     'Refrigerante Cola 350ml',
     'Lata de refrigerante sabor cola, gelado e refrescante',
     2, -- Bebida (assumindo que "Bebida" seja representado como 2 no enum)
@@ -40,6 +43,7 @@ INSERT INTO product (
     '2025-01-15T14:15:00Z'
 ),
 (
+    'cdc2f171-ad5f-475f-8707-14c103207ad8',
     'Mousse de Maracujá Cremoso',
     'Sobremesa cremosa feita com maracujá fresco, ideal para adoçar o dia',
     3, -- Sobremesa (assumindo que "Sobremesa" seja representado como 3 no enum)
@@ -123,50 +127,50 @@ VALUES
 INSERT INTO order_item (order_item_id, order_id, product_id, quantity, price, note)
 VALUES
   -- Pedido 3
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'José Neves')), 1, 1, 10.00, NULL),
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'José Neves')), 3, 1, 3.50, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'José Neves')), '08518e58-fcc3-4298-aa5a-50d954ad3bc3', 1, 10.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'José Neves')), '964e8baf-5984-4f61-aae5-d2a4730b9882', 1, 3.50, NULL),
 
   -- Pedido 4
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Samanta Silva')), 2, 1, 5.00, NULL),
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Samanta Silva')), 4, 1, 4.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Samanta Silva')), '6a4b8d15-74ea-4b54-bec5-2d9f64fed573', 1, 5.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Samanta Silva')), 'cdc2f171-ad5f-475f-8707-14c103207ad8', 1, 4.00, NULL),
 
   -- Pedido 5
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Clarice Porto')), 1, 2, 10.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Clarice Porto')), '08518e58-fcc3-4298-aa5a-50d954ad3bc3', 2, 10.00, NULL),
 
   -- Pedido 6
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Maria da Silva')), 2, 1, 5.00, NULL),
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Maria da Silva')), 3, 1, 3.50, NULL),
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Maria da Silva')), 4, 1, 4.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Maria da Silva')), '6a4b8d15-74ea-4b54-bec5-2d9f64fed573', 1, 5.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Maria da Silva')), '964e8baf-5984-4f61-aae5-d2a4730b9882', 1, 3.50, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Maria da Silva')), 'cdc2f171-ad5f-475f-8707-14c103207ad8', 1, 4.00, NULL),
 
   -- Pedido 7
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'João Oliveira')), 1, 1, 10.00, NULL),
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'João Oliveira')), 2, 1, 5.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'João Oliveira')), '08518e58-fcc3-4298-aa5a-50d954ad3bc3', 1, 10.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'João Oliveira')), '6a4b8d15-74ea-4b54-bec5-2d9f64fed573', 1, 5.00, NULL),
 
   -- Pedido 8
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Vanessa Souza')), 3, 2, 3.50, NULL),
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Vanessa Souza')), 4, 1, 4.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Vanessa Souza')), '964e8baf-5984-4f61-aae5-d2a4730b9882', 2, 3.50, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Vanessa Souza')), 'cdc2f171-ad5f-475f-8707-14c103207ad8', 1, 4.00, NULL),
 
   -- Pedido 9
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Silvia dos Santos')), 2, 3, 5.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Silvia dos Santos')), '6a4b8d15-74ea-4b54-bec5-2d9f64fed573', 3, 5.00, NULL),
 
   -- Pedido 10
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Rodrigo Rodrigues')), 4, 2, 4.00, NULL),
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Rodrigo Rodrigues')), 1, 1, 10.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Rodrigo Rodrigues')), 'cdc2f171-ad5f-475f-8707-14c103207ad8', 2, 4.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Rodrigo Rodrigues')), '08518e58-fcc3-4298-aa5a-50d954ad3bc3', 1, 10.00, NULL),
 
   -- Pedido 11
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Marcos Borges')), 3, 2, 3.50, NULL),
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Marcos Borges')), 2, 1, 5.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Marcos Borges')), '964e8baf-5984-4f61-aae5-d2a4730b9882', 2, 3.50, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Marcos Borges')), '6a4b8d15-74ea-4b54-bec5-2d9f64fed573', 1, 5.00, NULL),
 
   -- Pedido 12
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Helena Cardoso')), 4, 3, 4.00, NULL),
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Helena Cardoso')), 3, 1, 3.50, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Helena Cardoso')), 'cdc2f171-ad5f-475f-8707-14c103207ad8', 3, 4.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Helena Cardoso')), '964e8baf-5984-4f61-aae5-d2a4730b9882', 1, 3.50, NULL),
 
   -- Pedido 13
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Rafaela Ferreira')), 2, 2, 5.00, NULL),
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Rafaela Ferreira')), 1, 1, 10.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Rafaela Ferreira')), '6a4b8d15-74ea-4b54-bec5-2d9f64fed573', 2, 5.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Rafaela Ferreira')), '08518e58-fcc3-4298-aa5a-50d954ad3bc3', 1, 10.00, NULL),
 
   -- Pedido 14
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Ana Machado')), 3, 1, 3.50, NULL),
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Ana Machado')), 4, 1, 4.00, NULL),
-  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Ana Machado')), 2, 1, 5.00, NULL);
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Ana Machado')), '964e8baf-5984-4f61-aae5-d2a4730b9882', 1, 3.50, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Ana Machado')), 'cdc2f171-ad5f-475f-8707-14c103207ad8', 1, 4.00, NULL),
+  (gen_random_uuid(), (SELECT order_id FROM "order" WHERE customer_id = (SELECT customer_id FROM customer WHERE name = 'Ana Machado')), '6a4b8d15-74ea-4b54-bec5-2d9f64fed573', 1, 5.00, NULL);
 

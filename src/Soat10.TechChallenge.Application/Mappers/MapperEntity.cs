@@ -179,6 +179,21 @@ namespace Soat10.TechChallenge.Application.Mappers
              );
         }
 
+        public static ProductDao MapToDao(Product product)
+        {
+            return new ProductDao()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                ProductCategory = product.ProductCategory,
+                Price = product.Price,
+                TimeToPrepare = product.TimeToPrepare,
+                Description = product.Description,
+                IsAvailable = product.IsAvailable,
+                CreatedAt = product.CreatedAt,
+                Status = product.Status,
+            };
+        }
         public static Order MapToOrder(Cart cart)
         {
             Order order = new(cart.Customer);

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS customer (
 );
 
 CREATE TABLE IF NOT EXISTS product (
-    product_id SERIAL PRIMARY KEY,
+    product_id UUID PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     description VARCHAR(200) NOT NULL,
     category INT NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS "order" (
 CREATE TABLE IF NOT EXISTS order_item (
     order_item_id UUID PRIMARY KEY,
     order_id UUID NOT NULL,
-    product_id INTEGER NOT NULL,
+    product_id UUID NOT NULL,
     quantity INTEGER NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     note VARCHAR(255) NULL,
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS cart (
 CREATE TABLE IF NOT EXISTS cart_item (
     cart_item_id UUID PRIMARY KEY,
     cart_id UUID NOT NULL,
-    product_id INTEGER NOT NULL,
+    product_id UUID NOT NULL,
     quantity INTEGER NOT NULL,
     notes VARCHAR(255) NULL,
     FOREIGN KEY (cart_id) REFERENCES cart(cart_id) ON DELETE RESTRICT,

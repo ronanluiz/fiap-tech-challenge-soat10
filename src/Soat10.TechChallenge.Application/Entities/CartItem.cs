@@ -15,7 +15,7 @@ namespace Soat10.TechChallenge.Application.Entities
             Notes = notes;
         }
 
-        public CartItem(Guid id, Guid cartId, int productId, Product product, int quantity, string notes)
+        public CartItem(Guid id, Guid cartId, Guid productId, Product product, int quantity, string notes)
         {
             Id = id;
             CartId = cartId;
@@ -33,7 +33,7 @@ namespace Soat10.TechChallenge.Application.Entities
         }
 
         public Guid CartId { get; set; }
-        public int ProductId { get; set; }
+        public Guid ProductId { get; set; }
         public virtual Product Product { get; set; }
         public int Quantity { get; private set; }
         public string? Notes { get; private set; }

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Soat10.TechChallenge.Application.Entities
 {
-    public class Product : Entity<int>
+    public class Product : Entity<Guid>
     {
         [Required, MaxLength(50)]
         public string? Name { get; private set; }
@@ -33,7 +33,7 @@ namespace Soat10.TechChallenge.Application.Entities
         }
 
         [JsonConstructor]
-        public Product(int id, string name, CategoryEnum productCategory, decimal price, TimeSpan timeToPrepare, string? description = "", bool isAvailable = false) : this()
+        public Product(Guid id, string name, CategoryEnum productCategory, decimal price, TimeSpan timeToPrepare, string? description = "", bool isAvailable = false) : this()
         {
             Id = id;
             SetName(name);
@@ -56,6 +56,17 @@ namespace Soat10.TechChallenge.Application.Entities
         public Product(string? name) : this()
         {
             Name = name;
+        }
+
+        public void UpdateProduct(string name, CategoryEnum productCategory, decimal price, TimeSpan timeToPrepare, string? description = "", bool isAvailable = false)
+        {
+            SetName(name);
+            ProductCategory = productCategory;
+            SetPrice(price);
+            SetTimeToPrepare(timeToPrepare);
+            Status = ProductStatus.InStock;
+            Description = description;
+            IsAvailable = isAvailable;
         }
 
         public void UpdateStatus(ProductStatus status)

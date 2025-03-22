@@ -27,9 +27,9 @@ namespace Soat10.TechChallenge.Application.Common.Interfaces
         #endregion
 
         #region Product's Interfaces
-        Task<ProductDao> GetProductByIdAsync(int id);
+        Task<ProductDao> GetProductByIdAsync(Guid id);
         Task<IEnumerable<ProductDao>> GetAllProductsAsync();
-        Task<int> AddProductAsync(ProductDao product);
+        Task<Guid> AddProductAsync(ProductDao product);
         Task UpdateProductAsync(ProductDao product);
         Task DeleteProductAsync(ProductDao product);
         Task<IEnumerable<ProductDao>> GetProductsByCategoryAsync(string category);

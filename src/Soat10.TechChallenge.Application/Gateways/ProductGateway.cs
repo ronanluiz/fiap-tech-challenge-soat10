@@ -1,7 +1,10 @@
 ﻿using Soat10.TechChallenge.Application.Common.Daos;
+using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
+using Soat10.TechChallenge.Application.Common.Requests;
 using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Application.Mappers;
+using System.Collections.Generic;
 
 namespace Soat10.TechChallenge.Application.Gateways
 {
@@ -14,38 +17,54 @@ namespace Soat10.TechChallenge.Application.Gateways
             _dataRepository = dataRepository;
         }
 
-        public async Task<Product> GetByIdAsync(int id)
+        public async Task<Product> GetByIdAsync(Guid id)
         {
             ProductDao productDao = await _dataRepository.GetProductByIdAsync(id);
+            if(productDao is null) throw new ArgumentNullException($"Não foi encontrado o produto para o ID {id}");
             Product product = MapperEntity.MapToEntity(productDao);
-
             return product;
         }
 
-        public async Task<IEnumerable<ProductDao>> GetAllAsync()
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            var products = await _dataRepository.GetAllProductsAsync();
+            IEnumerable<ProductDao> productsDao = await _dataRepository.GetAllProductsAsync();
+            IList<Product> products = new List<Product>();
+
+            foreach (ProductDao productDao in productsDao)
+            {
+                products.Add(MapperEntity.MapToEntity(productDao));
+            }
             return products;
         }
 
-        public async Task<int> AddAsync(ProductDao product)
-        {   
-            return await _dataRepository.AddProductAsync(product);
-        }
-
-        public async Task UpdateAsync(ProductDao product)
-        {   
-            await _dataRepository.UpdateProductAsync(product);
-        }
-
-        public async Task DeleteAsync(ProductDao product)
-        {   
-            await _dataRepository.DeleteProductAsync(product);
-        }
-
-        public async Task<IEnumerable<ProductDao>> GetByCategoryAsync(string category)
+        public async Task<Guid> AddAsync(Product product)
         {
-            var products = await _dataRepository.GetProductsByCategoryAsync(category);
+            ProductDao productDao = MapperEntity.MapToDao(product);
+            return await _dataRepository.AddProductAsync(productDao);
+        }
+
+        public async Task UpdateAsync(Product product)
+        {
+            ProductDao productDao = MapperEntity.MapToDao(product);
+            await _dataRepository.UpdateProductAsync(productDao);
+        }
+
+        public async Task DeleteAsync(Product product)
+        {
+            ProductDao productDao = MapperEntity.MapToDao(product);
+            await _dataRepository.DeleteProductAsync(productDao);
+        }
+
+        public async Task<IEnumerable<Product>> GetByCategoryAsync(string category)
+        {
+            IEnumerable<ProductDao> productsDao = await _dataRepository.GetProductsByCategoryAsync(category);
+
+            IList<Product> products = new List<Product>();
+
+            foreach (ProductDao productDao in productsDao)
+            {
+                products.Add(MapperEntity.MapToEntity(productDao));
+            }
             return products;
         }
 
@@ -61,6 +80,4 @@ namespace Soat10.TechChallenge.Application.Gateways
             return products;
         }
     }
-    
-    
 }

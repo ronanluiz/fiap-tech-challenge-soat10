@@ -94,14 +94,14 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
         #endregion
 
         #region Product's Repository
-        public async Task<ProductDao> GetProductByIdAsync(int id)
+        public async Task<ProductDao> GetProductByIdAsync(Guid id)
         {
             return await _productRepository.GetByIdAsync(id);
         }
 
         public Task<IEnumerable<ProductDao>> GetProductsByCategoryAsync(string category)
         {
-            throw new NotImplementedException();
+            return _productRepository.GetByCategoryAsync(category);
         }
 
         public Task<IEnumerable<ProductDao>> GetProductsByStatusAsync(string status)
@@ -111,7 +111,8 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 
         public Task<IEnumerable<ProductDao>> GetAllProductsAsync()
         {
-            throw new NotImplementedException();
+            return _productRepository.GetAllProductsAsync();
+
         }
 
         public Task<IEnumerable<ProductDao>> GetAvailableProductsAsync()
@@ -121,21 +122,21 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 
         public Task UpdateProductAsync(ProductDao product)
         {
-            throw new NotImplementedException();
+            return _productRepository.UpdateProductAsync(product);
         }
 
-        public Task<int> AddProductAsync(ProductDao product)
+        public Task<Guid> AddProductAsync(ProductDao product)
         {
-            throw new NotImplementedException();
+            return _productRepository.AddProductAsync(product);
         }
 
         public Task DeleteProductAsync(ProductDao product)
         {
-            throw new NotImplementedException();
+            return _productRepository.DeleteProductAsync(product);
         }
         #endregion
 
-        
+
 
         #region Cart
         public async Task<CartDao> AddCartAsync(CartDao cart)
