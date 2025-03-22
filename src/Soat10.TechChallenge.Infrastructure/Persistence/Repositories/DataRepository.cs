@@ -87,6 +87,10 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             await _orderRepository.UpdateAsync(order);
         }
 
+        public async Task UpdateOrderStatusAsync(OrderDao order)
+        {
+            await _orderRepository.UpdateOrderStatusAsync(order);
+        }
         #endregion
 
         #region Product's Repository

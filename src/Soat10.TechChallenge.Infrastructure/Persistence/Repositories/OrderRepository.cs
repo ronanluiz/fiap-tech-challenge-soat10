@@ -66,5 +66,16 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public async Task<int> UpdateOrderStatusAsync(OrderDao orderDao)
+        {
+            var existing = await _context.Orders.FindAsync(orderDao.Id);
+            if (existing == null)
+                return 0;
+
+            existing.Status = orderDao.Status;
+            return await _context.SaveChangesAsync();
+        }
+
     }
 }

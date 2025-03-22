@@ -17,6 +17,7 @@ namespace Soat10.TechChallenge.Application.Common.Interfaces
         Task<IEnumerable<OrderDao>> GetAllOrdersAsync();
         Task<OrderDao> GetOrderByNumberAsync(int orderNumber);
         Task<IEnumerable<OrderDao>> GetOpenOrdersAsync();
+        Task UpdateOrderStatusAsync(OrderDao order);
         #endregion
 
         #region Payment's Interfaces

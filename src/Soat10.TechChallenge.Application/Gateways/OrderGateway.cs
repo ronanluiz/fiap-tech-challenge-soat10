@@ -73,5 +73,13 @@ namespace Soat10.TechChallenge.Application.Gateways
 
             return ordersReturn;
         }
+
+        public async Task UpdateStatusAsync(Order order)
+        {
+            var orderDao = MapperDao.Map(order);
+            orderDao.Items = [];
+            await _dataRepository.UpdateOrderStatusAsync(orderDao);
+        }
+
     }
 }
