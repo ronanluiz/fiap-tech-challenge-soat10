@@ -36,8 +36,9 @@ Antes de começar, você vai precisar ter instalado em sua máquina:
 - .Net 8
 - Para sistema operacional Windows: WSL2
 - Docker e Docker Compose
+- Kubernetes instalado localmente
 
-## Instruções para Iniciar o Projeto Localmente
+## Instruções para iniciar o projeto localmente
 
 Siga os passos abaixo para rodar o projeto na sua máquina:
 
@@ -93,7 +94,7 @@ Com esse comando é possível visualizar todos os recursos disponíveis e os seu
 
 4 - Após validar que a aplicação subiu sem erros, acessar a seguinte url no browser para listagem do swagger de todos os endpoints disponíveis:
 
-[http://localhost:31000/swagger](http://localhost:31000/swagger)
+[http://localhost:30000/swagger](http://localhost:30000/swagger)
 
 ### Outros comandos kubectl interessantes:
 
@@ -110,7 +111,6 @@ kubectl logs fiap-tech-challenge # Visualizar os logs do pod da aplicação
 ### Swagger
 
 Após subir a aplicação as documentações do swagger serão disponibilizadas nos seguinte links:
-
 
 | Serviço | Docker                        | Kubernetes                     |
 | ---------- | ------------------------------- | -------------------------------- |
