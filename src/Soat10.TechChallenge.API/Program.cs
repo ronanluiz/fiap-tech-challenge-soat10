@@ -19,8 +19,8 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnCh
 
 ConfigureLog(builder);
 
-builder.Services.AddFluentValidationAutoValidation(); // Adiciona valida��o automática com FluentValidation
-builder.Services.AddFluentValidationClientsideAdapters(); // (opcional) Adiciona valida��o no cliente
+builder.Services.AddFluentValidationAutoValidation(); // Adiciona validação automática com FluentValidation
+builder.Services.AddFluentValidationClientsideAdapters(); // (opcional) Adiciona validação no cliente
 
 // Registra todos os validadores encontrados no assembly do projeto Application
 builder.Services.AddValidatorsFromAssemblyContaining<OrderValidator>();
@@ -40,7 +40,7 @@ builder.Services.AddSwaggerGen(config =>
     config.IncludeXmlComments(xmlPath);
 });
 
-builder.Services.AddFluentValidationRulesToSwagger(); // Integra��o com Swagger
+builder.Services.AddFluentValidationRulesToSwagger(); // Integração com Swagger
 
 ApplicationBootstrapper.Register(builder.Services);
 InfrastructureBootstrapper.Register(builder.Services, builder.Configuration);

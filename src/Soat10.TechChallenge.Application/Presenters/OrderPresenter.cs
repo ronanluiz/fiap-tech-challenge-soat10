@@ -53,5 +53,16 @@ namespace Soat10.TechChallenge.Application.Presenters
                 CustomerName = order.Customer.Name
             });              
         }
+
+        public static OrderStatusResponse Build(Order order)
+        {
+            return new OrderStatusResponse
+            {
+                OrderId = order.Id,
+                OrderNumber = order.OrderNumberToDisplay,
+                Status = order.Status.ToString()
+            };
+        }
+
     }
 }

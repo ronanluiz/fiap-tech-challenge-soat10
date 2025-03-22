@@ -69,8 +69,19 @@ namespace Soat10.TechChallenge.Application.Controllers
                                                                     .ExecuteAsync();
 
             return OrderPresenter.BuildOpenOrders(orders);
+        }
 
+        public async Task<OrderStatusResponse> UpdateOrderStatusAsync(Guid orderId)
+        {
+            var orderGateway = new OrderGateway(_dataRepository);
 
+            var order = await UpdateOrderStatusUseCase.Build(orderGateway)
+                                                      .ExecuteAsync(orderId);
+
+            if (order == null)
+                return null;
+
+            return OrderPresenter.Build(order);
         }
     }
 }

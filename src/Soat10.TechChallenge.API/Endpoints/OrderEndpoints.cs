@@ -57,6 +57,22 @@ namespace Soat10.TechChallenge.API.Endpoints
 
                 return TypedResults.Ok(orders);
             });
+
+            app.MapPatch("/api/orders/{orderId}/status", async ([FromServices] IServiceProvider serviceProvider, Guid orderId) =>
+            {
+                IDataRepository dataRepository = serviceProvider.GetService<IDataRepository>();
+                IExternalPaymentService externalService = serviceProvider.GetService<IExternalPaymentService>();
+
+                var controller = OrderController.Build(dataRepository, externalService);
+
+                var result = await controller.UpdateOrderStatusAsync(orderId);
+
+                if (result == null)
+                    return Results.BadRequest("Invalid status transition.");
+
+                return Results.Ok(result);
+            });
+
         }
     }
 }
