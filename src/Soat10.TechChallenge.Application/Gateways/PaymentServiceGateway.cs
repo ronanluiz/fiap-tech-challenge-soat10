@@ -2,6 +2,7 @@
 using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Entities;
+using Soat10.TechChallenge.Application.Mappers;
 
 namespace Soat10.TechChallenge.Application.Gateways
 {
@@ -12,13 +13,13 @@ namespace Soat10.TechChallenge.Application.Gateways
         public PaymentServiceGateway(IExternalPaymentService externalService)
         {
             _externalService = externalService;
-        }        
+        }
 
-        public async Task<PaymentOrder> Create(Order order)
+        public async Task<ExternalPaymentOrder> Get(string paymentId)
         {
-            PaymentOrderDao paymentOrderResponse = await _externalService.ProcessPaymentAsync(order.Id.ToString(), string.Empty);
+            ExternalOrderDao externalOrder = await _externalService.GetPayment(paymentId);
 
-            return new PaymentOrder(paymentOrderResponse.InStoreOrderId, paymentOrderResponse.Qrdata);
+            return new ExternalPaymentOrder(externalOrder.Id.ToString(), Guid.NewGuid(), externalOrder.Status);
         }
     }
 }

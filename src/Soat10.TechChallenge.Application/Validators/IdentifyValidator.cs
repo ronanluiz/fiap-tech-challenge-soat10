@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using Soat10.TechChallenge.Application.Common.Dtos;
+using Soat10.TechChallenge.Application.Common.Requests;
 
 namespace Soat10.TechChallenge.Application.Validators
 {
-    public class IdentifyValidator : AbstractValidator<IdentifyDto>
+    public class IdentifyValidator : AbstractValidator<IdentifyRequest>
     {
         public IdentifyValidator()
         {

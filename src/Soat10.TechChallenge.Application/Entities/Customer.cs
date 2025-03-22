@@ -2,7 +2,7 @@ using Soat10.TechChallenge.Application.Exceptions;
 
 namespace Soat10.TechChallenge.Application.Entities
 {
-    public class Customer : Entity<int>
+    public class Customer : Entity<Guid>
     {
         public string Name { get; private set; }
         public Email Email { get; private set; }
@@ -12,26 +12,33 @@ namespace Soat10.TechChallenge.Application.Entities
 
         public Customer(string name)
         {
+            Id = Guid.NewGuid();
             Name = name;
             Validate();
         }
 
-        public Customer(int id, string name)
+        public Customer(Guid id, string name)
         {
             Id = id;
             Name = name;
             Validate();
         }
 
-        public void SetEmail(Email email)
+        public void SetEmail(string email)
         {
-            Email = email;
+            if (!string.IsNullOrEmpty(email))
+            {
+                Email = new(email);
+            }
             Validate();
         }
 
-        public void SetCpf(Cpf cpf)
+        public void SetCpf(string cpf)
         {
-            Cpf = cpf;
+            if (!string.IsNullOrEmpty(cpf))
+            {
+                Cpf = new(cpf);
+            }
             Validate();
         }
 

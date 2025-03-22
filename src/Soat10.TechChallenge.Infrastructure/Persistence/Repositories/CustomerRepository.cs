@@ -27,5 +27,12 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync(c => c.Cpf == cpf);
         }
 
+        public async Task<CustomerDao> GetByIdAsync(Guid id)
+        {
+            return await _context.Customers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
     }
 }

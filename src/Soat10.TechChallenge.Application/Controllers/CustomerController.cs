@@ -1,7 +1,7 @@
 ﻿using Soat10.TechChallenge.Application.Common.Dtos;
 using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Application.Gateways;
-using Soat10.TechChallenge.Application.UseCases.CustomerRegistration;
+using Soat10.TechChallenge.Application.UseCases;
 
 namespace Soat10.TechChallenge.Application.Controllers
 {
@@ -19,7 +19,7 @@ namespace Soat10.TechChallenge.Application.Controllers
             return new CustomerController(dataRepository);
         }
 
-        public async Task CreateCustomer(CustomerDto customerDto)
+        public async Task CreateCustomer(CustomerRegistrationRequest customerDto)
         {
             var customerGateway = new CustomerGateway(_dataRepository);
 
