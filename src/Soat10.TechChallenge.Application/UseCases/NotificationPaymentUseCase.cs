@@ -23,8 +23,8 @@ namespace Soat10.TechChallenge.Application.UseCases
         };
         private readonly Dictionary<PaymentStatus, OrderStatus> _mapPaymentOrderStatus = new()
         {
-            { PaymentStatus.Approved, OrderStatus.Paid },
-            { PaymentStatus.Authorized , OrderStatus.Paid },
+            { PaymentStatus.Approved, OrderStatus.Received },
+            { PaymentStatus.Authorized , OrderStatus.Received },
             { PaymentStatus.InProcess , OrderStatus.Requested },
             { PaymentStatus.Pending , OrderStatus.Requested },
             { PaymentStatus.Cancelled , OrderStatus.Cancelled },

@@ -17,7 +17,9 @@ kubectl apply -f postgres-service.yaml
 # Aplicar o Deployment e Service da aplicação
 kubectl apply -f api-service.yaml
 kubectl apply -f api-deployment.yaml
+kubectl apply -f api-hpa.yaml
 kubectl apply -f webhook-service.yaml
 kubectl apply -f webhook-deployment.yaml
+kubectl apply -f webhook-hpa.yaml
 kubectl apply -f mock-service.yaml
 kubectl apply -f mock-deployment.yaml

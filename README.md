@@ -8,99 +8,26 @@ O projeto visa desenvolver um sistema de autoatendimento para uma lanchonete em 
 - Gerenciamento administrativo de produtos, clientes e pedidos
 - Gestão de pagamentos(Implementação posterior a versão 1.0.0)
 
-## Objetivos
+## Fluxo de Dados
 
-- **Desenvolvimento da Solução**: Criar uma aplicação completa de autoatendimento que inclui:
-  - Sistema de pedidos com categorias definidas (Lanche, Acompanhamento, Bebida, Sobremesa)
-  - Painel de acompanhamento de pedidos
-  - Interface administrativa para gestão(Implementação posterior a versão 1.0.0)
-  - Integração com sistema de pagamento(Implementação posterior a versão 1.0.0)
-- **Entregas Técnicas**:
-  - Documentação completa usando DDD e Event Storming
-  - Desenvolvimento de APIs RESTful
-  - Implementação usando arquitetura hexagonal
-  - Ambiente containerizado com Docker
-  - Banco de dados para gestão de pedidos
+1. **Cliente faz pedido** :
+   * Seleção de produtos.
+   * Identificação (opcional).
+   * Pagamento via QRCode.
+2. **Sistema processa pedido** :
+   * Atualiza o status para "Recebido".
+   * Notifica a cozinha para preparação.
+3. **Cozinha prepara o pedido** :
+   * Atualiza o status para "Em preparação".
+4. **Pedido finalizado** :
+   * Atualiza o status para "Pronto".
+   * Notifica o cliente.
+5. **Cliente retira o pedido** :
+   * Atualiza o status para "Finalizado".
 
-## Organização do projeto
+## Arquitetura
 
-### Domain
-
-Este projeto contém a lógica central do domínio, seguindo as regras de negócio. Ele é **independente de qualquer tecnologia ou infraestrutura** .
-
-```
-Domain/
-|-- Base/             # Classes base de domain (ex.: Entity, AggragateRoot, ValueObject, etc)
-|-- Entities/         # Classes principais do domínio
-|-- ValueObjects/     # Objetos de valor do domínio
-|-- Interfaces/       # Interfaces do domínio (ex.: repositórios)
-|-- Events/           # Eventos de domínio
-|-- Exceptions/       # Exceções específicas do domínio
-|-- Services/         # Serviços de domínio (para lógica complexa)
-
-```
-
-### Application
-
-Este projeto contém casos de uso (Application Services) e a interação entre o domínio e o mundo externo. Ele é responsável por orquestrar as chamadas para os componentes do domínio.
-
-```
-Application/
-|-- DTOs/                     # Classes utilizadas nas interfaces de aplicação
-|-- Interfaces/               # Interfaces de aplicação (ex.: serviços externos)
-|-- UseCases/                 # Casos de uso (uma pasta por caso de uso) com suas respectivas interface, classe de implementação e classe que representes o comando
-|   |-- <UseCaseFolder>/   
-|       |-- <UseCaseInterface>  
-|       |-- <UseCaseClass>   
-|       |-- <UseCaseRequest>
-|       |-- <UseCaseResponse>
-|-- Exceptions/               # Exceções específicas da aplicação
-|-- ApplicationBootstrapper  # Classe responsável pelo mapeamento e configuração para injeção das dependências
-
-```
-
-### Infrastructure
-
-Este projeto lida com a implementação de interfaces externas (adapters) e detalhes específicos de infraestrutura, como persistência e serviços externos.
-
-```
-Infrastructure/
-|-- Persistence/
-|   |-- Context/                # DbContext (Entity Framework ou outro ORM)
-|   |-- Repositories/           # Implementações de repositórios
-|-- ExternalServices/           # Comunicação com APIs externas
-|-- InfrastructureBootstrapper  # Classe responsável pelo mapeamento e configuração para injeção das dependências
-```
-
-### API
-
-O projeto da API expõe os endpoints e configurações específicas para comunicação com o mundo externo. É o principal ponto de entrada da aplicação.
-
-```
-API/
-|-- Controllers/        # Controladores da API que expôem os endpoints
-|-- Middlewares/        # Middlewares customizados que interceptam as requisições dos endpoints
-
-```
-
-### Regras
-
-- Domain: não referencia nenhuma outra camada.
-- Application: referencia apenas o Domain.
-- Infrastructure: referencia o Domain e Application e implementa interfaces declaradas neles.
-- API: referencia o Application e o Infrastructure.
-- Entities: nem toda entidade vai possuir um id. O ideal é que somente entidades de sejam AggragateRoot, e que, na grande partes do casos, serão persitistidos, tenham um id único.
-
-## Tecnologias e Configurações utilizadas
-
-* **Framework:** .NET 8 devido a maior longeviade de suporte da Microsoft. Referência: [.Net Support Policy](https://dotnet.microsoft.com/en-us/platform/support/policy)
-* **ORM**: Entity Framework Core.
-* **Injeção de Dependência**: `Microsoft.Extensions.DependencyInjection`.
-* **Documentação**: Swagger/OpenAPI.
-* **Validação** : FluentValidation.
-* **Banco de Dados**: PostgreSQL.
-* **Docker:** Utilizado para containerização da aplicação.
-* **Docker Compose**: Utilizado para permitir a execução da aplicação localmente com orquestração da execução e inicialização do banco de dados local já sendo populado com alguns dados para permitir a execução da aplicação.
+Detalhes gerais sobre a arquitetura do projeto estão disponíveis nesse link: [Sistema de Autoatendimento da Lanchonete](docs/architecture-haiku.md)
 
 ## Pré-requisitos
 
@@ -125,6 +52,7 @@ docker-compose up --build
 [http://localhost:8080/swagger](http://localhost:8080/swagger)
 
 ### Outros comandos
+
 - Para cenários onde for necessário eliminar as instências dos conteiners da aplicação incluindo o processo de reiniciar o banco de dados ou limpar os dados iniciais carregados executar o seguinte comando:
 
 ```bash
@@ -134,24 +62,29 @@ docker-compose down --volumes
 ## Rodando com o Kubernetes
 
 1 - Pré-requisitos:
+
 - Verifique se você possui o kubectl instalado e configurado
+
 ```bash
 kubectl version
 ```
+
 - Certifique-se de ter um cluster Kubernetes disponível (via Minikube, GKE, AKS, DockerHub, etc...)
+
 ```bash
 kubectl cluster-info
 ```
 
 2 - Aplicar as configurações no Kubernetes:
-Primeiramente, você precisará aplicar os manifests YML do Kubernetes (Deployment, Service, ConfigMap, etc.). 
-No diretório do projeto, execute o script para aplicar as configurações: 
+Primeiramente, você precisará aplicar os manifests YML do Kubernetes (Deployment, Service, ConfigMap, etc.).
+No diretório do projeto, execute o script para aplicar as configurações:
 
 ```bash
 ./deploy.sh
 ```
 
 3 - Valide que tudo funcionou sem problemas com os comandos:
+
 ```bash
 kubectl get all
 ```
@@ -171,3 +104,22 @@ kubectl exec -it <nome_do_pod> -- psql -U fiap_user -d fiap_db -c "\dt" # Para v
 kubectl get pods --watch # Visualizar o status dos pods em tempo real
 kubectl logs fiap-tech-challenge # Visualizar os logs do pod da aplicação
 ```
+
+## APIs disponibilizadas
+
+### Swagger
+
+Após subir a aplicação as documentações do swagger serão disponibilizadas nos seguinte links:
+
+
+| Serviço | Docker                        | Kubernetes                     |
+| ---------- | ------------------------------- | -------------------------------- |
+| API      | http://localhost:8080/swagger | http://localhost:30000/swagger |
+| Webhook  | http://localhost:8082/swagger | http://localhost:30002/swagger |
+
+### Postman
+
+- [Collection](postman/FIAP%20-%20Tech%20Challenge%20-%20Fase%202%20-%20APIs.postman_collection.json)
+- [Environment - Desenvolvimento](postman/TC%20-%20Desenvolvimento.postman_environment.json)
+- [Environment - Docker](postman/TC%20-%20Docker.postman_environment.json)
+- [Environment - Kubernetes](postman/TC%20-%20Kubernetes%20Local.postman_environment.json)
