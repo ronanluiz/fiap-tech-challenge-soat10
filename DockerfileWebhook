@@ -1,0 +1,20 @@
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+RUN apt-get update && \
+    apt-get install -y curl wget && \
+    rm -rf /var/lib/apt/lists/*
+USER app
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /app
+COPY . ./
+RUN dotnet restore src/Soat10.TechChallenge.Webhook/Soat10.TechChallenge.Webhook.csproj
+COPY . .
+RUN dotnet publish src/Soat10.TechChallenge.Webhook/Soat10.TechChallenge.Webhook.csproj -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "Soat10.TechChallenge.Webhook.dll"]

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Soat10.TechChallenge.Application.Services;
-using Soat10.TechChallenge.Domain.Interfaces;
+using Refit;
+using Soat10.TechChallenge.Application.Common.Interfaces;
 using Soat10.TechChallenge.Infrastructure.ExternalServices;
 using Soat10.TechChallenge.Infrastructure.Persistence.Context;
 using Soat10.TechChallenge.Infrastructure.Persistence.Repositories;
@@ -13,14 +13,19 @@ namespace Soat10.TechChallenge.Infrastructure
     {
         public static void Register(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<ICustomerRepository, CustomerRepository>();
-            services.AddTransient<IOrderRepository, OrderRepository>();
-            services.AddTransient<IPaymentRepository, PaymentRepository>();
-            services.AddTransient<IPaymentService, MercadoPagoPaymentService>();
-            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddScoped<IDataRepository, DataRepository>();
+            services.AddScoped<IExternalPaymentService, ExternalPaymentService>();
+            services.AddScoped<CustomerRepository>();
+            services.AddScoped<OrderRepository>();
+            services.AddScoped<PaymentRepository>();
+            services.AddScoped<CartRepository>();
+            services.AddScoped<ProductRepository>();
+            services.AddTransient<AuthenticationHeaderMercadoPagoHandler>();
 
-            //Para realização de testes rápido em product
-            //services.AddTransient<IProductRepository>(provider => new ProductRepositoryTemp("products.json"));
+            services
+                .AddRefitClient<IMercadoPagoApi>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration["PaymentService:BaseUrl"]))
+                .AddHttpMessageHandler<AuthenticationHeaderMercadoPagoHandler>();
 
             ConfigureDatabase(services, configuration);
         }

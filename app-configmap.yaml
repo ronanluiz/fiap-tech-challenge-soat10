@@ -1,0 +1,14 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+  labels:
+    app: fiap-tech-challenge
+data:
+  ASPNETCORE_ENVIRONMENT: "Development"
+  DbConnection__Host: "postgres"
+  DbConnection__Database: "fiap_db"
+  PaymentService__BaseUrl: "https://api.mercadopago.com"
+  PaymentService__NotificationPaymentUrl: "https://webhook.site/41fc632e-7c94-4cae-9184-3172d09dba79"
+  PaymentService__ExternalPosId: "LATC001POS001"
+  BaseWebhookUrl: "http://localhost:30002"

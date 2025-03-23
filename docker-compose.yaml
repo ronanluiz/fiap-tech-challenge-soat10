@@ -1,5 +1,3 @@
-version: '3.9'
-
 networks:
   app-network:
     driver: bridge
@@ -8,9 +6,9 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: DockerfileApi
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/swagger"]
+      test: ["CMD", "curl", "-f", "http://api:8080/api/hc"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -21,14 +19,63 @@ services:
     depends_on:
       - db
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
       - DbConnection__Host=db
       - DbConnection__Database=${DbConnection__Database}
       - DbConnection__User=${DbConnection__User}
       - DbConnection__Password=${DbConnection__Password}
+      - PaymentService__UserId=${PaymentService__UserId}
+      - PaymentService__NotificationPaymentUrl=${PaymentService__NotificationPaymentUrl}
+      - PaymentService__ExternalPosId=${PaymentService__ExternalPosId}
+      - PaymentService__Token=${PaymentService__Token}
+      - PaymentService__BaseUrl=${PaymentService__BaseUrl}
+    networks:
+      - app-network
+  webhook:
+    build:
+      context: .
+      dockerfile: DockerfileWebhook
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://webhook:8080/webhook/hc"]
+      interval: 60s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    ports:
+      - "8082:8080"
+      - "8083:8081"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - DbConnection__Host=db
+      - DbConnection__Database=${DbConnection__Database}
+      - DbConnection__User=${DbConnection__User}
+      - DbConnection__Password=${DbConnection__Password}
+      - PaymentService__BaseUrl=${PaymentService__BaseUrl}
     networks:
       - app-network
 
+  mock-payment:
+    build:
+      context: .
+      dockerfile: DockerfileMockPaymentService
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://mock-payment:8080/mock/hc"]
+      interval: 60s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    ports:
+      - "8084:8080"
+      - "8085:8081"
+    depends_on:
+      - webhook
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - BaseWebhookUrl=http://webhook:8080
+    networks:
+      - app-network
   db:
     image: postgres:17.2
     healthcheck:

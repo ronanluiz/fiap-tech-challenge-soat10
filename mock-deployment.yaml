@@ -1,0 +1,46 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-tech-challenge-mock
+  labels:
+    app: fiap-tech-challenge-mock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fiap-tech-challenge-mock
+  template:
+    metadata:
+      labels:
+        app: fiap-tech-challenge-mock
+    spec:
+      containers:
+        - name: fiap-tech-challenge-mock-container
+          image: fiap-tech-challenge-soat10-mock:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: app-configmap
+            - secretRef:
+                name: app-secret
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "512Mi"
+            requests:
+              cpu: "0.2"
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /mock/hc
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /mock/hc
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+      restartPolicy: Always

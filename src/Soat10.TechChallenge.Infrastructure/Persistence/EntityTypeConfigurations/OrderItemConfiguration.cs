@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Soat10.TechChallenge.Domain.Entities;
+using Soat10.TechChallenge.Application.Common.Daos;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfigurations
 {
-    public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
+    public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItemDao>
     {
-        public void Configure(EntityTypeBuilder<OrderItem> builder)
+        public void Configure(EntityTypeBuilder<OrderItemDao> builder)
         {
             builder.ToTable("order_item");
             builder.HasKey(oi => oi.Id);
@@ -17,12 +17,6 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.EntityTypeConfiguratio
 
             builder.Property(o => o.OrderId).HasColumnName("order_id");
             builder.Property(o => o.ProductId).HasColumnName("product_id");
-
-            builder.HasOne(oi => oi.Order)
-                .WithMany(o => o.Items)
-                .HasForeignKey(oi => oi.OrderId)
-                .HasConstraintName("fk_order_item_order")
-                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(oi => oi.Product)
                 .WithMany()

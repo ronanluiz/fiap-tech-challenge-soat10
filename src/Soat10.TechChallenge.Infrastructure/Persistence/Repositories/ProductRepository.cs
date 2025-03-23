@@ -1,66 +1,52 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Soat10.TechChallenge.Application.ProductApplication.Requests;
-using Soat10.TechChallenge.Domain.Entities;
-using Soat10.TechChallenge.Domain.Enums;
-using Soat10.TechChallenge.Domain.Interfaces;
+using Soat10.TechChallenge.Application.Common.Daos;
 using Soat10.TechChallenge.Infrastructure.Persistence.Context;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
 {
-    public class ProductRepository (ApplicationDbContext DbContext) : IProductRepository
+    public class ProductRepository
     {
-        private readonly ApplicationDbContext _context = DbContext;
+        private readonly ApplicationDbContext _context;
 
-        public async Task<int> AddAsync(Product product)
+        public ProductRepository(ApplicationDbContext context) => _context = context;
+
+        public async Task<ProductDao> GetByIdAsync(Guid id)
         {
-            await _context.Products.AddAsync(product);
-            return await _context.SaveChangesAsync();
+            return await _context.Products
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public async Task DeleteAsync(Product product)
+        public async Task<IEnumerable<ProductDao>> GetByCategoryAsync(string category)
         {
+            return  _context.Products
+                        .AsNoTracking()
+                        .Where(o => o.ProductCategory.ToString().ToUpper() == category.ToUpper());
+        }
+        public async Task<IEnumerable<ProductDao>> GetAllProductsAsync()
+        {
+            return await _context
+                            .Products
+                            .AsNoTracking()
+                            .ToListAsync();
+        }
+
+        public async Task<Guid> AddProductAsync(ProductDao product)
+        {
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            return product.Id;
+        }
+        public async Task DeleteProductAsync(ProductDao product)
+        {
+
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
         }
-
-        public async Task<IEnumerable<Product>> GetAllAsync()
+        public async Task UpdateProductAsync(ProductDao product)
         {
-            return await _context.Products.ToListAsync();
-        }
-
-        public async Task<IEnumerable<Product>> GetAvailableProductsAsync()
-        {
-            return await _context.Products.Where(product => product.IsAvailable).ToListAsync();
-        }
-
-        public async Task<IEnumerable<Product>> GetByCategoryAsync(CategoryEnum category)
-        {
-            return await _context.Products.Where(product => product.ProductCategory == category).ToListAsync();
-        }
-
-        public async Task<Product?> GetByIdAsync(int id)
-        {
-            return await _context.Products.FirstOrDefaultAsync(product => product.Id == id);
-        }
-
-        public Task<IEnumerable<Product>> GetByStatusAsync(ProductStatusEnum status)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async  Task UpdateAsync(Product product)
-        {
-            var existingEntity = _context.Products.Local.FirstOrDefault(p => p.Id == product.Id);
-            if (existingEntity != null)
-            {
-                _context.Entry(existingEntity).CurrentValues.SetValues(product);
-            }
-            else
-            {
-                _context.Products.Update(product); // Atualize ou adicione a entidade
-            }
+            _context.Products.Update(product);
             await _context.SaveChangesAsync();
-
         }
     }
 }

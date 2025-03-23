@@ -1,5 +1,4 @@
 ﻿using Soat10.TechChallenge.Application.Exceptions;
-using Soat10.TechChallenge.Domain.Exceptions;
 using System.Text.Json;
 
 namespace Soat10.TechChallenge.API.Middlewares
@@ -7,8 +6,13 @@ namespace Soat10.TechChallenge.API.Middlewares
     public class ExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-        public ExceptionHandlingMiddleware(RequestDelegate next) => _next = next;
+        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+        {
+            _next = next;
+            _logger = logger;
+        }
 
         public async Task InvokeAsync(HttpContext context)
         {
@@ -44,7 +48,7 @@ namespace Soat10.TechChallenge.API.Middlewares
             {
                 Title = "Erro de validação",
                 Status = statusCode,
-                Errors = ex.Errors
+                ex.Errors
             };
 
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));
@@ -77,6 +81,7 @@ namespace Soat10.TechChallenge.API.Middlewares
         {
             int statusCode = StatusCodes.Status500InternalServerError;
             string title = "Ocorreu um erro não tratado";
+            _logger.LogError(ex.ToString(), ex.InnerException);
             return CreateResponseWithDetails(context, ex, title, statusCode);
         }
 
