@@ -18,7 +18,11 @@ namespace Soat10.TechChallenge.API.Endpoints
                 await controller.CreateCustomer(customerDto);
 
                 return TypedResults.Created();
-            });
+            })
+                .WithName("CreateCustomer")
+                .WithSummary("Cria o registro do cliente.")
+                .WithDescription("Este endpoint não tem retorno.");
+
         }
     }
 }

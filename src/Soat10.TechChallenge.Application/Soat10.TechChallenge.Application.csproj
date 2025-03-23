@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UserSecretsId>77bbb5b7-ebd7-4872-9821-2fdd1a09b543</UserSecretsId>
   </PropertyGroup>
-
+	
   <ItemGroup>
     <Compile Remove="UseCases\Checkout\**" />
     <EmbeddedResource Remove="UseCases\Checkout\**" />

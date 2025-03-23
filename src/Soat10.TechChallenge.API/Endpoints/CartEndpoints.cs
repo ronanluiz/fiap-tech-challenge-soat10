@@ -18,7 +18,10 @@ namespace Soat10.TechChallenge.API.Endpoints
                                                                 .CreateCartAsync(cartCreationRequest);
 
                 return TypedResults.Ok(cartCreationResponse);
-            });
+            })
+                .WithName("CreateCart")
+                .WithSummary("Cria o carrinho.")
+                .WithDescription("Retorna o carrinho criado.");
 
             app.MapPost("/api/carts/{id}/items", async ([FromServices] IServiceProvider serviceProvider, Guid id, [FromBody] List<AddingItemCartRequest> addingItemsCart) =>
             {
@@ -28,7 +31,12 @@ namespace Soat10.TechChallenge.API.Endpoints
                                                                 .AddItemsCartAsync(id, addingItemsCart);
 
                 return TypedResults.Ok(addingItemCartResponse);
-            });
+            })
+                .WithName("AddItemsCart")
+                .WithSummary("Adiciona itens ao carrinho.")
+                .WithDescription("Retorna os carrinhos adicionados.");
+
+
 
             app.MapGet("/api/carts/{id}", async ([FromServices] IServiceProvider serviceProvider, Guid id) =>
             {
@@ -38,7 +46,11 @@ namespace Soat10.TechChallenge.API.Endpoints
                                                                 .GetCartByIdAsync(id);
 
                 return TypedResults.Ok(cartResponse);
-            });
+            })
+                .WithName("GetCartById")
+                .WithSummary("Obtém carrinho pelo ID.")
+                .WithDescription("Retorna um carrinho.");
+
         }
     }
 }

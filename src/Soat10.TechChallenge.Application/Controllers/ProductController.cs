@@ -26,7 +26,6 @@ namespace Soat10.TechChallenge.Application.Controllers
         {
             return new ProductController(datarepository);
         }
-
         public async Task<IEnumerable<GetProductResponse>> GetProducts()
         {
             ProductGateway productGateway = new ProductGateway(_datarepository);
