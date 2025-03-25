@@ -31,9 +31,9 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return await _customerRepository.AddAsync(customer);
         }
 
-        public Task<CustomerDao> GetCustomerAsync(string cpf)
+        public async Task<CustomerDao> GetCustomerAsync(string cpf)
         {
-            throw new NotImplementedException();
+            return await _customerRepository.Get(cpf);
         }
 
         public async Task<CustomerDao> GetCustomerByIdAsync(Guid id)

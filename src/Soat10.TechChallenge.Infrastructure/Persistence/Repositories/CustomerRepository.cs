@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Soat10.TechChallenge.Application.Common.Daos;
+using Soat10.TechChallenge.Application.Entities;
 using Soat10.TechChallenge.Infrastructure.Persistence.Context;
 
 namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
@@ -16,13 +17,8 @@ namespace Soat10.TechChallenge.Infrastructure.Persistence.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<CustomerDao?> Get(string cpf)
+        public async Task<CustomerDao> Get(string cpf)
         {
-            if (string.IsNullOrWhiteSpace(cpf))
-            {
-                throw new ArgumentException("É preciso informar o CPF do cliente.", nameof(cpf));
-            }
-
             return await _context.Customers
                 .FirstOrDefaultAsync(c => c.Cpf == cpf);
         }

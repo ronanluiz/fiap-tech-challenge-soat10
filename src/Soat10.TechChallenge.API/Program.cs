@@ -63,6 +63,7 @@ app.MapCustomerEndpoints();
 app.MapOrderEndpoints();
 app.MapCartEndpoints();
 app.MapProductEndpoints();
+app.MapIdentityEndpoints();
 
 await app.RunAsync();
 

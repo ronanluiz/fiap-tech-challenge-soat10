@@ -15,12 +15,12 @@ namespace Soat10.TechChallenge.Application.UseCases
             _customerGateway = customerGateway;
         }
 
-        private static IdentifyUseCase Build(CustomerGateway customerGateway)
+        public static IdentifyUseCase Build(CustomerGateway customerGateway)
         {
             return new IdentifyUseCase(customerGateway);
         }
 
-        public async Task<Customer> ExecuteSearchAsync(IdentifyRequest identify)
+        public async Task<Customer> ExecuteAsync(IdentifyRequest identify)
         {
             var validator = new IdentifyValidator();
             var validationResult = validator.Validate(identify);

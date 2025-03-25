@@ -5,7 +5,7 @@ using Soat10.TechChallenge.Application.Controllers;
 
 namespace Soat10.TechChallenge.API.Endpoints
 {
-    public static class CustomerOrderEndpoints
+    public static class CustomerEndpoints
     {
         public static void MapCustomerEndpoints(this IEndpointRouteBuilder app)
         {
@@ -19,9 +19,9 @@ namespace Soat10.TechChallenge.API.Endpoints
 
                 return TypedResults.Created();
             })
-                .WithName("CreateCustomer")
-                .WithSummary("Cria o registro do cliente.")
-                .WithDescription("Este endpoint não tem retorno.");
+            .WithName("CreateCustomer")
+            .WithSummary("Cria o registro do cliente.")
+            .WithDescription("Este endpoint não tem retorno.");
 
         }
     }
