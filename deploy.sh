@@ -13,6 +13,7 @@ kubectl apply -f postgres-pvc.yaml
 # Aplicar o Deployment e Service do Postgres
 kubectl apply -f postgres-deployment.yaml
 kubectl apply -f postgres-service.yaml
+kubectl apply -f postgres-configmap.yaml
 
 # Aplicar o Deployment e Service da aplicação
 kubectl apply -f api-service.yaml
