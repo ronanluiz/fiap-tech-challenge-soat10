@@ -15,6 +15,9 @@ kubectl apply -f postgres-deployment.yaml
 kubectl apply -f postgres-service.yaml
 kubectl apply -f postgres-configmap.yaml
 
+# Aplicar config maps
+kubectl apply -f app-configmap.yaml
+
 # Aplicar o Deployment e Service da aplicação
 kubectl apply -f api-service.yaml
 kubectl apply -f api-deployment.yaml
