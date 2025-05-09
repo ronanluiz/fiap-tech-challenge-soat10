@@ -1,0 +1,37 @@
+name: Build dos pacotes das aplicações
+on:
+    push:
+      branches: [ develop, 'feature/publicacao_kubernetes' ]   # Aceita push em qualquer branch
+    pull_request:
+
+env:
+  PROJECT_PATH: src/Soat10.TechChallenge.API
+jobs:
+
+  build:
+    name: "Build da aplicação"
+    runs-on: ubuntu-latest
+    steps:            
+      - uses: actions/checkout@v4.2.2
+
+      - name: Setup .NET 8.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Install dependencies
+        run: dotnet restore $PROJECT_PATH
+      
+      - name: Build
+        run: dotnet build $PROJECT_PATH --no-restore
+      
+      - name: Publish
+        run: dotnet publish $PROJECT_PATH -c Release -o ./publish
+
+      - name: Package
+        run: zip -r app.zip ./publish
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app_package
+          path: app.zip
