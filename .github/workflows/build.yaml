@@ -5,38 +5,49 @@ on:
       app_name:
         required: true
         type: string
-      app_project_path:
+      app_docker_image:
         required: true
         type: string
+      ecr_repository:
+        required: true
+        type: string
+    outputs:
+        image:
+          value: ${{ jobs.build.outputs.image }}
 
 env:
-  APP_PACKAGE: ${{ inputs.app_name}}_package
+  APP_PACKAGE: "${{ inputs.app_name}}_package"
+  IMAGE: "${{ inputs.ECR_REPOSITORY }}:${{ github.run_number }}"
 jobs:
 
   build:
-    name: "Build da aplicação"
+    name: "Build da aplicação ${{ inputs.app_name }}"
     runs-on: ubuntu-latest
-    steps:            
+    outputs:
+      image: ${{ steps.output.outputs.image }}
+    steps:
       - uses: actions/checkout@v4.2.2
 
-      - name: Setup .NET 8.x
-        uses: actions/setup-dotnet@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
         with:
-          dotnet-version: '8.x'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ env.AWS_REGION }}
 
-      - name: Install dependencies
-        run: dotnet restore ${{ inputs.app_project_path }}
-      
-      - name: Build
-        run: dotnet build ${{ inputs.app_project_path }} --no-restore
-      
-      - name: Publish
-        run: dotnet publish ${{ inputs.app_project_path }} -c Release -o ./publish
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@62f4f872db3836360b72999f4b87f1ff13310f3a
 
-      - name: Package
-        run: zip -r $APP_PACKAGE ./publish
-
-      - uses: actions/upload-artifact@v4
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v6.16.0
         with:
-          name: ${{ env.APP_PACKAGE}}
-          path: ${{ env.APP_PACKAGE }}.zip
+            file: ./${{ inputs.app_docker_image }}
+            push: true
+            tags: ${{ env.IMAGE }}
+
+      - name: Generate output
+        id: output
+        run: |
+              echo "image=$IMAGE" >> $GITHUB_OUTPUT

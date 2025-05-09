@@ -11,8 +11,8 @@ env:
   ARTIFACT_PATH: ${{ inputs.app_name }}_publish
 jobs:
 
-  build:
-    name: "Build da aplicação"
+  deploy:
+    name: "Deploy da aplicação ${{ inputs.app_name }}"
     runs-on: ubuntu-latest
     steps:            
       - uses: actions/checkout@v4.2.2
