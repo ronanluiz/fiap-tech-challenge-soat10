@@ -10,4 +10,4 @@ jobs:
       secrets: inherit
       with:
         app_name: api
-        app_project_name: src/Soat10.TechChallenge.API  
+        app_project_path: src/Soat10.TechChallenge.API  
