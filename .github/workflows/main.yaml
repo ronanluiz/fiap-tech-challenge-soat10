@@ -6,8 +6,29 @@ on:
 
 jobs:
   build_api:      
-      uses: ./.github/workflows/build-app.yaml
+      uses: ./.github/workflows/build.yaml
       secrets: inherit
       with:
         app_name: api
-        app_project_path: src/Soat10.TechChallenge.API  
+        app_project_path: src/Soat10.TechChallenge.API
+  
+  deploy_api:
+      needs: build_api
+      uses: ./.github/workflows/deploy.yaml
+      secrets: inherit
+      with:
+        app_name: api
+
+  build_webhook:      
+      uses: ./.github/workflows/build.yaml
+      secrets: inherit
+      with:
+        app_name: webhook
+        app_project_path: src/Soat10.TechChallenge.Webhook
+
+  deploy_webhook:
+    needs: build_webhook          
+    uses: ./.github/workflows/deploy.yaml
+    secrets: inherit
+    with:
+      app_name: webhook

@@ -1,0 +1,26 @@
+name: Deploy dos pacotes das aplicações
+on:
+  workflow_call:
+    inputs:
+      app_name:
+        required: true
+        type: string     
+
+env:
+  APP_PACKAGE: ${{ inputs.app_name }}_package
+  ARTIFACT_PATH: ${{ inputs.app_name }}_publish
+jobs:
+
+  build:
+    name: "Build da aplicação"
+    runs-on: ubuntu-latest
+    steps:            
+      - uses: actions/checkout@v4.2.2
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.APP_PACKAGE }}
+          path: ${{ env.ARTIFACT_PATH }}
+
+      - name: Display structure of downloaded files
+        run: ls -R

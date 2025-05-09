@@ -10,7 +10,7 @@ on:
         type: string
 
 env:
-  APP_PACKAGE: ${{ inputs.app_name}}.zip
+  APP_PACKAGE: ${{ inputs.app_name}}_package
 jobs:
 
   build:
@@ -38,5 +38,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.app_name}}_package
-          path: ${{ env.APP_PACKAGE }}
+          name: ${{ env.APP_PACKAGE}}
+          path: ${{ env.APP_PACKAGE }}.zip
