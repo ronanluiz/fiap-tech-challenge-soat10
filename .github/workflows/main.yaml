@@ -6,7 +6,7 @@ on:
 
 jobs:
   build_api:      
-      uses: ./.github/workflows/build.yaml
+      uses: ./.github/workflows/build-app.yaml
       secrets: inherit
       with:
         app_name: api
