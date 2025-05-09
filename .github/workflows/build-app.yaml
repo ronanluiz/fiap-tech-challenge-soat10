@@ -1,0 +1,42 @@
+name: Build dos pacotes das aplicações
+on:
+  workflow_call:
+    inputs:
+      app_name:
+        required: true
+        type: string
+      app_project_path:
+        required: true
+        type: string
+
+env:
+  APP_PACKAGE: ${{ inputs.app_name}}.zip
+jobs:
+
+  build:
+    name: "Build da aplicação"
+    runs-on: ubuntu-latest
+    steps:            
+      - uses: actions/checkout@v4.2.2
+
+      - name: Setup .NET 8.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Install dependencies
+        run: dotnet restore ${{ inputs.app_project_path }}
+      
+      - name: Build
+        run: dotnet build ${{ inputs.app_project_path }} --no-restore
+      
+      - name: Publish
+        run: dotnet publish ${{ inputs.app_project_path }} -c Release -o ./publish
+
+      - name: Package
+        run: zip -r $APP_PACKAGE ./publish
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.app_name}}_package
+          path: $APP_PACKAGE
