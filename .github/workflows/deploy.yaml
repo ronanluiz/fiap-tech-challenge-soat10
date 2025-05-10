@@ -59,3 +59,4 @@ jobs:
           kubectl apply -f k8s/${{ inputs.app_name }}/deployment-final.yaml
           kubectl apply -f k8s/${{ inputs.app_name }}/service.yaml
           kubectl apply -f k8s/${{ inputs.app_name }}/hpa.yaml
+          kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
