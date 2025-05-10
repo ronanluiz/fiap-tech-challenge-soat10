@@ -19,11 +19,27 @@ spec:
           image: fiap-tech-challenge-soat10-webhook:latest
           ports:
             - containerPort: 8080
-          envFrom:
-            - configMapRef:
-                name: app-configmap
-            - secretRef:
-                name: app-secret
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: $(ASPNETCORE_ENVIRONMENT)
+          - name: DbConnection__Host
+            value: $(DB_HOST)
+          - name: DbConnection__Database
+            value: $(DB_NAME)
+          - name: DbConnection__User
+            value: $(DB_USERNAME)
+          - name: DbConnection__Password
+            value: $(DB_PASSWORD)
+          - name: PaymentService__UserId
+            value: $(PAYMENT_SERVICE_USER_ID)
+          - name: PaymentService__NotificationPaymentUrl
+            value: $(PAYMENT_SERVICE_NOTIFICATION_PAYMENT_URL)
+          - name: PaymentService__ExternalPosId
+            value: $(PAYMENT_SERVICE_EXTERNAL_POS_ID)
+          - name: PaymentService__Token
+            value: $(PAYMENT_SERVICE_TOKEN)
+          - name: PaymentService__BaseUrl
+            value: $(PAYMENT_SERVICE_BASE_URL)
           resources:
             limits:
               cpu: "0.5"

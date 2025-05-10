@@ -3,7 +3,8 @@ on:
     push:
       branches: [ develop, 'feature/publicacao_kubernetes' ]   # Aceita push em qualquer branch
     pull_request:
-
+env:
+  ENVIRONMENT: ${{ (github.ref_name == 'main' || github.event_name == 'pull_request') && 'prod' || 'dev' }}
 jobs:
   build_api:      
       uses: ./.github/workflows/build.yaml
@@ -13,19 +14,22 @@ jobs:
         app_docker_image: DockerfileApi
         ecr_repository: ${{ vars.API_ECR_REPOSITORY }}
   
-  # deploy_api:
-  #     needs: build_api
-  #     uses: ./.github/workflows/deploy.yaml
-  #     secrets: inherit
-  #     with:
-  #       app_name: api
+  deploy_api:
+      needs: build_api
+      uses: ./.github/workflows/deploy.yaml
+      secrets: inherit
+      with:
+        app_name: api
+        environment: ${{ github.env.ENVIRONMENT }}
+        image: ${{ needs.build_api.outputs.image }}
 
   # build_webhook:      
   #     uses: ./.github/workflows/build.yaml
   #     secrets: inherit
   #     with:
   #       app_name: webhook
-  #       app_project_path: src/Soat10.TechChallenge.Webhook
+  #       app_docker_image: DockerfileWebhook
+  #       ecr_repository: ${{ vars.WEBHOOK_ECR_REPOSITORY }}  
 
   # deploy_webhook:
   #   needs: build_webhook          
