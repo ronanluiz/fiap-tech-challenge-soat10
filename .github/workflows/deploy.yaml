@@ -43,7 +43,7 @@ jobs:
         run: ls -R
 
       - name: Update kube config
-        run: aws eks update-kubeconfig --name $EKS_NAME
+        run: aws eks update-kubeconfig --name ${{ env.EKS_NAME }}
       
       - uses: azure/setup-kubectl@v4
         id: install-kubectl
