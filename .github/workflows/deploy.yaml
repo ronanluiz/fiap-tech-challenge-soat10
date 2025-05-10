@@ -41,7 +41,7 @@ jobs:
           envsubst < k8s/${{ inputs.app_name }}/secrets.yaml > k8s/${{ inputs.app_name }}/secrets-final.yaml
           envsubst < k8s/${{ inputs.app_name }}/deployment.yaml > k8s/${{ inputs.app_name }}/deployment-final.yaml
         env:
-          IMAGE: ${{ inputs.image }}          
+          IMAGE: ${{ inputs.image }}
           ASPNETCORE_ENVIRONMENT: ${{ inputs.environment == 'dev' && 'Development' || 'Production' }}
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_NAME: ${{ secrets.DB_NAME }}
