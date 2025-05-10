@@ -21,9 +21,9 @@ spec:
             - containerPort: 8080
           envFrom:
           - configMapRef:
-            name: webhook-config
+              name: webhook-config
           - secretRef:
-            name: webhook-secrets
+              name: webhook-secrets
           resources:
             limits:
               cpu: "0.5"

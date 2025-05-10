@@ -21,9 +21,9 @@ spec:
             - containerPort: 8080
           envFrom:
           - configMapRef:
-            name: api-config
+              name: api-config
           - secretRef:
-            name: api-secrets
+              name: api-secrets
           resources:
             limits:
               cpu: "0.5"
