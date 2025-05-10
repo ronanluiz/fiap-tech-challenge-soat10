@@ -29,9 +29,6 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Display structure of downloaded files
-        run: ls -R
-
       - name: Update kube config
         run: aws eks update-kubeconfig --name ${{ env.EKS_NAME }}
       

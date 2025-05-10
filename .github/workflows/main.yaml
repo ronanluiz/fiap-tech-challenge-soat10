@@ -1,7 +1,7 @@
 name: Build dos pacotes das aplicações
 on:
     push:
-      branches: [ develop, 'feature/publicacao_kubernetes' ]   # Aceita push em qualquer branch
+      branches: [ develop ]   # Aceita push em qualquer branch
     pull_request:
 env:
   ENVIRONMENT: ${{ (github.ref_name == 'main' || github.event_name == 'pull_request') && 'prod' || 'dev' }}
@@ -30,17 +30,19 @@ jobs:
         environment: ${{ needs.setup.outputs.environment }} 
         image: ${{ needs.build_api.outputs.image }}
 
-  # build_webhook:      
-  #     uses: ./.github/workflows/build.yaml
-  #     secrets: inherit
-  #     with:
-  #       app_name: webhook
-  #       app_docker_image: DockerfileWebhook
-  #       ecr_repository: ${{ vars.WEBHOOK_ECR_REPOSITORY }}  
+  build_webhook:      
+      uses: ./.github/workflows/build.yaml
+      secrets: inherit
+      with:
+        app_name: webhook
+        app_docker_image: DockerfileWebhook
+        ecr_repository: ${{ vars.WEBHOOK_ECR_REPOSITORY }}
 
-  # deploy_webhook:
-  #   needs: build_webhook          
-  #   uses: ./.github/workflows/deploy.yaml
-  #   secrets: inherit
-  #   with:
-  #     app_name: webhook
+  deploy_webhook:
+    needs: [setup, build_webhook]     
+    uses: ./.github/workflows/deploy.yaml
+    secrets: inherit
+    with:
+      app_name: webhook
+      environment: ${{ needs.setup.outputs.environment }} 
+      image: ${{ needs.build_api.outputs.image }}
