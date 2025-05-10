@@ -6,6 +6,13 @@ on:
 env:
   ENVIRONMENT: ${{ (github.ref_name == 'main' || github.event_name == 'pull_request') && 'prod' || 'dev' }}
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ env.ENVIRONMENT }}
+    steps:
+      - name: Set outputs
+        run: echo "environment=$ENVIRONMENT" >> $GITHUB_OUTPUT
   build_api:      
       uses: ./.github/workflows/build.yaml
       secrets: inherit
@@ -15,12 +22,12 @@ jobs:
         ecr_repository: ${{ vars.API_ECR_REPOSITORY }}
   
   deploy_api:
-      needs: build_api
+      needs: [setup, build_api]
       uses: ./.github/workflows/deploy.yaml
       secrets: inherit
       with:
         app_name: api
-        environment: ${{ github.env.ENVIRONMENT }}
+        environment: ${{ needs.setup.outputs.environment }} 
         image: ${{ needs.build_api.outputs.image }}
 
   # build_webhook:      
