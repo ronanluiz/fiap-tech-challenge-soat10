@@ -48,7 +48,7 @@ jobs:
       image: ${{ needs.build_webhook.outputs.image }}
   
   output:
-      needs: [deploy_api, deploy_webhook]
+      needs: [setup, deploy_api, deploy_webhook]
       uses: ./.github/workflows/output.yaml
       secrets: inherit
       with:
