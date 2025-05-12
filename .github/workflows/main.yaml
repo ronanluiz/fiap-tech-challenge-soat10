@@ -46,3 +46,28 @@ jobs:
       app_name: webhook
       environment: ${{ needs.setup.outputs.environment }} 
       image: ${{ needs.build_webhook.outputs.image }}
+  
+  output:
+      needs: [deploy_api, deploy_webhook]
+      runs-on: ubuntu-latest
+      steps:
+        - name: Get shared ALB address
+          run: |
+            echo "Waiting for ALB address..."
+            
+            ATTEMPTS=0
+            MAX_ATTEMPTS=60
+            
+            while [ $ATTEMPTS -lt $MAX_ATTEMPTS ]; do
+              ALB_ADDRESS=$(kubectl get ingress api-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+              
+              if [ -n "$ALB_ADDRESS" ]; then
+                echo "SHARED_ALB_ADDRESS=$ALB_ADDRESS" >> $GITHUB_ENV
+                echo "Shared ALB deployed at: $ALB_ADDRESS"
+                break
+              fi
+              
+              ATTEMPTS=$((ATTEMPTS+1))
+              echo "Attempt $ATTEMPTS/$MAX_ATTEMPTS - waiting 10 seconds..."
+              sleep 10
+            done
