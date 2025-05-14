@@ -29,9 +29,12 @@ jobs:
       - uses: azure/setup-kubectl@v4
         id: install-kubectl
       
+      - name: Configure Service Account
+        run: |
+          kubectl apply -f k8s/service-account.yaml
+
       - uses: azure/setup-helm@v4.3.0
         id: install-helm
-      
       - name: Configure Load Balancer
         run: |
           helm repo add eks https://aws.github.io/eks-charts
