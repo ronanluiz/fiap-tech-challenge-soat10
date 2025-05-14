@@ -46,7 +46,7 @@ jobs:
             -n kube-system \
             --set clusterName=${{ env.EKS_NAME }} \
             --set serviceAccount.create=false \
-            --set serviceAccount.name=aws-load-balancer-controller
+            --set serviceAccount.name=aws-load-balancer-controller \
             --version 1.13.0
       
       - name: Preper Kubernetes manifests
