@@ -42,7 +42,3 @@ jobs:
             --set serviceAccount.create=false \
             --set serviceAccount.name=aws-load-balancer-controller \
             --version 1.13.0
-      
-      - name: Confiure metrics service
-        run: |
-          kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
