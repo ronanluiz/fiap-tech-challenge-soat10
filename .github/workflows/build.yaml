@@ -1,4 +1,4 @@
-name: Build dos pacotes das aplicações
+name: Build application
 on:
   workflow_call:
     inputs:

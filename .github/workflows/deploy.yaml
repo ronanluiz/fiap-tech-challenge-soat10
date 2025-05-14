@@ -1,4 +1,4 @@
-name: Deploy dos pacotes das aplicações
+name: Deploy application
 on:
   workflow_call:
     inputs:
@@ -35,21 +35,6 @@ jobs:
       - uses: azure/setup-kubectl@v4
         id: install-kubectl
       
-      - uses: azure/setup-helm@v4.3.0
-        id: install-helm
-      
-      - name: Configure Load Balancer
-        run: |
-          helm repo add eks https://aws.github.io/eks-charts
-          helm repo update eks
-          helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
-            -n kube-system \
-            --set clusterName=${{ env.EKS_NAME }} \
-            --set serviceAccount.create=false \
-            --set serviceAccount.name=aws-load-balancer-controller \
-            --version 1.13.0
-          kubectl -n kube-system rollout status deployment aws-load-balancer-controller
-      
       - name: Preper Kubernetes manifests
         run: |         
           envsubst < k8s/${{ inputs.app_name }}/configmap.yaml > k8s/${{ inputs.app_name }}/configmap-final.yaml
@@ -73,8 +58,7 @@ jobs:
           kubectl apply -f k8s/${{ inputs.app_name }}/secrets-final.yaml
           kubectl apply -f k8s/${{ inputs.app_name }}/deployment-final.yaml
           kubectl apply -f k8s/${{ inputs.app_name }}/service.yaml
-          kubectl apply -f k8s/${{ inputs.app_name }}/hpa.yaml          
-          kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+          kubectl apply -f k8s/${{ inputs.app_name }}/hpa.yaml
 
       - name: Wait for LoadBalancer DNS
         run: |
