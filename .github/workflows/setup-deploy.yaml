@@ -42,7 +42,6 @@ jobs:
             --set serviceAccount.create=false \
             --set serviceAccount.name=aws-load-balancer-controller \
             --version 1.13.0
-          kubectl -n kube-system rollout status deployment aws-load-balancer-controller
       
       - name: Confiure metrics service
         run: |

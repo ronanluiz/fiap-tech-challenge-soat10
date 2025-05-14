@@ -36,7 +36,7 @@ jobs:
       environment: ${{ needs.setup.outputs.environment }}
 
   deploy_api:
-      needs: [setup, build_api]
+      needs: [setup, setup-deploy, build_api]
       uses: ./.github/workflows/deploy.yaml
       secrets: inherit
       with:
@@ -45,7 +45,7 @@ jobs:
         image: ${{ needs.build_api.outputs.image }}
 
   deploy_webhook:
-    needs: [setup, build_webhook]     
+    needs: [setup, setup-deploy, build_webhook]     
     uses: ./.github/workflows/deploy.yaml
     secrets: inherit
     with:
