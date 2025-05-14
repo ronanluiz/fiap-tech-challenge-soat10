@@ -28,15 +28,15 @@ jobs:
         app_docker_image: DockerfileWebhook
         ecr_repository: ${{ vars.WEBHOOK_ECR_REPOSITORY }}
   
-  setup-deploy:
-    needs: [setup, build_api, build_webhook]
-    uses: ./.github/workflows/setup-deploy.yaml
-    secrets: inherit
-    with:
-      environment: ${{ needs.setup.outputs.environment }}
+  # setup-deploy:
+  #   needs: [setup, build_api, build_webhook]
+  #   uses: ./.github/workflows/setup-deploy.yaml
+  #   secrets: inherit
+  #   with:
+  #     environment: ${{ needs.setup.outputs.environment }}
 
   deploy_api:
-      needs: [setup, setup-deploy, build_api]
+      needs: [setup, build_api]
       uses: ./.github/workflows/deploy.yaml
       secrets: inherit
       with:
@@ -45,7 +45,7 @@ jobs:
         image: ${{ needs.build_api.outputs.image }}
 
   deploy_webhook:
-    needs: [setup, setup-deploy, build_webhook]     
+    needs: [setup, build_webhook]     
     uses: ./.github/workflows/deploy.yaml
     secrets: inherit
     with:
