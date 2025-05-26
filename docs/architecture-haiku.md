@@ -5,7 +5,7 @@
 Descrever a arquitetura do sistema de autoatendimento, que visa melhorar a eficiência do atendimento ao cliente e a gestão de pedidos na lanchonete, com foco em escalabilidade, segurança e organização do código.
 
 
-![](assets/20250318_213253_image.png)
+![](assets/20250519_image.png)
 
 ## Escopo
 

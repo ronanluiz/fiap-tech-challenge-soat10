@@ -91,5 +91,3 @@ jobs:
         run: |
           echo "## API Endpoint" >> $GITHUB_STEP_SUMMARY
           echo "✅ Serviço disponível em: http://${{ env.DNS_ADDRESS }}" >> $GITHUB_STEP_SUMMARY
-
-      
