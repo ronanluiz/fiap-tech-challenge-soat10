@@ -1,7 +1,6 @@
 on:
     push:
-      branches: [ main, develop ]   # Aceita push em qualquer branch
-    pull_request:
+      branches: [ main, develop ]
 env:
   ENVIRONMENT: ${{ (github.ref_name == 'main' || github.event_name == 'pull_request') && 'prod' || 'dev' }}
 jobs:
@@ -12,6 +11,7 @@ jobs:
     steps:
       - name: Set outputs
         run: echo "environment=$ENVIRONMENT" >> $GITHUB_OUTPUT
+  
   build_api:
     uses: ./.github/workflows/build.yaml
     secrets: inherit

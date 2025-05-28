@@ -12,7 +12,7 @@ on:
           required: true
           type: string
 env:
-  EKS_NAME: "${{ inputs.environment }}-${{ vars.BASE_EKS_CLUSTER_NAME }}"  
+  EKS_NAME: "${{ inputs.environment }}-eks-cluster"  
 jobs:
 
   deploy:
@@ -35,6 +35,42 @@ jobs:
       - uses: azure/setup-kubectl@v4
         id: install-kubectl
       
+      - name: Get AWS Resources Data
+        id: get-aws-data
+        run: |          
+          RDS_DB_IDENTIFIER="${{ inputs.environment }}-tc-bd"
+            
+          # Obtém o endpoint da instância RDS
+          RDS_HOST=$(aws rds describe-db-instances \
+            --db-instance-identifier "$RDS_DB_IDENTIFIER" \
+            --query 'DBInstances[0].Endpoint.Address' \
+            --output text)
+          
+          # Obtém o nome do banco de dados RDS
+          RDS_DB_NAME=$(aws rds describe-db-instances \
+            --db-instance-identifier "$RDS_DB_IDENTIFIER" \
+            --query 'DBInstances[0].DBName' \
+            --output text)
+          
+          if [ -z "$RDS_HOST" ] || [ "$RDS_HOST" == "None" ]; then
+            echo "Erro ao obter o host RDS para $RDS_DB_IDENTIFIER"
+            exit 1
+          fi
+          
+          # O DBName pode ser nulo em alguns casos (como instâncias Aurora serverless)
+          if [ -z "$RDS_DB_NAME" ] || [ "$RDS_DB_NAME" == "None" ]; then
+            echo "Erro ao obter DBName para $RDS_DB_IDENTIFIER"
+            exit 1
+          fi
+          
+          # Define os outputs
+          echo "db_host=$RDS_HOST" >> $GITHUB_OUTPUT
+          echo "db_name=$RDS_DB_NAME" >> $GITHUB_OUTPUT
+          
+          # Log para debug
+          echo "Obtido host RDS: $RDS_HOST"
+          echo "Obtido nome do banco de dados RDS: $RDS_DB_NAME"
+      
       - name: Preper Kubernetes manifests
         run: |         
           envsubst < k8s/${{ inputs.app_name }}/configmap.yaml > k8s/${{ inputs.app_name }}/configmap-final.yaml
@@ -43,8 +79,8 @@ jobs:
         env:
           IMAGE: ${{ inputs.image }}
           ASPNETCORE_ENVIRONMENT: ${{ inputs.environment == 'dev' && 'Development' || 'Production' }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_HOST: ${{ steps.get-aws-data.outputs.db_host }}
+          DB_NAME: ${{ steps.get-aws-data.outputs.db_name }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           PAYMENT_SERVICE_USER_ID: ${{ vars.PAYMENT_SERVICE_USER_ID }}
