@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webhook-config
+data:
+  ASPNETCORE_ENVIRONMENT: "${ASPNETCORE_ENVIRONMENT}"
+  PaymentService__UserId: "${PAYMENT_SERVICE_USER_ID}"
+  PaymentService__NotificationPaymentUrl: "${PAYMENT_SERVICE_NOTIFICATION_PAYMENT_URL}"
+  PaymentService__ExternalPosId: "${PAYMENT_SERVICE_EXTERNAL_POS_ID}"
+  PaymentService__BaseUrl: "${PAYMENT_SERVICE_BASE_URL}"

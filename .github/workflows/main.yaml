@@ -1,0 +1,48 @@
+on:
+    push:
+      branches: [ main, develop ]
+env:
+  ENVIRONMENT: ${{ (github.ref_name == 'main' || github.event_name == 'pull_request') && 'prod' || 'dev' }}
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ env.ENVIRONMENT }}
+    steps:
+      - name: Set outputs
+        run: echo "environment=$ENVIRONMENT" >> $GITHUB_OUTPUT
+  
+  build_api:
+    uses: ./.github/workflows/build.yaml
+    secrets: inherit
+    with:
+      app_name: api
+      app_docker_image: DockerfileApi
+      ecr_repository: ${{ vars.API_ECR_REPOSITORY }}
+
+  build_webhook:      
+      uses: ./.github/workflows/build.yaml
+      secrets: inherit
+      with:
+        app_name: webhook
+        app_docker_image: DockerfileWebhook
+        ecr_repository: ${{ vars.WEBHOOK_ECR_REPOSITORY }}
+  deploy_api:
+      needs: [setup, build_api]
+      uses: ./.github/workflows/deploy.yaml
+      secrets: inherit
+      with:
+        app_name: api
+        environment: ${{ needs.setup.outputs.environment }} 
+        image: ${{ needs.build_api.outputs.image }}
+
+  deploy_webhook:
+    needs: [setup, build_webhook]     
+    uses: ./.github/workflows/deploy.yaml
+    secrets: inherit
+    with:
+      app_name: webhook
+      environment: ${{ needs.setup.outputs.environment }} 
+      image: ${{ needs.build_webhook.outputs.image }}
+  
+  

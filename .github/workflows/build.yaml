@@ -1,0 +1,86 @@
+name: Build application
+on:
+  workflow_call:
+    inputs:
+      app_name:
+        required: true
+        type: string
+      app_docker_image:
+        required: true
+        type: string
+      ecr_repository:
+        required: true
+        type: string
+    outputs:
+        image:
+          value: ${{ jobs.build.outputs.image }}
+
+env:
+  APP_PACKAGE: "${{ inputs.app_name}}_package"
+jobs:
+
+  build:
+    name: "Build da aplicação ${{ inputs.app_name }}"
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.output.outputs.image }}
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      
+      - name: Get AWS Resources Data
+        id: get-aws-data
+        run: |
+          ECR_REPO_NAME="tc-soat10-ecr-${{ inputs.app_name}}"
+          
+          # Obtém a URL do repositório ECR
+          ECR_URL=$(aws ecr describe-repositories \
+            --repository-names "$ECR_REPO_NAME" \
+            --query 'repositories[0].repositoryUri' \
+            --output text)
+          
+          # Verifica se os comandos foram bem-sucedidos
+          if [ -z "$ECR_URL" ] || [ "$ECR_URL" == "None" ]; then
+            echo "Erro ao obter a URL do ECR para $ECR_REPO_NAME"
+            exit 1
+          fi
+          
+          # Define os outputs
+          echo "ecr_url=$ECR_URL" >> $GITHUB_OUTPUT
+          
+          # Log para debug
+          echo "Obtida URL do ECR: $ECR_URL"
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set image 
+        id: set-image
+        run: |
+          IMAGE="${{ steps.get-aws-data.outputs.ecr_url }}:0.0.0-${{ github.run_number }}"
+          
+          # Define os outputs
+          echo "image=$IMAGE" >> $GITHUB_OUTPUT
+          
+          # Log para debug
+          echo "Imagem a ser gerada: $IMAGE"
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v6.16.0
+        with:
+            file: ./${{ inputs.app_docker_image }}
+            push: true
+            tags: "${{ steps.set-image.outputs.image }}"
+
+      - name: Generate output
+        id: output
+        run: |
+              echo "image=${{ steps.set-image.outputs.image }}" >> $GITHUB_OUTPUT

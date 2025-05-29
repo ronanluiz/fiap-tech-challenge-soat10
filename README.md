@@ -29,6 +29,53 @@ O projeto visa desenvolver um sistema de autoatendimento para uma lanchonete em 
 
 Detalhes gerais sobre a arquitetura do projeto estão disponíveis nesse link: [Sistema de Autoatendimento da Lanchonete](docs/architecture-haiku.md)
 
+## Diagrama de Fluxo de CI/CD
+
+A construção e implantação dos serviços é realizada através de através de workflows do GitHub Actions.
+
+```mermaid
+flowchart LR
+    subgraph GitHub
+        Code[Código Fonte] --> |Trigger| Actions[GitHub Actions]
+        Actions --> |Build| Build[Build Aplicações]
+        Actions --> |Deploy| Deploy[Deploy Aplicações]
+    end
+
+    subgraph k8s["Recursos Kubernetes"]
+        Deploy --> |Build| DeploymentK8s[Deployment Kubernetes]
+        Deploy --> |Build| ServiceK8s[Service Kubernetes]
+        Deploy --> |Build| HpaK8s[Hpa Kubernetes]
+        Deploy --> |Build| SecretK8s[Secret Kubernetes]
+        Deploy --> |Build| ConfigMapK8s[Config Map Kubernetes]
+    end
+
+    subgraph AWS["Infraestrutura AWS"]
+        Build --> |Push| ECR
+        Deploy --> |Pull| ECR
+        ConfigMapK8s --> |Apply| EKS
+        SecretK8s --> |Apply| EKS
+        DeploymentK8s --> |Apply| EKS
+        ServiceK8s --> |Apply| EKS
+        HpaK8s --> |Apply| EKS
+    end    
+
+    classDef github fill:#24292E,stroke:#24292E,stroke-width:2px,color:white;
+    classDef k8s fill:#5C4EE5,stroke:#5C4EE5,stroke-width:2px,color:white;
+    classDef aws fill:#FF9900,stroke:#232F3E,stroke-width:2px,color:white;
+    
+    class Code,Actions,Build,Deploy github;
+    class DeploymentK8s,ServiceK8s,HpaK8s,SecretK8s,ConfigMapK8s k8s;
+    class ECR,EKS aws;
+```
+
+## Plugins do VSCode para Desenvolvimento
+
+Para uma experiência de desenvolvimento mais produtiva recomendamos os seguintes plugins do VSCode:
+
+- [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens): Integração Git aprimorada com histórico de linha e navegação avançada.
+- [YAML](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml): Suporte para arquivos YAML (útil para configurações do GitHub Actions).
+- [GitHub Actions](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-github-actions): Suporte para sintaxe dos workflows do GitHub Actions.
+
 ## Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina:
@@ -36,7 +83,7 @@ Antes de começar, você vai precisar ter instalado em sua máquina:
 - .Net 8
 - Para sistema operacional Windows: WSL2
 - Docker e Docker Compose
-- Kubernetes instalado localmente
+- Kubernetes instalado localmente ([minikube](https://minikube.sigs.k8s.io/) ou [kind](https://kind.sigs.k8s.io/))
 
 ## Instruções para iniciar o projeto localmente
 
@@ -54,7 +101,7 @@ docker-compose up --build
 
 ### Outros comandos
 
-- Para cenários onde for necessário eliminar as instências dos conteiners da aplicação incluindo o processo de reiniciar o banco de dados ou limpar os dados iniciais carregados executar o seguinte comando:
+- Para cenários onde for necessário eliminar as instâncias dos conteiners da aplicação incluindo o processo de reiniciar o banco de dados ou limpar os dados iniciais carregados executar o seguinte comando:
 
 ```bash
 docker-compose down --volumes

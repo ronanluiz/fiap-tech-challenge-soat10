@@ -1,0 +1,129 @@
+name: Deploy application
+on:
+  workflow_call:
+    inputs:
+      app_name:
+        required: true
+        type: string
+      environment:
+          required: true
+          type: string
+      image: 
+          required: true
+          type: string
+env:
+  EKS_NAME: "${{ inputs.environment }}-eks-cluster"  
+jobs:
+
+  deploy:
+    name: "Deploy da aplicação ${{ inputs.app_name }}"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name ${{ env.EKS_NAME }}
+      
+      - uses: azure/setup-kubectl@v4
+        id: install-kubectl
+      
+      - name: Get AWS Resources Data
+        id: get-aws-data
+        run: |          
+          RDS_DB_IDENTIFIER="${{ inputs.environment }}-tc-bd"
+            
+          # Obtém o endpoint da instância RDS
+          RDS_HOST=$(aws rds describe-db-instances \
+            --db-instance-identifier "$RDS_DB_IDENTIFIER" \
+            --query 'DBInstances[0].Endpoint.Address' \
+            --output text)
+          
+          # Obtém o nome do banco de dados RDS
+          RDS_DB_NAME=$(aws rds describe-db-instances \
+            --db-instance-identifier "$RDS_DB_IDENTIFIER" \
+            --query 'DBInstances[0].DBName' \
+            --output text)
+          
+          if [ -z "$RDS_HOST" ] || [ "$RDS_HOST" == "None" ]; then
+            echo "Erro ao obter o host RDS para $RDS_DB_IDENTIFIER"
+            exit 1
+          fi
+          
+          # O DBName pode ser nulo em alguns casos (como instâncias Aurora serverless)
+          if [ -z "$RDS_DB_NAME" ] || [ "$RDS_DB_NAME" == "None" ]; then
+            echo "Erro ao obter DBName para $RDS_DB_IDENTIFIER"
+            exit 1
+          fi
+          
+          # Define os outputs
+          echo "db_host=$RDS_HOST" >> $GITHUB_OUTPUT
+          echo "db_name=$RDS_DB_NAME" >> $GITHUB_OUTPUT
+          
+          # Log para debug
+          echo "Obtido host RDS: $RDS_HOST"
+          echo "Obtido nome do banco de dados RDS: $RDS_DB_NAME"
+      
+      - name: Preper Kubernetes manifests
+        run: |         
+          envsubst < k8s/${{ inputs.app_name }}/configmap.yaml > k8s/${{ inputs.app_name }}/configmap-final.yaml
+          envsubst < k8s/${{ inputs.app_name }}/secrets.yaml > k8s/${{ inputs.app_name }}/secrets-final.yaml
+          envsubst < k8s/${{ inputs.app_name }}/deployment.yaml > k8s/${{ inputs.app_name }}/deployment-final.yaml
+        env:
+          IMAGE: ${{ inputs.image }}
+          ASPNETCORE_ENVIRONMENT: ${{ inputs.environment == 'dev' && 'Development' || 'Production' }}
+          DB_HOST: ${{ steps.get-aws-data.outputs.db_host }}
+          DB_NAME: ${{ steps.get-aws-data.outputs.db_name }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          PAYMENT_SERVICE_USER_ID: ${{ vars.PAYMENT_SERVICE_USER_ID }}
+          PAYMENT_SERVICE_NOTIFICATION_PAYMENT_URL: ${{ vars.PAYMENT_SERVICE_NOTIFICATION_PAYMENT_URL }}
+          PAYMENT_SERVICE_EXTERNAL_POS_ID: ${{ vars.PAYMENT_SERVICE_EXTERNAL_POS_ID }}
+          PAYMENT_SERVICE_TOKEN: ${{ secrets.PAYMENT_SERVICE_TOKEN }}
+          PAYMENT_SERVICE_BASE_URL: ${{ vars.PAYMENT_SERVICE_BASE_URL }}
+      - name: Deploy to EKS
+        run: |
+          kubectl apply -f k8s/${{ inputs.app_name }}/configmap-final.yaml
+          kubectl apply -f k8s/${{ inputs.app_name }}/secrets-final.yaml
+          kubectl apply -f k8s/${{ inputs.app_name }}/deployment-final.yaml
+          kubectl apply -f k8s/${{ inputs.app_name }}/service.yaml
+          kubectl apply -f k8s/${{ inputs.app_name }}/hpa.yaml
+
+      - name: Wait for LoadBalancer DNS
+        run: |
+            echo "Waiting for LoadBalancer DNS to be assigned..."
+            
+            ATTEMPTS=0
+            MAX_ATTEMPTS=30
+            
+            while [ $ATTEMPTS -lt $MAX_ATTEMPTS ]; do
+              DNS=$(kubectl get service ${{ inputs.app_name }}-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+              
+              if [ -n "$DNS" ]; then
+                echo "DNS_ADDRESS=$DNS" >> $GITHUB_ENV
+                echo "LoadBalancer DNS assigned: $DNS"
+                break
+              fi
+              
+              ATTEMPTS=$((ATTEMPTS+1))
+              echo "Attempt $ATTEMPTS/$MAX_ATTEMPTS - DNS not yet assigned, waiting 10 seconds..."
+              sleep 10
+            done
+            
+            if [ $ATTEMPTS -eq $MAX_ATTEMPTS ]; then
+              echo "Timed out waiting for LoadBalancer DNS"
+              exit 1
+            fi
+        
+        # Você pode usar este passo para salvar o DNS como um output da execução
+      - name: Create DNS Output
+        run: |
+          echo "## API Endpoint" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Serviço disponível em: http://${{ env.DNS_ADDRESS }}" >> $GITHUB_STEP_SUMMARY
