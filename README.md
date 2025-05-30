@@ -170,3 +170,30 @@ Após subir a aplicação as documentações do swagger serão disponibilizadas 
 - [Environment - Desenvolvimento](postman/TC%20-%20Desenvolvimento.postman_environment.json)
 - [Environment - Docker](postman/TC%20-%20Docker.postman_environment.json)
 - [Environment - Kubernetes](postman/TC%20-%20Kubernetes%20Local.postman_environment.json)
+- 
+## GitHub Actions
+
+Este repositório utiliza GitHub Actions para automatizar o processo de construção e implantação das aplicações. Os workflows estão definidos em `.github/workflows/` e incluem:
+
+- **build.yaml**: Responsável por fazer o build da das aplicações, gerar a imagem docker para publicação e enviá-la para o repositório de imagens.
+- **deploy.yaml**: Responsável por preparar e aplicar os manifestos no cluster AWS EKS para que as aplicações sejam implantadas.
+- **main.yaml**: Responsável orquestrar a chamada os workflows para disponibilização da aplicação.
+
+Abaixo a lista de variáveis/secrets que precisam ser configurados no github (Settings -> Secrets and variables -> Actions) para que a execução ocorra com sucesso:
+
+**Secrets:**
+
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_SESSION_TOKEN
+- DB_USERNAME
+- DB_PASSWORD
+- PAYMENT_SERVICE_TOKEN: Token necessária para conexão com o servço de pagamento.
+
+**Variables:**
+
+- AWS_REGION
+- PAYMENT_SERVICE_BASE_URL: Url base das apis do serviço de pagamento
+- PAYMENT_SERVICE_EXTERNAL_POS_ID: Id do ponto de venda necessário para integração com o serviço de pagamento.
+- PAYMENT_SERVICE_NOTIFICATION_PAYMENT_URL: Url que será utilizada como webhook do serviço de pagamento.
+- PAYMENT_SERVICE_USER_ID: User id utlizado para integração com o serviço de pagamento.
